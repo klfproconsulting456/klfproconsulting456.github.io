@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services • KLFPRO Consulting</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .service-hero {
+      position: relative;
+      background: url("../assets/images/team-meeting.jpg") center/cover no-repeat;
+      padding: 4rem 2rem;
+      color: white;
+      text-align: center;
+      border-radius: 12px;
+    }
+    .service-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      border-radius: 12px;
+    }
+    .service-hero h1, .service-hero p {
+      position: relative;
+      z-index: 2;
+    }
+
+    .service-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 20px;
+      margin: 3rem 0;
+    }
+    .service-card {
+      background: #0f172a;
+      padding: 20px;
+      border-radius: 12px;
+      transition: .3s;
+    }
+    .service-card:hover { transform: translateY(-6px); background: #1e293b; }
+    .service-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+    .service-card h3 { margin: 10px 0; }
+    .service-card ul { padding-left: 20px; font-size: 14px; color: #aaa; }
+
+    .consulting-intro {
+      margin: 3rem 0;
+      text-align: center;
+      background: url("../assets/images/hero-business.jpg") center/cover no-repeat;
+      padding: 2.5rem;
+      border-radius: 12px;
+      color: #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .consulting-intro::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(15,23,42,0.85);
+      border-radius:12px;
+    }
+    .consulting-intro h2, .consulting-intro p {
+      position: relative;
+      z-index: 2;
+    }
+    .consulting-intro h2 { color: #00c2ff; margin-bottom: 1rem; }
+
+    .how-we-help {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 20px;
+      margin: 3rem 0;
+    }
+    .help-card {
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      transition: .3s;
+    }
+    .help-card:hover { background: #1e293b; transform: translateY(-6px); }
+
+    .process {
+      display: flex;
+      justify-content: space-between;
+      margin: 3rem 0;
+      flex-wrap: wrap;
+    }
+    .process-step {
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+    }
+    .process-step span {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      border-radius: 50%;
+      background: #0077ff;
+      color: white;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .process-step::after {
+      content: "";
+      position: absolute;
+      top: 35px;
+      right: -40px;
+      width: 80px;
+      height: 2px;
+      background: #0077ff;
+    }
+    .process-step:last-child::after { display: none; }
+
+    .why-us {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 20px;
+      text-align: center;
+      margin: 3rem 0;
+    }
+    .why-card {
+      background: #0f172a;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    .why-card h3 { color: #0077ff; }
+
+    .case-studies {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 20px;
+      margin: 3rem 0;
+    }
+    .case-studies .card {
+      background: #0f172a;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    .case-studies .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+
+    .pricing {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 20px;
+      margin: 3rem 0;
+    }
+    .pricing-plan {
+      background: #0f172a;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .pricing-plan h3 { color: #0077ff; }
+    .pricing-plan ul { list-style: none; padding: 0; margin: 1rem 0; }
+    .pricing-plan li { margin: 8px 0; }
+
+    .cta-banner {
+      background: linear-gradient(135deg,#0077ff,#00c2ff);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      border-radius: 12px;
+      margin: 3rem auto;
+    }
+    .cta-banner a {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 12px 24px;
+      background: #0f172a;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    footer {
+      background: url("../assets/images/footer-office.jpg") center/cover no-repeat;
+      color: white;
+      padding: 2rem;
+      border-radius: 12px 12px 0 0;
+      position: relative;
+    }
+    footer .overlay {
+      background: rgba(0,0,0,0.7);
+      padding: 2rem;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- NAVIGATION -->
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="../index.html">
+        <img src="../assets/klfpro.jpg" alt="KLFPRO Logo">
+        <span>KLFPRO Consulting</span>
+      </a>
+      <nav class="menu">
+        <a class="active" href="../pages/services.html">Services</a>
+        <a href="../pages/partners.html">Bank Partners</a>
+        <a href="../pages/about.html">About</a>
+        <a href="../pages/careers.html">Careers</a>
+        <a href="../pages/contact.html">Contact</a>
+      </nav>
+      <a class="cta" href="../pages/apply.html">Apply Now</a>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="service-hero">
+    <h1 class="h1">Our Financial Services</h1>
+    <p class="p">End-to-end loan consulting that connects you with India’s top banks, ensuring the best rates and smooth approvals.</p>
+  </section>
+
+  <!-- CONSULTING INTRO -->
+  <section class="consulting-intro">
+    <h2>We Are Loan Consultants, Not a Bank</h2>
+    <p>KLFPRO is a trusted third-party financial consulting firm. We do not lend directly — instead, we partner with 50+ banks and NBFCs across India to find you the best possible loan solutions. Whether it’s a property loan, business finance, or personal loan, our goal is to negotiate the lowest interest rates and simplify your loan journey from start to finish.</p>
+  </section>
+
+  <!-- SERVICE FEATURES -->
+  <section class="container">
+    <h2 class="h2 center">Core Offerings</h2>
+    <div class="service-features">
+      <div class="service-card">
+        <img src="../assets/images/team-meeting.jpg.jpeg" alt="Customer Onboarding">
+        <h3>Customer Onboarding</h3>
+        <ul>
+          <li>Digital KYC & instant document verification</li>
+          <li>Real-time eligibility checks with multiple banks</li>
+          <li>Personalized lender offers based on your profile</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <img src="../assets/images/loan-comparison.jpg" alt="Loan Comparison">
+        <h3>Loan Comparison</h3>
+        <ul>
+          <li>Side-by-side interest rate comparison</li>
+          <li>Identify hidden charges & fees</li>
+          <li>Choose the best-fit bank for your needs</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <img src="../assets/images/Loan Against Property.jpeg" alt="Negotiation & Advisory">
+        <h3>Negotiation & Advisory</h3>
+        <ul>
+          <li>Direct negotiation with banks for lowest rates</li>
+          <li>Expert advisory for property & business loans</li>
+          <li>End-to-end handholding until disbursement</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <img src="../assets/images/Loan Lifecycle Management.jpg" alt="Loan Lifecycle Management">
+        <h3>Loan Lifecycle Management</h3>
+        <ul>
+          <li>Application to disbursement support</li>
+          <li>Automated reminders & notifications</li>
+          <li>Balance transfer and refinancing solutions</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE HELP -->
+  <section class="container">
+    <h2 class="h2 center">How We Help Customers</h2>
+    <div class="how-we-help">
+      <div class="help-card"><h3>✔ Best Bank Tie-ups</h3><p>We work with 50+ banks & NBFCs to offer you multiple choices.</p></div>
+      <div class="help-card"><h3>✔ Property Loan Experts</h3><p>Specialized in home loans and loans against property with competitive rates.</p></div>
+      <div class="help-card"><h3>✔ Quick Approvals</h3><p>AI-powered eligibility checks & document verification for faster turnaround.</p></div>
+      <div class="help-card"><h3>✔ Transparent Process</h3><p>No hidden fees, no false promises — only trusted consulting.</p></div>
+    </div>
+  </section>
+
+  <!-- PROCESS TIMELINE -->
+  <section class="container">
+    <h2 class="h2 center">How Our Services Work</h2>
+    <div class="process">
+      <div class="process-step"><span>1</span><h4>Apply</h4><p>Submit a simple digital application form.</p></div>
+      <div class="process-step"><span>2</span><h4>Compare</h4><p>We evaluate multiple banks to find the best deal.</p></div>
+      <div class="process-step"><span>3</span><h4>Negotiate</h4><p>Our team ensures you get the lowest possible interest.</p></div>
+      <div class="process-step"><span>4</span><h4>Disburse</h4><p>Loan amount is released directly from the bank to you.</p></div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="container">
+    <h2 class="h2 center">Why Choose KLFPRO?</h2>
+    <div class="why-us">
+      <div class="why-card"><h3>50+</h3><p>Banking Partners</p></div>
+      <div class="why-card"><h3>99%</h3><p>Approval Success Rate</p></div>
+      <div class="why-card"><h3>10K+</h3><p>Loans Processed</p></div>
+      <div class="why-card"><h3>24/7</h3><p>Support Assistance</p></div>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section class="container">
+    <h2 class="h2 center">Success Stories</h2>
+    <div class="case-studies">
+      <div class="card">
+        <img src="../assets/images/retail customer bank.webp" alt="Retail Customer">
+        <h4>Retail Customer</h4>
+        <p>Helped a young professional secure a home loan with 40% lower EMI using balance transfer.</p>
+      </div>
+      <div class="card">
+        <img src="../assets/images/Business Client.jpg" alt="Business Client">
+        <h4>Business Client</h4>
+        <p>Enabled a startup to get ₹50L working capital loan with minimal collateral.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING / PACKAGES -->
+  <section class="container">
+    <h2 class="h2 center">Service Packages</h2>
+    <div class="pricing">
+      <div class="pricing-plan">
+        <h3>Retail</h3>
+        <ul><li>Home Loans</li><li>Personal Loans</li><li>Credit Card Support</li></ul>
+      </div>
+      <div class="pricing-plan">
+        <h3>Business</h3>
+        <ul><li>Working Capital Loans</li><li>MSME Finance</li><li>Invoice Discounting</li></ul>
+      </div>
+      <div class="pricing-plan">
+        <h3>Corporate</h3>
+        <ul><li>Large Project Finance</li><li>Loan Syndication</li><li>Structured Finance</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <h2>Transform your lending journey with KLFPRO 🚀</h2>
+    <p>Consulting that saves you money, time, and stress.</p>
+    <a href="../pages/apply.html">Apply Now</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="overlay">
+      <div class="container footer-cols">
+        <div>
+          <div class="logo"><img src="../assets/klfpro.jpg" alt="">KLFPRO Consulting</div>
+          <p class="p">We are a loan consulting firm that helps you secure retail, business, and property loans from India’s top banks at the lowest possible rates.</p>
+          <p class="small">© 2025 KLFPRO Consulting. All rights reserved.</p>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul class="list">
+            <li><a href="../pages/about.html">About</a></li>
+            <li><a href="../pages/careers.html">Careers</a></li>
+            <li><a href="../pages/partners.html">Bank Partners</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Products</h4>
+          <ul class="list">
+            <li><a href="../pages/loans.html#home-loan">Home Loans</a></li>
+            <li><a href="../pages/loans.html#business-loan">Business Loans</a></li>
+            <li><a href="../pages/loans.html#lap">Loan Against Property</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul class="list">
+            <li><a href="../pages/contact.html">Contact</a></li>
+            <li><a href="../pages/policy.html">Privacy Policy</a></li>
+            <li><a href="../pages/terms.html">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

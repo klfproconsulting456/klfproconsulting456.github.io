@@ -1,0 +1,17 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="256" height="256" rx="40" fill="#0EA5E9"/>
+<g filter="url(#a)"><path d="M60 176L96 80h32l-36 96H60Z" fill="white" fill-opacity=".9"/></g>
+<g filter="url(#b)"><path d="M120 176l36-96h40l-36 96h-40Z" fill="white"/></g>
+<defs>
+<filter id="a" x="56" y="78" width="76" height="102" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="1" result="effect1_foregroundBlur_1_2"/>
+</filter>
+<filter id="b" x="116" y="78" width="84" height="102" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="1" result="effect1_foregroundBlur_1_2"/>
+</filter>
+</defs>
+</svg>

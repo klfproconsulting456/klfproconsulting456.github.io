@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bank Partners • KLFPRO Consulting</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* Hero Section */
+    .partners-hero {
+      background: linear-gradient(135deg, rgba(11,18,32,0.9) 0%, rgba(15,23,42,0.95) 100%);
+      padding: 100px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .partners-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('../assets/partners-bg-pattern.svg') no-repeat center center;
+      opacity: 0.05;
+      z-index: 0;
+    }
+    .partners-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .partners-hero .h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #22d3ee, #a78bfa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .partners-hero .p {
+      font-size: 18px;
+      color: #94a3b8;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    /* Container */
+    .partners-container {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    .partners-intro {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 50px;
+    }
+
+    /* Partners Grid */
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .partner-card {
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: float 4s ease-in-out infinite;
+    }
+    /* Floating Animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    /* Staggered delays */
+    .partner-card:nth-child(1) { animation-delay: 0s; }
+    .partner-card:nth-child(2) { animation-delay: 0.5s; }
+    .partner-card:nth-child(3) { animation-delay: 1s; }
+    .partner-card:nth-child(4) { animation-delay: 1.5s; }
+    .partner-card:nth-child(5) { animation-delay: 2s; }
+    .partner-card:nth-child(6) { animation-delay: 2.5s; }
+
+    .partner-card:hover {
+      transform: translateY(-20px) scale(1.05);
+      box-shadow: 0 20px 50px rgba(34, 211, 238, 0.3);
+      border-color: #22d3ee;
+    }
+
+    /* Logo */
+    .partner-logo {
+      height: 80px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .partner-logo img {
+      max-height: 100%;
+      max-width: 100%;
+      filter: grayscale(100%) brightness(1.4);
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+    .partner-card:hover .partner-logo img {
+      filter: grayscale(0%) brightness(1);
+      transform: rotate(2deg) scale(1.1);
+    }
+
+    /* Partner Name & Products */
+    .partner-name {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #e5e7eb;
+    }
+    .partner-products {
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Stats Section */
+    .partner-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin: 60px 0;
+    }
+    .stat-card {
+      background: rgba(34, 211, 238, 0.1);
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 36px;
+      font-weight: 700;
+      color: #22d3ee;
+      margin-bottom: 5px;
+    }
+    .stat-label {
+      font-size: 14px;
+      color: #94a3b8;
+    }
+
+    /* Benefits */
+    .partnership-benefits {
+      margin-top: 80px;
+    }
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .benefit-card {
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .benefit-card h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #22d3ee;
+    }
+    .benefit-card ul {
+      padding-left: 20px;
+    }
+    .benefit-card li {
+      color: #94a3b8;
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .partner-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .partners-hero .h1 { font-size: 36px; }
+      .partner-stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Nav -->
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="../index.html">
+        <img src="../assets/klfpro.jpg" alt="KLFPRO Logo">
+        <span>KLFPRO Consulting</span>
+      </a>
+      <nav class="menu">
+        <a href="../pages/services.html">Services</a>
+        <a class="active" href="../pages/partners.html">Bank Partners</a>
+        <a href="../pages/about.html">About</a>
+        <a href="../pages/careers.html">Careers</a>
+        <a href="../pages/contact.html">Contact</a>
+      </nav>
+      <a class="cta" href="../pages/apply.html">Apply Now</a>
+    </div>
+  </div>
+  
+  <!-- Hero -->
+  <section class="partners-hero">
+    <div class="partners-hero-content">
+      <h1 class="h1">Our Banking Partners</h1>
+      <p class="p">Connecting borrowers with India's leading financial institutions through our extensive network</p>
+    </div>
+  </section>
+  
+  <!-- Partners -->
+  <div class="partners-container">
+    <div class="partners-intro">
+      <h2 class="h2">Trusted by India's Top Banks</h2>
+      <p class="p">We maintain strategic partnerships with over 50 banking institutions, ensuring competitive rates and smooth loan processing for our clients.</p>
+    </div>
+    
+    <div class="partners-grid">
+      <div class="partner-card">
+        <div class="partner-logo"><img src="../assets/bank-logos/hdfc.png" alt="HDFC Bank"></div>
+        <h3 class="partner-name">HDFC Bank</h3>
+        <p class="partner-products">Home Loans, LAP, Business Loans</p>
+      </div>
+      
+      <div class="partner-card">
+        <div class="partner-logo"><img src="../assets/bank-logos/icici.png" alt="ICICI Bank"></div>
+        <h3 class="partner-name">ICICI Bank</h3>
+        <p class="partner-products">Personal Loans, Credit Cards</p>
+      </div>
+      
+      <div class="partner-card">
+        <div class="partner-logo"><img src="../assets/bank-logos/sbi.png" alt="State Bank of India"></div>
+        <h3 class="partner-name">SBI</h3>
+        <p class="partner-products">Home Loans, Education Loans</p>
+      </div>
+      
+      <div class="partner-card">
+        <div class="partner-logo"><img src="../assets/bank-logos/pnb.png" alt="Punjab National Bank"></div>
+        <h3 class="partner-name">PNB</h3>
+        <p class="partner-products">Business Loans, LAP</p>
+      </div>
+      
+      <div class="partner-card">
+        <div class="partner-logo"><img src="../assets/bank-logos/kotak.png" alt="Kotak Mahindra Bank"></div>
+        <h3 class="partner-name">Kotak Mahindra</h3>
+        <p class="partner-products">Personal Loans, Business Finance</p>
+      </div>
+      
+      <div class="partner-card">
+        <div class="partner-logo"><img src="../assets/bank-logos/bajaj.png" alt="Bajaj Finserv"></div>
+        <h3 class="partner-name">Bajaj Finserv</h3>
+        <p class="partner-products">MSME Loans, Commercial Banking</p>
+      </div>
+    </div>
+    
+    <!-- Stats -->
+    <div class="partner-stats">
+      <div class="stat-card"><div class="stat-value">50+</div><div class="stat-label">Banking Partners</div></div>
+      <div class="stat-card"><div class="stat-value">₹500Cr+</div><div class="stat-label">Annual Loan Volume</div></div>
+      <div class="stat-card"><div class="stat-value">48hrs</div><div class="stat-label">Avg. Sanction Time</div></div>
+      <div class="stat-card"><div class="stat-value">95%</div><div class="stat-label">Approval Rate</div></div>
+    </div>
+    
+    <!-- Benefits -->
+    <div class="partnership-benefits">
+      <h2 class="h2" style="text-align: center;">Partnership Benefits</h2>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <h3>For Borrowers</h3>
+          <ul>
+            <li>Access to multiple lenders in one application</li>
+            <li>Competitive interest rate comparison</li>
+            <li>Faster processing through pre-approval</li>
+            <li>Dedicated relationship manager</li>
+          </ul>
+        </div>
+        <div class="benefit-card">
+          <h3>For Banks</h3>
+          <ul>
+            <li>Pre-qualified leads with complete documentation</li>
+            <li>AI-powered risk assessment</li>
+            <li>Reduced customer acquisition costs</li>
+            <li>Real-time application tracking</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

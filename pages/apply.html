@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply for Loan • KLFPRO Consulting</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .apply-container { max-width: 800px; margin: 60px auto; padding: 20px; }
+    form.apply-form {
+      display: grid; gap: 20px; background: #0f172a;
+      padding: 40px; border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    form.apply-form label { display: block; color: #e5e7eb; margin-bottom: 6px; font-weight: 500; }
+    form.apply-form input, form.apply-form select {
+      width: 100%; padding: 12px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1); background: #1e293b; color: #e5e7eb;
+    }
+    form.apply-form button, .upload-btn {
+      padding: 14px; border: none; border-radius: 8px;
+      font-weight: 600; cursor: pointer;
+      background: linear-gradient(to right, #22d3ee, #a78bfa); color: #001b1f;
+      text-align: center; text-decoration: none; display: inline-block;
+    }
+    .doc-section { display: none; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 10px; }
+    .doc-section h3 { color: #22d3ee; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="../index.html"><img src="../assets/klfpro.jpg" alt="KLFPRO Logo"><span>KLFPRO Consulting</span></a>
+      <nav class="menu">
+        <a href="../pages/services.html">Services</a>
+        <a href="../pages/partners.html">Bank Partners</a>        
+        <a href="../pages/about.html">About</a>
+        <a href="../pages/careers.html">Careers</a>
+        <a href="../pages/contact.html">Contact</a>
+      </nav>
+      <a class="cta active" href="../pages/apply.html">Apply Now</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="apply-hero">
+    <div class="apply-hero-content">
+      <h1 class="h1">Apply for a Loan</h1>
+      <p class="p">Fill in your details and upload required documents to proceed with your loan application.</p>
+    </div>
+  </section>
+
+  <!-- LOAN FORM -->
+  <div class="apply-container">
+    <form class="apply-form">
+      <!-- Basic Info -->
+      <label>Full Name</label>
+      <input type="text" name="name" required>
+      
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Phone</label>
+      <input type="tel" name="phone" required>
+
+      <label>Loan Type</label>
+      <select name="loanType" required>
+        <option value="">-- Select Loan Type --</option>
+        <option value="home">Home Loan</option>
+        <option value="business">Business Loan</option>
+        <option value="lap">Loan Against Property</option>
+        <option value="personal">Personal Loan</option>
+      </select>
+
+      <label>Employment Type</label>
+      <select id="employmentType" name="employmentType" required>
+        <option value="">-- Select --</option>
+        <option value="salaried">Salaried</option>
+        <option value="self">Self-Employed</option>
+      </select>
+
+      <!-- Salaried Docs -->
+      <div id="salariedDocs" class="doc-section">
+        <h3>Salaried - Required Documents</h3>
+        <p>Please click below to upload your documents securely:</p>
+        <a href="https://forms.gle/LDmRiZgb8bQiBBrQ9" target="_blank" class="upload-btn">
+          Upload Salaried Documents
+        </a>
+      </div>
+
+      <!-- Self-Employed Docs -->
+      <div id="selfDocs" class="doc-section">
+        <h3>Self-Employed - Required Documents</h3>
+        <p>Please click below to upload your documents securely:</p>
+        <a href="https://forms.gle/LDmRiZgb8bQiBBrQ9" target="_blank" class="upload-btn">
+          Upload Self-Employed Documents
+        </a>
+      </div>
+
+      <button type="submit">Submit Loan Application</button>
+    </form>
+  </div>
+
+  <script>
+    // Toggle Docs Section
+    const employmentType = document.getElementById("employmentType");
+    const salariedDocs = document.getElementById("salariedDocs");
+    const selfDocs = document.getElementById("selfDocs");
+
+    employmentType.addEventListener("change", function() {
+      if (this.value === "salaried") {
+        salariedDocs.style.display = "block";
+        selfDocs.style.display = "none";
+      } else if (this.value === "self") {
+        salariedDocs.style.display = "none";
+        selfDocs.style.display = "block";
+      } else {
+        salariedDocs.style.display = "none";
+        selfDocs.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
