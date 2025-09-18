@@ -388,11 +388,11 @@ footer {
     grid-template-columns: 1fr;
     gap: 40px;
   }
-  
+
   .grid-3, .grid-4 {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .footer-cols {
     grid-template-columns: 1fr 1fr;
     gap: 40px;
@@ -408,25 +408,25 @@ footer {
     flex-direction: column;
     padding: 16px;
   }
-  
+
   .menu {
     width: 100%;
     justify-content: center;
     margin: 12px 0;
   }
-  
+
   .h1 {
     font-size: 36px;
   }
-  
+
   .grid-3, .grid-4 {
     grid-template-columns: 1fr;
   }
-  
+
   .kpis {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .footer-cols {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -434,29 +434,78 @@ footer {
 }
 
 @media (max-width: 480px) {
+  /* Navigation */
+  .nav-inner {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+  }
+
   .menu {
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    margin: 12px 0;
   }
-  
+
+  .cta {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 40px 16px 20px;
+  }
+
   .h1 {
-    font-size: 32px;
+    font-size: 28px;
+    line-height: 1.2;
   }
-  
-  .kpis {
+
+  .p {
+    font-size: 14px;
+  }
+
+  /* Grids & Cards */
+  .grid-3, .grid-4, .kpis, .loan-tools {
     grid-template-columns: 1fr;
   }
-  
-  .btn-group {
-    flex-direction: column;
+
+  .card {
+    padding: 16px;
   }
-  
-  .btn {
+
+  /* Buttons */
+  .btn, .btn.primary {
     width: 100%;
     margin-bottom: 8px;
   }
+
+  .btn-group {
+    flex-direction: column;
+  }
+
+  /* Footer */
+  .footer-cols {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* Form */
+  input, select, textarea, .apply-container, .apply-form {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .apply-container {
+    margin: 20px 10px;
+    padding: 10px;
+  }
 }
+
 /* Floating + Fade-in Animations */
 @keyframes float {
   0% { transform: translateY(0px); }
@@ -480,4 +529,3 @@ footer {
 
 .fade.delay-1 { animation-delay: 0.3s; }
 .fade.delay-2 { animation-delay: 0.6s; }
-.fade.delay-3 { animation-delay: 0.9s; }
