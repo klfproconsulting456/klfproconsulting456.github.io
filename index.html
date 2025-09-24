@@ -6,49 +6,39 @@
   <title>KLFPRO Consulting • Home</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    /* Hero Section */
-    .hero {
-      position: relative;
-      background: url("assets/images/bussiness-loan.jpg ") center/cover no-repeat;
-      color: #fff;
-      padding: 80px 20px;
-      text-align: center;
-    }
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
-    }
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    /* Animated Logo */
-    .hero-logo {
-      width: 120px;
-      height: auto;
-      margin: 0 auto 20px;
-      animation: logoBounceGlow 2s ease forwards, glowPulse 2s 2s infinite alternate;
-      opacity: 0;
-      filter: drop-shadow(0 0 0 #22d3ee);
-    }
-    @keyframes logoBounceGlow {
-      0% { transform: translateY(-50px) scale(0.8); opacity: 0; filter: drop-shadow(0 0 0 #22d3ee); }
-      50% { transform: translateY(0) scale(1.05); opacity: 1; filter: drop-shadow(0 0 10px #22d3ee); }
-      70% { transform: translateY(-10px) scale(1); filter: drop-shadow(0 0 20px #22d3ee); }
-      100% { transform: translateY(0) scale(1); opacity: 1; filter: drop-shadow(0 0 15px #22d3ee); }
-    }
-    @keyframes glowPulse {
-      0% { filter: drop-shadow(0 0 15px #22d3ee); }
-      100% { filter: drop-shadow(0 0 25px #22d3ee); }
+    
+    /* GLOBAL */
+    body { margin:0; font-family:sans-serif; background:#001b1f; color:white; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width:1100px; margin:0 auto; padding:0 16px; }
+
+    /* NAV */
+    .nav { position: fixed; top:0; left:0; width:100%; background:#0f172a; z-index:999; }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; padding:12px 0; flex-wrap:wrap; }
+    .nav .logo { display:flex; align-items:center; gap:8px; }
+    .nav .menu { display:flex; gap:16px; }
+    .nav .menu a { padding:8px 4px; }
+    .nav .cta { background:linear-gradient(135deg,#22d3ee,#a78bfa); color:#001b1f; padding:6px 12px; border-radius:6px; font-weight:700; }
+    .hamburger { display:none; font-size:24px; background:none; border:none; color:white; cursor:pointer; }
+
+    /* MOBILE MENU */
+    @media(max-width:768px){
+      .hamburger { display:block; }
+      .nav .menu { flex-direction:column; display:none; width:100%; margin-top:8px; }
+      .nav .menu.show { display:flex; background:#0f172a; padding:12px; border-radius:6px; }
+      .nav .menu a { padding:8px 0; }
     }
 
-    .hero h1 { font-size: 42px; margin-bottom: 12px; animation: fadeInText 2s ease forwards; opacity: 0; }
-    .hero p { font-size: 18px; margin-bottom: 20px; animation: fadeInText 2.5s ease forwards; opacity: 0; }
-    @keyframes fadeInText { to { opacity: 1; } }
+    /* Hero Section */
+    .hero { position:relative; background: url("assets/images/bussiness-loan.jpg") center/cover no-repeat; color:#fff; padding:140px 20px 80px; text-align:center; }
+    .hero::before { content:""; position:absolute; inset:0; background: rgba(0,0,0,0.55); }
+    .hero-content { position:relative; z-index:1; max-width:900px; margin:0 auto; }
+    .hero-logo { width:120px; height:auto; margin:0 auto 20px; animation: logoBounceGlow 2s ease forwards, glowPulse 2s 2s infinite alternate; opacity:0; filter: drop-shadow(0 0 0 #22d3ee); }
+    @keyframes logoBounceGlow { 0%{transform:translateY(-50px) scale(0.8);opacity:0;filter:drop-shadow(0 0 0 #22d3ee);}50%{transform:translateY(0) scale(1.05);opacity:1;filter:drop-shadow(0 0 10px #22d3ee);}70%{transform:translateY(-10px) scale(1);filter:drop-shadow(0 0 20px #22d3ee);}100%{transform:translateY(0) scale(1);opacity:1;filter:drop-shadow(0 0 15px #22d3ee);} }
+    @keyframes glowPulse {0%{filter:drop-shadow(0 0 15px #22d3ee);}100%{filter:drop-shadow(0 0 25px #22d3ee);}}
+    .hero h1 { font-size:42px; margin-bottom:12px; animation: fadeInText 2s ease forwards; opacity:0; }
+    .hero p { font-size:18px; margin-bottom:20px; animation: fadeInText 2.5s ease forwards; opacity:0; }
+    @keyframes fadeInText { to { opacity:1; } }
 
     /* Loan Cards */
     .grid-4 { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; margin-top:20px; }
@@ -91,8 +81,14 @@
   <!-- NAV -->
   <header class="nav">
     <div class="nav-inner container">
-      <a class="logo" href="index.html"><img src="assets/klfpro.jpg" alt="KLFPRO" style="width:44px;border-radius:6px;"> <strong>KLFPRO Consulting</strong></a>
-      <nav class="menu">
+      <a class="logo" href="index.html">
+        <img src="assets/klfpro.jpg" alt="KLFPRO" style="width:44px;border-radius:6px;">
+        <strong>KLFPRO Consulting</strong>
+      </a>
+
+      <button class="hamburger" id="hamburger">☰</button>
+
+      <nav class="menu" id="menu">
         <a href="index.html">Home</a>
         <a href="pages/services.html">Services</a>
         <a href="pages/partners.html">Bank Partners</a>
@@ -173,6 +169,8 @@
         </form>
         <div id="emiResult" class="result-box" style="display:none;">
           <p><strong>Monthly EMI:</strong> <span id="emiOut"></span></p>
+          <p><strong>Total Payment:</strong> <span id="totalOut"></span></p>
+          <p><strong>Total Interest:</strong> <span id="interestOut"></span></p>
         </div>
       </div>
 
@@ -263,6 +261,7 @@
   <!-- Floating Apply -->
   <a href="pages/apply.html" class="float-apply">Apply Now 🚀</a>
 
+  <!-- SCRIPTS -->
   <script>
     // EMI Calculator
     (function(){
@@ -277,7 +276,11 @@
         const N = +document.getElementById('tenureValue').value * 12;
         if(!P||!R||!N) return;
         const emi = calcEMI(P,R,N);
+        const total = emi*N;
+        const interest = total - P;
         document.getElementById('emiOut').textContent = inr(emi);
+        document.getElementById('totalOut').textContent = inr(total);
+        document.getElementById('interestOut').textContent = inr(interest);
         document.getElementById('emiResult').style.display='block';
       });
     })();
@@ -297,6 +300,18 @@
           "❌ May not qualify. Try lower loan or call support.";
       });
     })();
+
+    // MOBILE NAVIGATION
+    (function() {
+      const hamburger = document.getElementById('hamburger');
+      const menu = document.getElementById('menu');
+      if (hamburger && menu) {
+        hamburger.addEventListener('click', () => {
+          menu.classList.toggle('show');
+        });
+      }
+    })();
   </script>
+
 </body>
 </html>
