@@ -1,291 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact • KLFPRO Consulting</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <style>
-    /* Contact Page Specific Styles */
-    .contact-hero {
-      background: linear-gradient(135deg, rgba(196, 205, 223, 0.9) 0%, rgba(15,23,42,0.95) 100%);
-      padding: 100px 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .contact-hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('../assets/images/happy-laptop.jpg') no-repeat center center;
-      opacity: 0.05;
-      z-index: 0;
-    }
-    
-    .contact-hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    .contact-hero .h1 {
-      font-size: 48px;
-      margin-bottom: 20px;
-      background: linear-gradient(to right, #22d3ee, #a78bfa);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    
-    .contact-hero .p {
-      font-size: 18px;
-      color: #94a3b8;
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-    
-    .contact-container {
-      max-width: 1200px;
-      margin: 60px auto;
-      padding: 0 20px;
-    }
-    
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-    }
-    
-    .contact-form {
-      background: #0f172a;
-      border-radius: 16px;
-      padding: 40px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
-    
-    .form-group {
-      margin-bottom: 25px;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: #22d3ee;
-      font-weight: 500;
-    }
-    
-    .form-control {
-      width: 100%;
-      padding: 12px 15px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.05);
-      color: white;
-      font-size: 16px;
-    }
-    
-    textarea.form-control {
-      min-height: 150px;
-      resize: vertical;
-    }
-    
-    .submit-btn {
-      background: linear-gradient(to right, #22d3ee, #a78bfa);
-      color: #001b1f;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .submit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(34, 211, 238, 0.3);
-    }
-    
-    .contact-info {
-      background: #0f172a;
-      border-radius: 16px;
-      padding: 40px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
-    
-    .info-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-    
-    .info-icon {
-      width: 50px;
-      height: 50px;
-      background: rgba(34, 211, 238, 0.1);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    
-    .info-content h3 {
-      font-size: 20px;
-      margin-bottom: 8px;
-      color: #e5e7eb;
-    }
-    
-    .info-content p {
-      color: #94a3b8;
-      line-height: 1.6;
-    }
-    
-    .map-container {
-      height: 300px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 16px;
-      margin-top: 40px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    @media (max-width: 768px) {
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .contact-hero .h1 {
-        font-size: 36px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact • KLFPRO Consulting</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ================= Global Styles ================= */
+        * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#fff8f0; color:#000; overflow-x:hidden; line-height:1.6; }
+        a { text-decoration:none; color:inherit; transition: all 0.3s ease; }
+        img { max-width:100%; display:block; }
+        .container { max-width:1200px; margin:0 auto; padding:0 20px; }
+        section { padding: 60px 0; }
+        h2 { font-size: 2.5rem; margin-bottom: 20px; color: #f59e0b; text-align: center; }
+        p { font-size: 1.1rem; margin-bottom: 15px; }
+
+        /* ================= NAVIGATION ================= */
+        .nav { background:#fff8f0; border-bottom:1px solid #f3e8df; padding:15px 0; position:sticky; top:0; z-index:1000; transition: all 0.3s ease; }
+        .nav.scrolled { background:rgba(255,248,240,0.95); backdrop-filter: blur(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .nav-inner { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+        .nav .logo { display:flex; align-items:center; gap:10px; font-weight:700; color:#000; font-size: 1.5rem; }
+        .nav .logo img { width:45px; height:45px; border-radius:50%; }
+        .nav .menu { display:flex; gap:25px; }
+        .nav .menu a { padding:8px 4px; font-weight:600; color:#000; position:relative; font-size: 1.05rem; }
+        .nav .menu a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:2px; background:linear-gradient(90deg,#f59e0b,#fbbf24); transition:width 0.3s ease; }
+        .nav .menu a.active::after, .nav .menu a:hover::after { width:100%; }
+        .nav .menu a.active { color:#f59e0b; }
+        .nav .menu a:hover { color:#fbbf24; }
+        .nav .cta { background:linear-gradient(135deg,#f59e0b,#fbbf24); color:#000; padding:10px 25px; border-radius:8px; font-weight:700; transition: transform 0.3s, box-shadow 0.3s; }
+        .nav .cta:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(245,158,11,0.4); }
+
+        /* Hamburger Menu */
+        .hamburger { display:none; flex-direction: column; cursor:pointer; }
+        .hamburger div { width:25px; height:3px; background:#000; margin:4px 0; transition: all 0.3s ease; }
+
+        /* ================= HERO ================= */
+        .contact-hero { position:relative; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat; padding:150px 20px 100px; text-align:center; color:#fff; margin:20px 0; border-radius: 12px; }
+        .contact-hero-content { max-width: 800px; margin: 0 auto; }
+        .contact-hero h1 { font-size:3.2rem; margin-bottom:20px; font-weight:700; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .contact-hero p { font-size:1.3rem; margin-bottom:30px; opacity: 0.9; }
+
+        /* ================= CONTACT GRID ================= */
+        .contact-container { max-width:1200px; margin:60px auto; padding:0 20px; }
+        .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-bottom: 40px; }
+        .contact-form, .contact-info { background:#fff; border-radius:16px; padding:40px; box-shadow:0 10px 30px rgba(0,0,0,0.08); transition: all 0.4s ease; }
+        .contact-form:hover, .contact-info:hover { transform:translateY(-5px); box-shadow:0 15px 40px rgba(0,0,0,0.12); }
+
+        /* Form Styles */
+        .form-group { margin-bottom:25px; }
+        .form-group label { display:block; margin-bottom:8px; color:#f59e0b; font-weight:600; }
+        .form-control { width:100%; padding:12px 15px; border-radius:8px; border:1px solid #f3e8df; background:#fff; color:#000; font-size:16px; transition:0.3s; font-family: inherit; }
+        .form-control:focus { border-color:#fbbf24; box-shadow:0 0 8px rgba(251,191,36,0.4); outline:none; }
+        textarea.form-control { min-height:150px; resize:vertical; }
+        .submit-btn { background:linear-gradient(to right,#f59e0b,#fbbf24); color:#000; border:none; padding:14px 35px; border-radius:8px; font-weight:700; cursor:pointer; transition:all 0.3s ease; font-size:1.1rem; width: 100%; }
+        .submit-btn:hover { transform:translateY(-3px); box-shadow:0 8px 25px rgba(251,191,36,0.4); }
+
+        /* Contact Info */
+        .info-item { display:flex; align-items:flex-start; gap:20px; margin-bottom:30px; }
+        .info-icon { width:60px; height:60px; background:linear-gradient(135deg,#f59e0b,#fbbf24); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#fff; font-size:24px; }
+        .info-content h3 { font-size:1.3rem; margin-bottom:8px; color:#f59e0b; }
+        .info-content p { color:#000; line-height:1.6; }
+
+        /* Map */
+        .map-container { height:400px; background:#fff; border-radius:16px; overflow:hidden; border:1px solid #f3e8df; transition:transform 0.4s ease; box-shadow:0 10px 30px rgba(0,0,0,0.08); }
+        .map-container:hover { transform:scale(1.02); }
+
+        /* ================= FOOTER ================= */
+        footer { background:#1a1a1a; color:#fff; padding:60px 0 30px; margin-top: 60px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-column h3 { color: #f59e0b; margin-bottom: 20px; font-size: 1.3rem; }
+        .footer-column ul { list-style: none; }
+        .footer-column ul li { margin-bottom: 10px; }
+        .footer-column a { color: #ccc; transition: color 0.3s ease; }
+        .footer-column a:hover { color: #f59e0b; }
+        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #333; color: #999; font-size: 0.9rem; }
+        .social-links { display: flex; gap: 15px; margin-top: 20px; }
+        .social-links a { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: #333; color: #fff; transition: all 0.3s ease; }
+        .social-links a:hover { background: #f59e0b; transform: translateY(-3px); }
+
+        /* ================= MEDIA QUERIES ================= */
+        @media(max-width:1024px) { 
+            .contact-grid { grid-template-columns:1fr; gap:30px; } 
+        }
+        @media(max-width:768px) { 
+            .nav .menu { display:none; width:100%; flex-direction:column; background:#fff8f0; position:absolute; top:70px; left:0; padding:20px; border-top:1px solid #f3e8df; box-shadow:0 5px 10px rgba(0,0,0,0.05); } 
+            .hamburger { display:flex; }
+            .contact-hero h1 { font-size: 2.5rem; }
+            .contact-hero p { font-size: 1.1rem; }
+            .contact-form, .contact-info { padding: 25px; }
+            .map-container { height: 300px; }
+        }
+
+        /* Animation Classes */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .fade-in.show { opacity: 1; transform: translateY(0); }
+    </style>
 </head>
 <body>
-  
-  <div class="nav">
-    <div class="nav-inner">
-      <a class="logo" href="../index.html">
-        <img src="../assets/klfpro.jpg" alt="KLFPRO Logo">
-        <span>KLFPRO Consulting</span>
-      </a>
-      <nav class="menu">
-        <a href="../pages/services.html">Services</a>
-        <a href="../pages/partners.html">Bank Partners</a>
-        <a href="../pages/about.html">About</a>
-        <a href="../pages/careers.html">Careers</a>
-        <a class="active" href="../pages/contact.html">Contact</a>
-      </nav>
-      <a class="cta" href="../pages/apply.html">Apply Now</a>
-    </div>
-  </div>
-  
-  <section class="contact-hero">
-    <div class="contact-hero-content">
-      <h1 class="h1">Get in Touch</h1>
-      <p class="p">Our team is ready to assist you with all your financial service needs</p>
-    </div>
-  </section>
-  
-  <div class="contact-container">
-    <div class="contact-grid">
-      <div class="contact-form">
-        <h2 class="h2" style="margin-bottom: 30px; color: #e5e7eb;">Send us a message</h2>
-        <!-- Updated Formspree Form -->
-        <form action="https://formspree.io/f/xldwvjor" method="POST">
-          <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" class="form-control" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" class="form-control" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" class="form-control">
-          </div>
-          
-          <div class="form-group">
-            <label for="subject">Subject</label>
-            <input type="text" id="subject" name="subject" class="form-control">
-          </div>
-          
-          <div class="form-group">
-            <label for="message">Your Message</label>
-            <textarea id="message" name="message" class="form-control" required></textarea>
-          </div>
-          
-          <button type="submit" class="submit-btn">Send Message</button>
-        </form>
-      </div>
-      
-      <div class="contact-info">
-        <h2 class="h2" style="margin-bottom: 30px; color: #e5e7eb;">Contact Information</h2>
-        
-        <div class="info-item">
-          <div class="info-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-          </div>
-          <div class="info-content">
-            <h3>Headquarters</h3>
-            <p>OFFICE No:1110 11th Floor</p>
-            <p>Spaze IT Park, Gurugram<br>haryana 122018, India</p>
-          </div>
+    <!-- ================= NAVIGATION ================= -->
+    <div class="nav" id="nav">
+        <div class="nav-inner container">
+            <a class="logo" href="../index.html">
+                <img src="../assets/klflogos-removebg-preview.png" alt="KLFPRO Logo">
+                <span>KLFPRO Consulting</span>
+            </a>
+            <div class="menu">
+                <a href="../index.html#services">Services</a>
+                <a href="../index.html#partners">Bank Partners</a>
+                <a href="../index.html#how-it-works">How It Works</a>
+                <a href="../index.html#benefits">Benefits</a>
+                <a href="../index.html#testimonials">Testimonials</a>
+                <a class="active" href="contact.html">Contact</a>
+            </div>
+            <a class="cta" href="apply.html">Apply Now</a>
+            <div class="hamburger" id="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
-        
-        <div class="info-item">
-          <div class="info-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-            </svg>
-          </div>
-          <div class="info-content">
-            <h3>Phone & WhatsApp</h3>
-            <p>+91-9711000680<br>Mon-Sat, 9:30 AM - 7:30 PM IST</p>
-            <p>0124-4068700</p>
-          </div>
-        </div>
-        
-        <div class="info-item">
-          <div class="info-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-              <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-          </div>
-          <div class="info-content">
-            <h3>Email</h3>
-            <p>klfproconsulting@gmail.com<br>maheshkashyap@live.com</p>
-          </div>
-        </div>
-      </div>
     </div>
-    
-    <div class="map-container">
-      <!-- Google Maps embed would go here -->
-      <div class="map-container" style="width:100%; height:400px; position:relative;">
-  <a href="https://maps.app.goo.gl/pnBpFwwVkWYZQTZH7" 
-     target="_blank" 
-     style="display:block; width:100%; height:100%;">
-    <img src="../assets/map-placeholder.png" 
-         alt="KLFPRO Location Map" 
-         style="width:100%; height:100%; object-fit:cover; border:0;">
-  </a>
-</div>
 
-  <script src="../js/main.js"></script>
+    <!-- ================= HERO ================= -->
+    <section class="contact-hero fade-in">
+        <div class="contact-hero-content">
+            <h1>Get in Touch With Us</h1>
+            <p>Our team is ready to assist you with all your financial service needs</p>
+        </div>
+    </section>
+
+    <!-- ================= CONTACT GRID ================= -->
+    <div class="container">
+        <div class="contact-grid fade-in">
+            <div class="contact-form">
+                <h2 style="margin-bottom:30px;color:#f59e0b;text-align:left;">Send us a message</h2>
+                <form action="https://formspree.io/f/xldwvjor" method="POST">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+
+            <div class="contact-info">
+                <h2 style="margin-bottom:30px;color:#f59e0b;text-align:left;">Contact Information</h2>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="info-content">
+                        <h3>Headquarters</h3>
+                        <p>OFFICE No:1142 11th Floor<br>
+                        Spaze IT Park, Gurugram<br>
+                        Haryana 122018, India</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                    <div class="info-content">
+                        <h3>Phone & WhatsApp</h3>
+                        <p>+91-9711000680<br>
+                        0124-4068700<br>
+                        Mon-Sat, 9:30 AM - 7:30 PM IST</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="info-content">
+                        <h3>Email</h3>
+                        <p>info@klfpro.com<br>
+                        maheshkashyap@live.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="map-container fade-in">
+            <a href="https://maps.app.goo.gl/pnBpFwwVkWYZQTZH7" target="_blank" style="display:block;width:100%;height:100%;">
+                <img src="../assets/map-placeholder.png" alt="KLFPRO Location Map" style="width:100%;height:100%;object-fit:cover;border:0;">
+            </a>
+        </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>KLFPRO Consulting</h3>
+                    <p>Connecting borrowers with the best loan options from our extensive network of banking partners since 2015.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="../index.html#services">Services</a></li>
+                        <li><a href="../index.html#partners">Bank Partners</a></li>
+                        <li><a href="../index.html#how-it-works">How It Works</a></li>
+                        <li><a href="../index.html#benefits">Benefits</a></li>
+                        <li><a href="../index.html#testimonials">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> OFFICE NO.1142, SAPZE ITECH PARK, GURUGAON</li>
+                        <li><i class="fas fa-phone"></i> +91 9711000680</li>
+                        <li><i class="fas fa-envelope"></i> info@klfpro.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 9AM - 6PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 KLFPRO Consulting. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Nav scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Hamburger toggle
+        const hamburger = document.getElementById('hamburger');
+        const menu = document.querySelector('.menu');
+        hamburger.addEventListener('click', () => {
+            menu.classList.toggle('show');
+            hamburger.classList.toggle('active');
+        });
+
+        // Scroll animations
+        const faders = document.querySelectorAll('.fade-in');
+        const appearOptions = { threshold:0.1, rootMargin:"0px 0px -50px 0px" };
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll){
+            entries.forEach(entry=>{
+                if(!entry.isIntersecting) return;
+                entry.target.classList.add('show');
+                appearOnScroll.unobserve(entry.target);
+            });
+        }, appearOptions);
+        faders.forEach(fader => appearOnScroll.observe(fader));
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if(menu.classList.contains('show')) {
+                        menu.classList.remove('show');
+                        hamburger.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .menu.show { display:flex; flex-direction:column; gap:15px; }
+        .hamburger.active div:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+        .hamburger.active div:nth-child(2) { opacity:0; }
+        .hamburger.active div:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+    </style>
 </body>
 </html>
