@@ -4,393 +4,519 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Services • KLFPRO Consulting</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    .service-hero {
-      position: relative;
-      background: url("../assets/images/team-meeting.jpg") center/cover no-repeat;
-      padding: 4rem 2rem;
-      color: white;
-      text-align: center;
-      border-radius: 12px;
+    /* ================= Global Styles ================= */
+    * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#fff8f0; color:#000; overflow-x:hidden; line-height:1.6; }
+    a { text-decoration:none; color:inherit; transition: all 0.3s ease; }
+    img { max-width:100%; display:block; }
+    .container { max-width:1200px; margin:0 auto; padding:0 20px; }
+    section { padding: 60px 0; }
+    h2 { font-size: 2.5rem; margin-bottom: 20px; color: #f59e0b; text-align: center; }
+    p { font-size: 1.1rem; margin-bottom: 15px; }
+
+    /* ================= NAVIGATION ================= */
+    .nav { background:#fff8f0; border-bottom:1px solid #f3e8df; padding:15px 0; position:sticky; top:0; z-index:1000; transition: all 0.3s ease; }
+    .nav.scrolled { background:rgba(255,248,240,0.95); backdrop-filter: blur(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+    .nav .logo { display:flex; align-items:center; gap:10px; font-weight:700; color:#000; font-size: 1.5rem; }
+    .nav .logo img { width:45px; height:45px; border-radius:50%; }
+    .nav .menu { display:flex; gap:25px; }
+    .nav .menu a { padding:8px 4px; font-weight:600; color:#000; position:relative; font-size: 1.05rem; }
+    .nav .menu a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:2px; background:linear-gradient(90deg,#f59e0b,#fbbf24); transition:width 0.3s ease; }
+    .nav .menu a.active::after, .nav .menu a:hover::after { width:100%; }
+    .nav .menu a.active { color:#f59e0b; }
+    .nav .menu a:hover { color:#fbbf24; }
+    .nav .cta { background:linear-gradient(135deg,#f59e0b,#fbbf24); color:#000; padding:10px 25px; border-radius:8px; font-weight:700; transition: transform 0.3s, box-shadow 0.3s; }
+    .nav .cta:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(245,158,11,0.4); }
+
+    /* Hamburger Menu */
+    .hamburger { display:none; flex-direction: column; cursor:pointer; }
+    .hamburger div { width:25px; height:3px; background:#000; margin:4px 0; transition: all 0.3s ease; }
+
+    /* ================= HERO ================= */
+    .services-hero { position:relative; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat; padding:150px 20px 100px; text-align:center; color:#fff; margin:20px 0; border-radius: 12px; }
+    .services-hero-content { max-width: 800px; margin: 0 auto; }
+    .services-hero h1 { font-size:3.2rem; margin-bottom:20px; font-weight:700; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+    .services-hero p { font-size:1.3rem; margin-bottom:30px; opacity: 0.9; }
+
+    /* ================= CONSULTING INTRO ================= */
+    .consulting-intro { background: #fff; border-radius: 16px; padding: 50px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin: 40px 0; position: relative; overflow: hidden; }
+    .consulting-intro::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .consulting-intro h2 { color: #f59e0b; margin-bottom: 20px; font-size: 2.2rem; }
+    .consulting-intro p { font-size: 1.2rem; max-width: 900px; margin: 0 auto; color: #000; }
+
+    /* ================= SERVICE CARDS ================= */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+    .service-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: all 0.4s ease; position: relative; }
+    .service-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.12); }
+    .service-card-image { height: 200px; overflow: hidden; }
+    .service-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .service-card:hover .service-card-image img { transform: scale(1.05); }
+    .service-card-content { padding: 25px; }
+    .service-card h3 { color: #f59e0b; margin-bottom: 15px; font-size: 1.4rem; }
+    .service-card ul { list-style: none; padding: 0; }
+    .service-card li { margin-bottom: 10px; padding-left: 25px; position: relative; }
+    .service-card li:before { content: '✓'; color: #f59e0b; font-weight: bold; position: absolute; left: 0; }
+
+    /* ================= HOW WE HELP ================= */
+    .help-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+    .help-card { background: #fff; padding: 30px 25px; border-radius: 12px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: all 0.4s ease; }
+    .help-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.12); }
+    .help-card i { font-size: 3rem; margin-bottom: 20px; background: linear-gradient(135deg,#f59e0b,#fbbf24); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color: #f59e0b; }
+    .help-card h3 { color: #f59e0b; margin-bottom: 15px; font-size: 1.3rem; }
+    .help-card p { color: #000; }
+
+    /* ================= PROCESS TIMELINE ================= */
+    .process-steps { display: flex; justify-content: space-between; flex-wrap: wrap; margin-top: 50px; position: relative; }
+    .process-step { flex: 1; min-width: 220px; text-align: center; padding: 20px; position: relative; z-index: 2; }
+    .process-step-number { display:inline-block; width:70px; height:70px; line-height:70px; border-radius:50%; background:linear-gradient(135deg,#f59e0b,#fbbf24); color:#000; font-weight:bold; margin-bottom:15px; font-size:1.8rem; box-shadow:0 5px 15px rgba(245,158,11,0.3); }
+    .process-step h3 { color:#f59e0b; margin-bottom:10px; font-size:1.3rem; }
+    .process-step p { color:#000; font-size:1rem; }
+
+    /* ================= WHY CHOOSE US ================= */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px; }
+    .stat-card { background: #fff; padding: 30px 20px; border-radius: 12px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: all 0.4s ease; }
+    .stat-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.12); }
+    .stat-card h3 { font-size: 2.5rem; color: #f59e0b; margin-bottom: 10px; }
+    .stat-card p { color: #000; font-weight: 600; }
+
+    /* ================= CASE STUDIES ================= */
+    .case-studies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+    .case-study-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: all 0.4s ease; }
+    .case-study-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.12); }
+    .case-study-image { height: 200px; overflow: hidden; }
+    .case-study-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .case-study-card:hover .case-study-image img { transform: scale(1.05); }
+    .case-study-content { padding: 25px; }
+    .case-study-content h3 { color: #f59e0b; margin-bottom: 15px; font-size: 1.3rem; }
+    .case-study-content p { color: #000; }
+
+    /* ================= SERVICE PACKAGES ================= */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 40px; }
+    .pricing-card { background: #fff; border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: all 0.4s ease; text-align: center; position: relative; overflow: hidden; }
+    .pricing-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.12); }
+    .pricing-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .pricing-card h3 { color: #f59e0b; margin-bottom: 20px; font-size: 1.5rem; }
+    .pricing-card ul { list-style: none; padding: 0; margin-bottom: 25px; }
+    .pricing-card li { margin-bottom: 10px; padding-left: 25px; position: relative; text-align: left; }
+    .pricing-card li:before { content: '✓'; color: #f59e0b; font-weight: bold; position: absolute; left: 0; }
+    .pricing-card .price { font-size: 2rem; font-weight: 700; color: #f59e0b; margin: 20px 0; }
+    .pricing-card .price-note { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
+
+    /* ================= CTA SECTION ================= */
+    .cta-section { text-align: center; background: linear-gradient(135deg,#f59e0b,#fbbf24); color: #000; padding: 70px 20px; border-radius: 12px; margin-top: 60px; }
+    .cta-section h2 { color: #000; margin-bottom: 15px; }
+    .cta-section p { font-size: 1.2rem; margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto; }
+    .cta-button { display:inline-block; background:#000; color: #fff; padding:14px 35px; border-radius:8px; font-weight:700; font-size:1.1rem; transition: all 0.3s ease; }
+    .cta-button:hover { transform:translateY(-3px); box-shadow:0 8px 25px rgba(0,0,0,0.2); }
+
+    /* ================= FOOTER ================= */
+    footer { background:#1a1a1a; color:#fff; padding:60px 0 30px; margin-top: 60px; }
+    .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
+    .footer-column h3 { color: #f59e0b; margin-bottom: 20px; font-size: 1.3rem; }
+    .footer-column ul { list-style: none; }
+    .footer-column ul li { margin-bottom: 10px; }
+    .footer-column a { color: #ccc; transition: color 0.3s ease; }
+    .footer-column a:hover { color: #f59e0b; }
+    .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #333; color: #999; font-size: 0.9rem; }
+    .social-links { display: flex; gap: 15px; margin-top: 20px; }
+    .social-links a { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: #333; color: #fff; transition: all 0.3s ease; }
+    .social-links a:hover { background: #f59e0b; transform: translateY(-3px); }
+
+    /* ================= MEDIA QUERIES ================= */
+    @media(max-width:1024px) { 
+        .services-grid, .help-grid, .case-studies-grid, .pricing-grid { grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); } 
     }
-    .service-hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.55);
-      border-radius: 12px;
-    }
-    .service-hero h1, .service-hero p {
-      position: relative;
-      z-index: 2;
+    @media(max-width:768px) { 
+        .nav .menu { display:none; width:100%; flex-direction:column; background:#fff8f0; position:absolute; top:70px; left:0; padding:20px; border-top:1px solid #f3e8df; box-shadow:0 5px 10px rgba(0,0,0,0.05); } 
+        .hamburger { display:flex; }
+        .services-hero h1 { font-size: 2.5rem; }
+        .services-hero p { font-size: 1.1rem; }
+        .process-steps { flex-direction: column; }
+        .process-step { margin-bottom: 30px; }
+        .consulting-intro { padding: 30px 20px; }
     }
 
-    .service-features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-      gap: 20px;
-      margin: 3rem 0;
-    }
-    .service-card {
-      background: #0f172a;
-      padding: 20px;
-      border-radius: 12px;
-      transition: .3s;
-    }
-    .service-card:hover { transform: translateY(-6px); background: #1e293b; }
-    .service-card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 12px;
-    }
-    .service-card h3 { margin: 10px 0; }
-    .service-card ul { padding-left: 20px; font-size: 14px; color: #aaa; }
-
-    .consulting-intro {
-      margin: 3rem 0;
-      text-align: center;
-      background: url("../assets/images/hero-business.jpg") center/cover no-repeat;
-      padding: 2.5rem;
-      border-radius: 12px;
-      color: #e2e8f0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      position: relative;
-    }
-    .consulting-intro::before {
-      content:"";
-      position:absolute;
-      inset:0;
-      background:rgba(15,23,42,0.85);
-      border-radius:12px;
-    }
-    .consulting-intro h2, .consulting-intro p {
-      position: relative;
-      z-index: 2;
-    }
-    .consulting-intro h2 { color: #00c2ff; margin-bottom: 1rem; }
-
-    .how-we-help {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-      gap: 20px;
-      margin: 3rem 0;
-    }
-    .help-card {
-      background: #0f172a;
-      color: white;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-      transition: .3s;
-    }
-    .help-card:hover { background: #1e293b; transform: translateY(-6px); }
-
-    .process {
-      display: flex;
-      justify-content: space-between;
-      margin: 3rem 0;
-      flex-wrap: wrap;
-    }
-    .process-step {
-      flex: 1;
-      min-width: 200px;
-      text-align: center;
-      padding: 20px;
-      position: relative;
-    }
-    .process-step span {
-      display: inline-block;
-      width: 50px;
-      height: 50px;
-      line-height: 50px;
-      border-radius: 50%;
-      background: #0077ff;
-      color: white;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    .process-step::after {
-      content: "";
-      position: absolute;
-      top: 35px;
-      right: -40px;
-      width: 80px;
-      height: 2px;
-      background: #0077ff;
-    }
-    .process-step:last-child::after { display: none; }
-
-    .why-us {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 20px;
-      text-align: center;
-      margin: 3rem 0;
-    }
-    .why-card {
-      background: #0f172a;
-      padding: 20px;
-      border-radius: 12px;
-    }
-    .why-card h3 { color: #0077ff; }
-
-    .case-studies {
-      display: grid;
-      grid-template-columns: repeat(2,1fr);
-      gap: 20px;
-      margin: 3rem 0;
-    }
-    .case-studies .card {
-      background: #0f172a;
-      padding: 20px;
-      border-radius: 12px;
-    }
-    .case-studies .card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 12px;
-    }
-
-    .pricing {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 20px;
-      margin: 3rem 0;
-    }
-    .pricing-plan {
-      background: #0f172a;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-    }
-    .pricing-plan h3 { color: #0077ff; }
-    .pricing-plan ul { list-style: none; padding: 0; margin: 1rem 0; }
-    .pricing-plan li { margin: 8px 0; }
-
-    .cta-banner {
-      background: linear-gradient(135deg,#0077ff,#00c2ff);
-      color: white;
-      text-align: center;
-      padding: 2rem;
-      border-radius: 12px;
-      margin: 3rem auto;
-    }
-    .cta-banner a {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 12px 24px;
-      background: #0f172a;
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-    }
-
-    footer {
-      background: url("../assets/images/footer-office.jpg") center/cover no-repeat;
-      color: white;
-      padding: 2rem;
-      border-radius: 12px 12px 0 0;
-      position: relative;
-    }
-    footer .overlay {
-      background: rgba(0,0,0,0.7);
-      padding: 2rem;
-      border-radius: 12px;
-    }
+    /* Animation Classes */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+    .fade-in.show { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 <body>
-  
-  <!-- NAVIGATION -->
-  <div class="nav">
-    <div class="nav-inner">
+  <!-- ================= NAVIGATION ================= -->
+  <div class="nav" id="nav">
+    <div class="nav-inner container">
       <a class="logo" href="../index.html">
-        <img src="../assets/klfpro.jpg" alt="KLFPRO Logo">
+        <img src="../assets/klflogos-removebg-preview.png" alt="KLFPRO Logo">
         <span>KLFPRO Consulting</span>
       </a>
-      <nav class="menu">
-        <a class="active" href="../pages/services.html">Services</a>
-        <a href="../pages/partners.html">Bank Partners</a>
-        <a href="../pages/about.html">About</a>
-        <a href="../pages/careers.html">Careers</a>
-        <a href="../pages/contact.html">Contact</a>
-      </nav>
-      <a class="cta" href="../pages/apply.html">Apply Now</a>
+      <div class="menu">
+        <a class="active" href="services.html">Services</a>
+        <a href="../index.html#partners">Bank Partners</a>
+        <a href="../index.html#how-it-works">How It Works</a>
+        <a href="../index.html#benefits">Benefits</a>
+        <a href="../index.html#testimonials">Testimonials</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <a class="cta" href="apply.html">Apply Now</a>
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   </div>
 
-  <!-- HERO SECTION -->
-  <section class="service-hero">
-    <h1 class="h1">Our Financial Services</h1>
-    <p class="p">End-to-end loan consulting that connects you with India’s top banks, ensuring the best rates and smooth approvals.</p>
+  <!-- ================= HERO ================= -->
+  <section class="services-hero fade-in">
+    <div class="services-hero-content">
+      <h1>Our Financial Services</h1>
+      <p>End-to-end loan consulting that connects you with India's top banks, ensuring the best rates and smooth approvals</p>
+    </div>
   </section>
 
-  <!-- CONSULTING INTRO -->
-  <section class="consulting-intro">
-    <h2>We Are Loan Consultants, Not a Bank</h2>
-    <p>KLFPRO is a trusted third-party financial consulting firm. We do not lend directly — instead, we partner with 50+ banks and NBFCs across India to find you the best possible loan solutions. Whether it’s a property loan, business finance, or personal loan, our goal is to negotiate the lowest interest rates and simplify your loan journey from start to finish.</p>
+  <!-- ================= CONSULTING INTRO ================= -->
+  <section class="container fade-in">
+    <div class="consulting-intro">
+      <h2>We Are Loan Consultants, Not a Bank</h2>
+      <p>KLFPRO is a trusted third-party financial consulting firm. We partner with 50+ banks and NBFCs to find you the best possible loan solutions, negotiating lowest rates and simplifying your loan journey.</p>
+    </div>
   </section>
 
-  <!-- SERVICE FEATURES -->
-  <section class="container">
-    <h2 class="h2 center">Core Offerings</h2>
-    <div class="service-features">
+  <!-- ================= SERVICE CARDS ================= -->
+  <section class="container fade-in">
+    <h2>Core Offerings</h2>
+    <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">Comprehensive loan consulting services tailored to your financial needs</p>
+    
+    <div class="services-grid">
       <div class="service-card">
-        <img src="../assets/images/team-meeting.jpg.jpeg" alt="Customer Onboarding">
-        <h3>Customer Onboarding</h3>
-        <ul>
-          <li>Digital KYC & instant document verification</li>
-          <li>Real-time eligibility checks with multiple banks</li>
-          <li>Personalized lender offers based on your profile</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <img src="../assets/images/loan-comparison.jpg" alt="Loan Comparison">
-        <h3>Loan Comparison</h3>
-        <ul>
-          <li>Side-by-side interest rate comparison</li>
-          <li>Identify hidden charges & fees</li>
-          <li>Choose the best-fit bank for your needs</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <img src="../assets/images/Loan Against Property.jpeg" alt="Negotiation & Advisory">
-        <h3>Negotiation & Advisory</h3>
-        <ul>
-          <li>Direct negotiation with banks for lowest rates</li>
-          <li>Expert advisory for property & business loans</li>
-          <li>End-to-end handholding until disbursement</li>
-        </ul>
+        <div class="service-card-image">
+          <img src="../assets/images/team-meeting.jpg.jpeg" alt="Customer Onboarding">
+        </div>
+        <div class="service-card-content">
+          <h3>Customer Onboarding</h3>
+          <ul>
+            <li>Digital KYC & instant document verification</li>
+            <li>Real-time eligibility checks</li>
+            <li>Personalized lender offers</li>
+            <li>Expert guidance throughout the process</li>
+          </ul>
+        </div>
       </div>
       <div class="service-card">
-        <img src="../assets/images/Loan Lifecycle Management.jpg" alt="Loan Lifecycle Management">
-        <h3>Loan Lifecycle Management</h3>
+        <div class="service-card-image">
+          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Loan Comparison">
+        </div>
+        <div class="service-card-content">
+          <h3>Loan Comparison</h3>
+          <ul>
+            <li>Interest rate comparison across multiple banks</li>
+            <li>Identify hidden charges & fees</li>
+            <li>Choose best-fit bank for your profile</li>
+            <li>Transparent cost breakdown</li>
+          </ul>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-image">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Negotiation & Advisory">
+        </div>
+        <div class="service-card-content">
+          <h3>Negotiation & Advisory</h3>
+          <ul>
+            <li>Direct negotiation with banks for better terms</li>
+            <li>Expert advisory for loan structuring</li>
+            <li>End-to-end support until disbursement</li>
+            <li>Post-disbursement assistance</li>
+          </ul>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-image">
+          <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Loan Lifecycle Management">
+        </div>
+        <div class="service-card-content">
+          <h3>Loan Lifecycle Management</h3>
+          <ul>
+            <li>Application to disbursement support</li>
+            <li>Automated reminders & notifications</li>
+            <li>Balance transfer & refinancing options</li>
+            <li>Regular loan health checkups</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HOW WE HELP ================= -->
+  <section class="container fade-in">
+    <h2>How We Help Customers</h2>
+    <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">Our approach ensures you get the best financial solutions</p>
+    
+    <div class="help-grid">
+      <div class="help-card">
+        <i class="fas fa-handshake"></i>
+        <h3>Best Bank Tie-ups</h3>
+        <p>50+ banks & NBFCs offer multiple choices with competitive rates</p>
+      </div>
+      <div class="help-card">
+        <i class="fas fa-home"></i>
+        <h3>Property Loan Experts</h3>
+        <p>Specialized in home loans & LAP with the most competitive rates</p>
+      </div>
+      <div class="help-card">
+        <i class="fas fa-bolt"></i>
+        <h3>Quick Approvals</h3>
+        <p>AI-powered eligibility checks & fast verification processes</p>
+      </div>
+      <div class="help-card">
+        <i class="fas fa-eye"></i>
+        <h3>Transparent Process</h3>
+        <p>No hidden fees, only trusted consulting with complete clarity</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROCESS TIMELINE ================= -->
+  <section class="container fade-in">
+    <h2>How Our Services Work</h2>
+    <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">A simple 4-step process to get your loan approved</p>
+    
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="process-step-number">1</div>
+        <h3>Apply</h3>
+        <p>Submit your digital application with basic details</p>
+      </div>
+      <div class="process-step">
+        <div class="process-step-number">2</div>
+        <h3>Compare</h3>
+        <p>Evaluate multiple banks for the best deal</p>
+      </div>
+      <div class="process-step">
+        <div class="process-step-number">3</div>
+        <h3>Negotiate</h3>
+        <p>We negotiate to ensure the lowest interest possible</p>
+      </div>
+      <div class="process-step">
+        <div class="process-step-number">4</div>
+        <h3>Disburse</h3>
+        <p>Loan released directly by the bank to your account</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WHY CHOOSE US ================= -->
+  <section class="container fade-in">
+    <h2>Why Choose KLFPRO?</h2>
+    <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">Our track record speaks for itself</p>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>50+</h3>
+        <p>Banking Partners</p>
+      </div>
+      <div class="stat-card">
+        <h3>99%</h3>
+        <p>Approval Success Rate</p>
+      </div>
+      <div class="stat-card">
+        <h3>10K+</h3>
+        <p>Loans Processed</p>
+      </div>
+      <div class="stat-card">
+        <h3>24/7</h3>
+        <p>Support Assistance</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CASE STUDIES ================= -->
+  <section class="container fade-in">
+    <h2>Success Stories</h2>
+    <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">Real clients, real results with KLFPRO consulting</p>
+    
+    <div class="case-studies-grid">
+      <div class="case-study-card">
+        <div class="case-study-image">
+          <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Retail Customer">
+        </div>
+        <div class="case-study-content">
+          <h3>Retail Customer Success</h3>
+          <p>Helped a young professional secure a home loan with 40% lower EMI through our bank network and negotiation expertise.</p>
+        </div>
+      </div>
+      <div class="case-study-card">
+        <div class="case-study-image">
+          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Business Client">
+        </div>
+        <div class="case-study-content">
+          <h3>Business Client Achievement</h3>
+          <p>Enabled a startup to get ₹50L working capital loan quickly with favorable terms, helping them expand operations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SERVICE PACKAGES ================= -->
+  <section class="container fade-in">
+    <h2>Service Packages</h2>
+    <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">Tailored solutions for different financial needs</p>
+    
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Retail Solutions</h3>
+        <div class="price">Free Consultation</div>
+        <div class="price-note">No upfront fees</div>
         <ul>
-          <li>Application to disbursement support</li>
-          <li>Automated reminders & notifications</li>
-          <li>Balance transfer and refinancing solutions</li>
+          <li>Home Loans</li>
+          <li>Personal Loans</li>
+          <li>Credit Card Support</li>
+          <li>Education Loans</li>
+          <li>Vehicle Loans</li>
         </ul>
+        <a href="apply.html" class="cta-button">Get Started</a>
+      </div>
+      <div class="pricing-card">
+        <h3>Business Solutions</h3>
+        <div class="price">Free Consultation</div>
+        <div class="price-note">Success-based fees</div>
+        <ul>
+          <li>Working Capital Loans</li>
+          <li>MSME Finance</li>
+          <li>Invoice Discounting</li>
+          <li>Equipment Financing</li>
+          <li>Business Expansion Loans</li>
+        </ul>
+        <a href="apply.html" class="cta-button">Get Started</a>
+      </div>
+      <div class="pricing-card">
+        <h3>Corporate Solutions</h3>
+        <div class="price">Custom Pricing</div>
+        <div class="price-note">Tailored to requirements</div>
+        <ul>
+          <li>Large Project Finance</li>
+          <li>Loan Syndication</li>
+          <li>Structured Finance</li>
+          <li>M&A Financing</li>
+          <li>International Funding</li>
+        </ul>
+        <a href="contact.html" class="cta-button">Contact Us</a>
       </div>
     </div>
   </section>
 
-  <!-- HOW WE HELP -->
-  <section class="container">
-    <h2 class="h2 center">How We Help Customers</h2>
-    <div class="how-we-help">
-      <div class="help-card"><h3>✔ Best Bank Tie-ups</h3><p>We work with 50+ banks & NBFCs to offer you multiple choices.</p></div>
-      <div class="help-card"><h3>✔ Property Loan Experts</h3><p>Specialized in home loans and loans against property with competitive rates.</p></div>
-      <div class="help-card"><h3>✔ Quick Approvals</h3><p>AI-powered eligibility checks & document verification for faster turnaround.</p></div>
-      <div class="help-card"><h3>✔ Transparent Process</h3><p>No hidden fees, no false promises — only trusted consulting.</p></div>
+  <!-- ================= CTA SECTION ================= -->
+  <section class="cta-section fade-in">
+    <div class="container">
+      <h2>Transform Your Lending Journey With KLFPRO</h2>
+      <p>Consulting that saves you money, time, and stress. Get started with your loan application today.</p>
+      <a href="apply.html" class="cta-button">Apply Now</a>
     </div>
   </section>
 
-  <!-- PROCESS TIMELINE -->
-  <section class="container">
-    <h2 class="h2 center">How Our Services Work</h2>
-    <div class="process">
-      <div class="process-step"><span>1</span><h4>Apply</h4><p>Submit a simple digital application form.</p></div>
-      <div class="process-step"><span>2</span><h4>Compare</h4><p>We evaluate multiple banks to find the best deal.</p></div>
-      <div class="process-step"><span>3</span><h4>Negotiate</h4><p>Our team ensures you get the lowest possible interest.</p></div>
-      <div class="process-step"><span>4</span><h4>Disburse</h4><p>Loan amount is released directly from the bank to you.</p></div>
-    </div>
-  </section>
-
-  <!-- WHY CHOOSE US -->
-  <section class="container">
-    <h2 class="h2 center">Why Choose KLFPRO?</h2>
-    <div class="why-us">
-      <div class="why-card"><h3>50+</h3><p>Banking Partners</p></div>
-      <div class="why-card"><h3>99%</h3><p>Approval Success Rate</p></div>
-      <div class="why-card"><h3>10K+</h3><p>Loans Processed</p></div>
-      <div class="why-card"><h3>24/7</h3><p>Support Assistance</p></div>
-    </div>
-  </section>
-
-  <!-- CASE STUDIES -->
-  <section class="container">
-    <h2 class="h2 center">Success Stories</h2>
-    <div class="case-studies">
-      <div class="card">
-        <img src="../assets/images/retail customer bank.webp" alt="Retail Customer">
-        <h4>Retail Customer</h4>
-        <p>Helped a young professional secure a home loan with 40% lower EMI using balance transfer.</p>
-      </div>
-      <div class="card">
-        <img src="../assets/images/Business Client.jpg" alt="Business Client">
-        <h4>Business Client</h4>
-        <p>Enabled a startup to get ₹50L working capital loan with minimal collateral.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRICING / PACKAGES -->
-  <section class="container">
-    <h2 class="h2 center">Service Packages</h2>
-    <div class="pricing">
-      <div class="pricing-plan">
-        <h3>Retail</h3>
-        <ul><li>Home Loans</li><li>Personal Loans</li><li>Credit Card Support</li></ul>
-      </div>
-      <div class="pricing-plan">
-        <h3>Business</h3>
-        <ul><li>Working Capital Loans</li><li>MSME Finance</li><li>Invoice Discounting</li></ul>
-      </div>
-      <div class="pricing-plan">
-        <h3>Corporate</h3>
-        <ul><li>Large Project Finance</li><li>Loan Syndication</li><li>Structured Finance</li></ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA BANNER -->
-  <section class="cta-banner">
-    <h2>Transform your lending journey with KLFPRO 🚀</h2>
-    <p>Consulting that saves you money, time, and stress.</p>
-    <a href="../pages/apply.html">Apply Now</a>
-  </section>
-
-  <!-- FOOTER -->
+  <!-- ================= FOOTER ================= -->
   <footer>
-    <div class="overlay">
-      <div class="container footer-cols">
-        <div>
-          <div class="logo"><img src="../assets/klfpro.jpg" alt="">KLFPRO Consulting</div>
-          <p class="p">We are a loan consulting firm that helps you secure retail, business, and property loans from India’s top banks at the lowest possible rates.</p>
-          <p class="small">© 2025 KLFPRO Consulting. All rights reserved.</p>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>KLFPRO Consulting</h3>
+          <p>Connecting borrowers with the best loan options from our extensive network of banking partners since 2015.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
         </div>
-        <div>
-          <h4>Company</h4>
-          <ul class="list">
-            <li><a href="../pages/about.html">About</a></li>
-            <li><a href="../pages/careers.html">Careers</a></li>
-            <li><a href="../pages/partners.html">Bank Partners</a></li>
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="../index.html#services">Services</a></li>
+            <li><a href="../index.html#partners">Bank Partners</a></li>
+            <li><a href="../index.html#how-it-works">How It Works</a></li>
+            <li><a href="../index.html#benefits">Benefits</a></li>
+            <li><a href="../index.html#testimonials">Testimonials</a></li>
           </ul>
         </div>
-        <div>
-          <h4>Products</h4>
-          <ul class="list">
-            <li><a href="../pages/loans.html#home-loan">Home Loans</a></li>
-            <li><a href="../pages/loans.html#business-loan">Business Loans</a></li>
-            <li><a href="../pages/loans.html#lap">Loan Against Property</a></li>
+        <div class="footer-column">
+          <h3>Contact Us</h3>
+          <ul>
+            <li><i class="fas fa-map-marker-alt"></i> OFFICE NO.1142, SAPZE ITECH PARK, GURUGAON</li>
+            <li><i class="fas fa-phone"></i> +91 9711000680</li>
+            <li><i class="fas fa-envelope"></i> info@klfpro.com</li>
+            <li><i class="fas fa-clock"></i> Mon-Sat: 9AM - 6PM</li>
           </ul>
         </div>
-        <div>
-          <h4>Support</h4>
-          <ul class="list">
-            <li><a href="../pages/contact.html">Contact</a></li>
-            <li><a href="../pages/policy.html">Privacy Policy</a></li>
-            <li><a href="../pages/terms.html">Terms</a></li>
-          </ul>
-        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 KLFPRO Consulting. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
       </div>
     </div>
   </footer>
 
+  <script>
+    // Nav scroll effect
+    window.addEventListener('scroll', function() {
+      const nav = document.getElementById('nav');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Hamburger toggle
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.querySelector('.menu');
+    hamburger.addEventListener('click', () => {
+      menu.classList.toggle('show');
+      hamburger.classList.toggle('active');
+    });
+
+    // Scroll animations
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = { threshold:0.1, rootMargin:"0px 0px -50px 0px" };
+    const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll){
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+        entry.target.classList.add('show');
+        appearOnScroll.unobserve(entry.target);
+      });
+    }, appearOptions);
+    faders.forEach(fader => appearOnScroll.observe(fader));
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if(targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if(targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+          
+          // Close mobile menu if open
+          if(menu.classList.contains('show')) {
+            menu.classList.remove('show');
+            hamburger.classList.remove('active');
+          }
+        }
+      });
+    });
+  </script>
+
+  <style>
+    .menu.show { display:flex; flex-direction:column; gap:15px; }
+    .hamburger.active div:nth-child(1) { transform:rotate(45deg) translate(5px,5px); }
+    .hamburger.active div:nth-child(2) { opacity:0; }
+    .hamburger.active div:nth-child(3) { transform:rotate(-45deg) translate(5px,-5px); }
+  </style>
 </body>
 </html>
