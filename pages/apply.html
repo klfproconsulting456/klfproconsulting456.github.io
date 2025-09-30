@@ -68,8 +68,11 @@
     .form-group { margin-bottom: 20px; }
     .form-group.full-width { grid-column: 1 / -1; }
     .form-group label { display: block; margin-bottom: 8px; color: #f59e0b; font-weight: 600; }
+    .required-field::after { content: " *"; color: #e53e3e; }
     .form-control { width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid #f3e8df; background: #fff; color: #000; font-size: 16px; transition: 0.3s; font-family: inherit; }
     .form-control:focus { border-color: #fbbf24; box-shadow: 0 0 8px rgba(251,191,36,0.4); outline: none; }
+    .form-control.error { border-color: #e53e3e; }
+    .error-message { color: #e53e3e; font-size: 0.85rem; margin-top: 5px; display: none; }
     textarea.form-control { min-height: 120px; resize: vertical; }
     select.form-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f59e0b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; background-size: 16px; }
 
@@ -101,6 +104,7 @@
     .form-navigation { display: flex; justify-content: space-between; margin-top: 30px; }
     .btn { background: linear-gradient(135deg, #f59e0b, #fbbf24); color: #000; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
     .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(251,191,36,0.4); }
+    .btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
     .btn-outline { background: transparent; border: 2px solid #f3e8df; color: #666; }
     .btn-outline:hover { border-color: #fbbf24; color: #f59e0b; box-shadow: none; transform: translateY(-3px); }
 
@@ -201,62 +205,73 @@
       <!-- Step 1: Basic Information -->
       <div class="form-step active" id="step1">
         <h2 style="text-align: left; margin-bottom: 25px;">Personal Information</h2>
+        <p style="color: #666; margin-bottom: 20px; font-size: 0.9rem;"><span style="color: #e53e3e;">*</span> indicates required field</p>
+        
         <div class="form-grid">
           <div class="form-group">
-            <label for="fullName">Full Name</label>
+            <label for="fullName" class="required-field">Full Name</label>
             <input type="text" id="fullName" class="form-control" required>
+            <div class="error-message" id="fullNameError">Please enter your full name</div>
           </div>
           <div class="form-group">
-            <label for="email">Email Address</label>
+            <label for="email" class="required-field">Email Address</label>
             <input type="email" id="email" class="form-control" required>
+            <div class="error-message" id="emailError">Please enter a valid email address</div>
           </div>
           <div class="form-group">
-            <label for="phone">Phone Number</label>
+            <label for="phone" class="required-field">Phone Number</label>
             <input type="tel" id="phone" class="form-control" required>
+            <div class="error-message" id="phoneError">Please enter a valid phone number</div>
           </div>
           <div class="form-group">
-            <label for="dob">Date of Birth</label>
+            <label for="dob" class="required-field">Date of Birth</label>
             <input type="date" id="dob" class="form-control" required>
+            <div class="error-message" id="dobError">Please select your date of birth</div>
           </div>
           <div class="form-group full-width">
-            <label for="address">Residential Address</label>
+            <label for="address" class="required-field">Residential Address</label>
             <textarea id="address" class="form-control" required></textarea>
+            <div class="error-message" id="addressError">Please enter your residential address</div>
           </div>
         </div>
         <div class="form-navigation">
           <div></div> <!-- Empty div for spacing -->
-          <button class="btn" onclick="nextStep(1)">Next <i class="fas fa-arrow-right"></i></button>
+          <button class="btn" id="step1Next" onclick="validateStep1()">Next <i class="fas fa-arrow-right"></i></button>
         </div>
       </div>
 
       <!-- Step 2: Loan Details -->
       <div class="form-step" id="step2">
         <h2 style="text-align: left; margin-bottom: 25px;">Loan Requirements</h2>
+        <p style="color: #666; margin-bottom: 20px; font-size: 0.9rem;"><span style="color: #e53e3e;">*</span> indicates required field</p>
+        
         <div class="form-grid">
           <div class="form-group">
-            <label for="loanType">Loan Type</label>
+            <label for="loanType" class="required-field">Loan Type</label>
             <select id="loanType" class="form-control" required>
               <option value="">-- Select Loan Type --</option>
               <option value="home">Home Loan</option>
-              <option value="LAVU">Loan Against Virtual Unit</option>
+              <option value="business">Business Loan</option>
               <option value="personal">Personal Loan</option>
-              <option value="CAR">Car Loan</option>
-              <option value="LAP">Loan Against Property</option>
-               <option value="NSNE">MSME Loan & Business</option>
-               <option value="CPL">Commercial property loan</option>
-               <option value="LAIP">Loan Against Industry Property</option>
+              <option value="education">Education Loan</option>
+              <option value="vehicle">Vehicle Loan</option>
+              <option value="property">Loan Against Property</option>
+              <option value="msme">MSME Loan</option>
+              <option value="virtual">Loan Against Virtual Unit</option>
             </select>
+            <div class="error-message" id="loanTypeError">Please select a loan type</div>
           </div>
           <div class="form-group">
-            <label for="employmentType">Employment Type</label>
+            <label for="employmentType" class="required-field">Employment Type</label>
             <select id="employmentType" class="form-control" required onchange="toggleDocumentSections()">
               <option value="">-- Select --</option>
               <option value="salaried">Salaried</option>
               <option value="self">Self-Employed</option>
             </select>
+            <div class="error-message" id="employmentTypeError">Please select employment type</div>
           </div>
           <div class="form-group full-width">
-            <label for="purpose">Loan Purpose</label>
+            <label for="purpose">Loan Purpose (Optional)</label>
             <textarea id="purpose" class="form-control" placeholder="Briefly describe what you need the loan for"></textarea>
           </div>
         </div>
@@ -272,7 +287,7 @@
         
         <div class="form-navigation">
           <button class="btn btn-outline" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
-          <button class="btn" onclick="nextStep(2)">Next <i class="fas fa-arrow-right"></i></button>
+          <button class="btn" id="step2Next" onclick="validateStep2()">Next <i class="fas fa-arrow-right"></i></button>
         </div>
       </div>
 
@@ -329,7 +344,7 @@
         
         <div class="form-navigation">
           <button class="btn btn-outline" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Back</button>
-          <button class="btn" onclick="nextStep(3)">Next <i class="fas fa-arrow-right"></i></button>
+          <button class="btn" id="step3Next" onclick="validateStep3()">Next <i class="fas fa-arrow-right"></i></button>
         </div>
       </div>
 
@@ -349,11 +364,12 @@
             <input type="checkbox" id="termsAgree" required> 
             I agree to the <a href="#" style="color: #f59e0b;">Terms & Conditions</a> and authorize KLFPRO to share my information with banking partners for loan processing.
           </label>
+          <div class="error-message" id="termsError">You must agree to the terms and conditions</div>
         </div>
         
         <div class="form-navigation">
           <button class="btn btn-outline" onclick="prevStep(4)"><i class="fas fa-arrow-left"></i> Back</button>
-          <button class="btn" onclick="submitApplication()">Submit Application <i class="fas fa-paper-plane"></i></button>
+          <button class="btn" id="step4Submit" onclick="validateStep4()">Submit Application <i class="fas fa-paper-plane"></i></button>
         </div>
       </div>
 
@@ -500,6 +516,117 @@
       }
     }
 
+    // Clear error states
+    function clearErrors() {
+      document.querySelectorAll('.error-message').forEach(error => {
+        error.style.display = 'none';
+      });
+      document.querySelectorAll('.form-control').forEach(input => {
+        input.classList.remove('error');
+      });
+    }
+
+    // Show error for specific field
+    function showError(fieldId, errorId) {
+      document.getElementById(fieldId).classList.add('error');
+      document.getElementById(errorId).style.display = 'block';
+    }
+
+    // Validate Step 1: Personal Information
+    function validateStep1() {
+      clearErrors();
+      let isValid = true;
+
+      // Validate Full Name
+      const fullName = document.getElementById('fullName').value.trim();
+      if (!fullName) {
+        showError('fullName', 'fullNameError');
+        isValid = false;
+      }
+
+      // Validate Email
+      const email = document.getElementById('email').value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email)) {
+        showError('email', 'emailError');
+        isValid = false;
+      }
+
+      // Validate Phone
+      const phone = document.getElementById('phone').value.trim();
+      const phoneRegex = /^[6-9]\d{9}$/;
+      if (!phone || !phoneRegex.test(phone)) {
+        showError('phone', 'phoneError');
+        isValid = false;
+      }
+
+      // Validate Date of Birth
+      const dob = document.getElementById('dob').value;
+      if (!dob) {
+        showError('dob', 'dobError');
+        isValid = false;
+      }
+
+      // Validate Address
+      const address = document.getElementById('address').value.trim();
+      if (!address) {
+        showError('address', 'addressError');
+        isValid = false;
+      }
+
+      if (isValid) {
+        nextStep(1);
+      }
+    }
+
+    // Validate Step 2: Loan Details
+    function validateStep2() {
+      clearErrors();
+      let isValid = true;
+
+      // Validate Loan Type
+      const loanType = document.getElementById('loanType').value;
+      if (!loanType) {
+        showError('loanType', 'loanTypeError');
+        isValid = false;
+      }
+
+      // Validate Employment Type
+      const employmentType = document.getElementById('employmentType').value;
+      if (!employmentType) {
+        showError('employmentType', 'employmentTypeError');
+        isValid = false;
+      }
+
+      if (isValid) {
+        nextStep(2);
+      }
+    }
+
+    // Validate Step 3: Documents
+    function validateStep3() {
+      // For now, we'll allow proceeding without document upload
+      // In a real application, you might want to validate file uploads
+      nextStep(3);
+    }
+
+    // Validate Step 4: Review and Submit
+    function validateStep4() {
+      clearErrors();
+      let isValid = true;
+
+      // Validate Terms Agreement
+      const termsAgree = document.getElementById('termsAgree').checked;
+      if (!termsAgree) {
+        document.getElementById('termsError').style.display = 'block';
+        isValid = false;
+      }
+
+      if (isValid) {
+        submitApplication();
+      }
+    }
+
     // Navigate to next step
     function nextStep(step) {
       if (step < totalSteps) {
@@ -568,7 +695,10 @@
         'business': 'Business Loan',
         'personal': 'Personal Loan',
         'education': 'Education Loan',
-        'vehicle': 'Vehicle Loan'
+        'vehicle': 'Vehicle Loan',
+        'property': 'Loan Against Property',
+        'msme': 'MSME Loan',
+        'virtual': 'Loan Against Virtual Unit'
       };
       
       reviewContent.innerHTML = `
@@ -586,11 +716,6 @@
 
     // Submit application
     function submitApplication() {
-      if (!document.getElementById('termsAgree').checked) {
-        alert('Please agree to the Terms & Conditions before submitting.');
-        return;
-      }
-      
       // Show success message
       document.getElementById('step4').style.display = 'none';
       document.getElementById('successMessage').style.display = 'block';
@@ -604,6 +729,27 @@
     
     // Add event listener to employment type dropdown
     document.getElementById('employmentType').addEventListener('change', toggleDocumentSections);
+
+    // Add real-time validation for better UX
+    document.getElementById('fullName').addEventListener('blur', function() {
+      if (!this.value.trim()) {
+        showError('fullName', 'fullNameError');
+      }
+    });
+
+    document.getElementById('email').addEventListener('blur', function() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!this.value.trim() || !emailRegex.test(this.value)) {
+        showError('email', 'emailError');
+      }
+    });
+
+    document.getElementById('phone').addEventListener('blur', function() {
+      const phoneRegex = /^[6-9]\d{9}$/;
+      if (!this.value.trim() || !phoneRegex.test(this.value)) {
+        showError('phone', 'phoneError');
+      }
+    });
   </script>
 
   <style>
