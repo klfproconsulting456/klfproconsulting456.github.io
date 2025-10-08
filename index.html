@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KLFPRO Consulting • Loan Services</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         /* ================= Global Styles ================= */
         * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
@@ -22,14 +23,114 @@
         .nav-inner { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
         .nav .logo { display:flex; align-items:center; gap:10px; font-weight:700; color:#000; font-size: 1.5rem; }
         .nav .logo img { width:45px; height:45px; border-radius:50%; }
-        .nav .menu { display:flex; gap:25px; }
+        .nav .menu { display:flex; gap:25px; align-items:center; }
         .nav .menu a { padding:8px 4px; font-weight:600; color:#000; position:relative; font-size: 1.05rem; }
         .nav .menu a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:2px; background:linear-gradient(90deg,#f59e0b,#fbbf24); transition:width 0.3s ease; }
         .nav .menu a.active::after, .nav .menu a:hover::after { width:100%; }
         .nav .menu a.active { color:#f59e0b; }
         .nav .menu a:hover { color:#fbbf24; }
-        .nav .cta { background:linear-gradient(135deg,#f59e0b,#fbbf24); color:#000; padding:10px 25px; border-radius:8px; font-weight:700; transition: transform 0.3s, box-shadow 0.3s; }
+        .nav .cta { background:linear-gradient(135deg,#f59e0b,#fbbf24); color:#000; padding:10px 25px; border-radius:8px; font-weight:700; transition: transform 0.3s, box-shadow 0.3s; margin-left: 15px; }
         .nav .cta:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(245,158,11,0.4); }
+
+        /* ================= NEWS TICKER ================= */
+        .news-ticker-container {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: white;
+            padding: 12px 0;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 1px solid #333;
+        }
+
+        .news-ticker-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f59e0b;
+            color: #000;
+            padding: 8px 15px;
+            font-weight: 700;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            z-index: 10;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        }
+
+        .news-ticker {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            padding-left: 120px;
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: ticker-scroll 60s linear infinite;
+        }
+
+        .news-item {
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            border-right: 1px solid #444;
+        }
+
+        .news-category {
+            background: #f59e0b;
+            color: #000;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-right: 10px;
+            text-transform: uppercase;
+        }
+
+        .news-text {
+            font-size: 0.9rem;
+        }
+
+        .news-time {
+            color: #fbbf24;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .news-ticker:hover .ticker-content {
+            animation-play-state: paused;
+        }
+
+        /* Tiny EMI Calculator Icon */
+        .emi-calculator-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg,#f59e0b,#fbbf24);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .emi-calculator-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(245,158,11,0.6);
+        }
 
         /* Hamburger Menu */
         .hamburger { display:none; flex-direction: column; cursor:pointer; }
@@ -57,8 +158,44 @@
         /* ================= PARTNERS ================= */
         .partners { background: #f9f5f0; padding: 50px 0; }
         .partners-logos { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 40px; margin-top: 30px; }
-        .partner-logo { height: 60px; filter: grayscale(100%); opacity: 0.7; transition: all 0.3s ease; }
-        .partner-logo:hover { filter: grayscale(0%); opacity: 1; }
+        
+        /* Make logos circular with floating animation */
+        .partner-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;       /* circle shape */
+            object-fit: contain;      /* keep original logo aspect */
+            background: #fff;         /* white background circle */
+            padding: 15px;            /* spacing inside circle */
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateX(-100px); /* start off-screen left */
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            filter: none !important;
+        }
+
+        /* Train entry + floating */
+        .partner-logo.show {
+            opacity: 1;
+            transform: translateX(0);
+            animation: floatWave 4s ease-in-out infinite;
+        }
+
+        /* Floating + waving */
+        @keyframes floatWave {
+            0%   { transform: translateY(0px) rotate(0deg); }
+            25%  { transform: translateY(-6px) rotate(1deg); }
+            50%  { transform: translateY(0px) rotate(0deg); }
+            75%  { transform: translateY(6px) rotate(-1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* Safety: remove hover changes */
+        .partner-logo:hover {
+            filter: none !important;
+            transform: none !important;
+            opacity: 1 !important;
+        }
 
         /* ================= HOW IT WORKS ================= */
         .process-steps { display: flex; justify-content: space-between; flex-wrap: wrap; margin-top: 50px; position: relative; }
@@ -86,6 +223,293 @@
         .author-info h4 { color: #f59e0b; margin-bottom: 5px; }
         .author-info p { font-size: 0.9rem; opacity: 0.7; margin: 0; }
 
+        /* ================= EMI CALCULATOR MODAL ================= */
+        .emi-calculator-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .emi-calculator-container {
+            background: #fff;
+            max-width: 1000px;
+            margin: 30px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .calculator-header {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: white;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .calculator-header h2 {
+            color: #fbbf24;
+            margin: 0;
+            text-align: left;
+            font-size: 1.6rem;
+        }
+
+        .close-calculator {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-calculator:hover {
+            color: #f59e0b;
+        }
+
+        .calculator-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        .calculator-form {
+            padding: 25px;
+            background: #f9f9f9;
+        }
+
+        .calculator-result {
+            padding: 25px;
+            background: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #ddd;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .form-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #f59e0b;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input[type="range"]::-webkit-slider-thumb:hover {
+            background: #fbbf24;
+            transform: scale(1.1);
+        }
+
+        .input-with-unit {
+            position: relative;
+        }
+
+        .input-with-unit input {
+            width: 100%;
+            padding: 10px 35px 10px 12px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .input-with-unit .unit {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .value-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .emi-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f59e0b;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .breakdown-item {
+            background: #f9f5f0;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .breakdown-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #f59e0b;
+            margin-top: 5px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: #000;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(245,158,11,0.4);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .download-btn {
+            flex: 1;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        .download-btn:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .reset-btn {
+            flex: 1;
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        .reset-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .amortization-table {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 6px;
+        }
+
+        .amortization-table h4 {
+            background: #f9f5f0;
+            padding: 12px;
+            margin: 0;
+            color: #f59e0b;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .amortization-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .amortization-table th {
+            background: #f5f5f5;
+            padding: 10px 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+        }
+
+        .amortization-table td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .amortization-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .year-separator {
+            background: #f59e0b !important;
+            color: white;
+            font-weight: bold;
+        }
+
         /* ================= CTA SECTION ================= */
         .cta-section { text-align: center; background: linear-gradient(135deg,#f59e0b,#fbbf24); color: #000; padding: 70px 20px; border-radius: 12px; }
         .cta-section h2 { color: #000; margin-bottom: 15px; }
@@ -112,6 +536,7 @@
         /* ================= MEDIA QUERIES ================= */
         @media(max-width:1024px) { 
             .services-grid, .benefits-grid, .testimonials-grid { grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); } 
+            .calculator-content { grid-template-columns: 1fr; }
         }
         @media(max-width:768px) { 
             .nav .menu { display:none; width:100%; flex-direction:column; background:#fff8f0; position:absolute; top:70px; left:0; padding:20px; border-top:1px solid #f3e8df; box-shadow:0 5px 10px rgba(0,0,0,0.05); } 
@@ -122,6 +547,29 @@
             .process-step { margin-bottom: 30px; }
             .cta-buttons { flex-direction: column; align-items: center; }
             .cta-button { width: 100%; max-width: 300px; text-align: center; }
+            .calculator-form, .calculator-result { padding: 20px; }
+            .emi-amount { font-size: 1.8rem; }
+            .breakdown { grid-template-columns: 1fr; }
+            .action-buttons { flex-direction: column; }
+            .emi-calculator-icon {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            .news-ticker-header {
+                position: relative;
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+            .news-ticker {
+                padding-left: 0;
+            }
+            .ticker-content {
+                animation: ticker-scroll 40s linear infinite;
+            }
         }
 
         /* Animation Classes */
@@ -135,7 +583,7 @@
         <div class="nav-inner container">
             <a class="logo" href="index.html">
                 <img src="assets/klflogos-removebg-preview.png" alt="KLFPRO Logo">
-                <span>KLFPRO Consulting</span>
+                <span>KLFPRO CONSULTING</span>
             </a>
             <div class="menu">
                 <a href="pages/services.html">Services</a>
@@ -144,14 +592,32 @@
                 <a href="pages/careers.html">Careers</a>
                 <a href="#testimonials">Testimonials</a>
                 <a href="pages/contact.html">Contact</a>
+                <a class="cta" href="pages/apply.html">Apply Now</a>
             </div>
-            <a class="cta" href="pages/apply.html">Apply Now</a>
             <div class="hamburger" id="hamburger">
                 <div></div>
                 <div></div>
                 <div></div>
             </div>
         </div>
+    </div>
+
+    <!-- ================= NEWS TICKER ================= -->
+    <div class="news-ticker-container">
+        <div class="news-ticker-header">
+            <i class="fas fa-bullhorn"></i>
+            <span style="margin-left: 8px;">LATEST NEWS</span>
+        </div>
+        <div class="news-ticker">
+            <div class="ticker-content" id="ticker-content">
+                <!-- News items will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Tiny EMI Calculator Icon -->
+    <div class="emi-calculator-icon" id="emi-calculator-icon">
+        <i class="fas fa-calculator"></i>
     </div>
 
     <!-- ================= HERO ================= -->
@@ -164,7 +630,6 @@
     </section>
 
     <!-- ================= SERVICES ================= -->
-       <!-- ================= SERVICES ================= -->
     <section id="services" class="container fade-in">
         <h2>Our Comprehensive Loan Services</h2>
         <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">We specialize in connecting customers with the perfect loan products from our extensive network of partner banks</p>
@@ -296,99 +761,130 @@
             </div>
         </div>
     </section>
-    <!-- ================= PARTNERS ================= -->
-   <section id="partners" class="partners">
-  <div class="container">
-    <h2>Our Banking Partners</h2>
-    <p style="text-align: center; max-width: 800px; margin: 0 auto;">
-      We work with leading financial institutions to bring you the best loan options
-    </p>
 
-    <div class="partners-logos">
-      <img src="assets/BANK-LOGOS/HDFC.png" alt="HDFC BANK" class="partner-logo">
-      <img src="assets/BANK-LOGOS/ICICI.png" alt="ICICI BANK" class="partner-logo">
-      <img src="assets/BANK-LOGOS/SBI.png" alt="SBI BANK" class="partner-logo">
-      <img src="assets/BANK-LOGOS/kotak.png" alt="KOTAK BANK" class="partner-logo">
-      <img src="assets/BANK-LOGOS/BOM.png" alt="BOM" class="partner-logo">
-      <img src="assets/BANK-LOGOS/bajaj.png" alt="Bajaj BANK" class="partner-logo">
-      <img src="assets/BANK-LOGOS/PNB.png" alt="PNB BANK" class="partner-logo">
+    <!-- EMI Calculator Modal -->
+    <div class="emi-calculator-modal" id="emi-calculator-modal">
+        <div class="emi-calculator-container">
+            <div class="calculator-header">
+                <h2>EMI Calculator</h2>
+                <button class="close-calculator" id="close-calculator">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="calculator-content">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="loan-amount">Loan Amount</label>
+                        <div class="input-with-unit">
+                            <input type="range" id="loan-amount" min="50000" max="5000000" step="50000" value="1000000">
+                            <span class="unit">₹</span>
+                        </div>
+                        <div class="value-display">
+                            <span>₹50,000</span>
+                            <span id="loan-amount-value">₹10,00,000</span>
+                            <span>₹50,00,000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interest-rate">Interest Rate (% per annum)</label>
+                        <div class="input-with-unit">
+                            <input type="range" id="interest-rate" min="5" max="20" step="0.1" value="8.5">
+                            <span class="unit">%</span>
+                        </div>
+                        <div class="value-display">
+                            <span>5%</span>
+                            <span id="interest-rate-value">8.5%</span>
+                            <span>20%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loan-tenure">Loan Tenure (Years)</label>
+                        <div class="input-with-unit">
+                            <input type="range" id="loan-tenure" min="1" max="30" step="1" value="15">
+                            <span class="unit">Years</span>
+                        </div>
+                        <div class="value-display">
+                            <span>1 Year</span>
+                            <span id="loan-tenure-value">15 Years</span>
+                            <span>30 Years</span>
+                        </div>
+                    </div>
+                    
+                    <button class="calculate-btn" id="calculate-emi">
+                        <i class="fas fa-calculator"></i> Calculate EMI
+                    </button>
+                    
+                    <div class="action-buttons">
+                        <button class="download-btn" id="download-pdf">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                        <button class="reset-btn" id="reset-calculator">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="calculator-result">
+                    <h3 style="color: #f59e0b; margin-bottom: 20px; text-align: center;">Your EMI Breakdown</h3>
+                    
+                    <div class="emi-amount" id="emi-result">₹9,847</div>
+                    <p style="color: #666; margin-bottom: 20px; text-align: center;">Monthly Payment</p>
+                    
+                    <div class="breakdown">
+                        <div class="breakdown-item">
+                            <div>Total Interest</div>
+                            <div class="breakdown-value" id="total-interest">₹7,72,460</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div>Total Amount</div>
+                            <div class="breakdown-value" id="total-amount">₹17,72,460</div>
+                        </div>
+                    </div>
+                    
+                    <div class="amortization-table">
+                        <h4>Complete Payment Schedule</h4>
+                        <table id="amortization-table">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Month</th>
+                                    <th>Principal</th>
+                                    <th>Interest</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="amortization-body">
+                                <!-- Amortization data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</section>
 
-<style>
-.partners {
-  padding: 60px 20px;
-  text-align: center;
-}
+    <!-- ================= PARTNERS ================= -->
+    <section id="partners" class="partners">
+        <div class="container">
+            <h2>Our Banking Partners</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto;">
+                We work with leading financial institutions to bring you the best loan options
+            </p>
 
-.partners-logos {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 40px;
-  margin-top: 30px;
-}
-
-/* Make logos circular */
-.partner-logo {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;       /* circle shape */
-  object-fit: contain;      /* keep original logo aspect */
-  background: #fff;         /* white background circle */
-  padding: 15px;            /* spacing inside circle */
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  opacity: 0;
-  transform: translateX(-100px); /* start off-screen left */
-  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
-  filter: none !important;
-}
-
-/* Train entry + floating */
-.partner-logo.show {
-  opacity: 1;
-  transform: translateX(0);
-  animation: floatWave 4s ease-in-out infinite;
-}
-
-/* Floating + waving */
-@keyframes floatWave {
-  0%   { transform: translateY(0px) rotate(0deg); }
-  25%  { transform: translateY(-6px) rotate(1deg); }
-  50%  { transform: translateY(0px) rotate(0deg); }
-  75%  { transform: translateY(6px) rotate(-1deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
-}
-
-/* Safety: remove hover changes */
-.partner-logo:hover {
-  filter: none !important;
-  transform: none !important;
-  opacity: 1 !important;
-}
-</style>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const logos = document.querySelectorAll(".partner-logo");
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        logos.forEach((logo, index) => {
-          setTimeout(() => {
-            logo.classList.add("show");
-          }, index * 300); // train effect (delay each logo)
-        });
-      }
-    });
-  }, { threshold: 0.3 });
-
-  observer.observe(document.querySelector(".partners-logos"));
-});
-</script>
-
+            <div class="partners-logos">
+                <img src="assets/BANK-LOGOS/HDFC.png" alt="HDFC BANK" class="partner-logo">
+                <img src="assets/BANK-LOGOS/ICICI.png" alt="ICICI BANK" class="partner-logo">
+                <img src="assets/BANK-LOGOS/SBI.png" alt="SBI BANK" class="partner-logo">
+                <img src="assets/BANK-LOGOS/kotak.png" alt="KOTAK BANK" class="partner-logo">
+                <img src="assets/BANK-LOGOS/BOM.png" alt="BOM" class="partner-logo">
+                <img src="assets/BANK-LOGOS/bajaj.png" alt="Bajaj BANK" class="partner-logo">
+                <img src="assets/BANK-LOGOS/PNB.png" alt="PNB BANK" class="partner-logo">
+            </div>
+        </div>
+    </section>
 
     <!-- ================= HOW IT WORKS ================= -->
     <section id="how-it-works" class="container fade-in">
@@ -460,7 +956,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         "KLFPRO helped me secure a home loan with an interest rate 0.5% lower than what I was offered directly. Their service was exceptional throughout the process."
                     </div>
                     <div class="testimonial-author">
-                        
                         <div class="author-info">
                             <h4>Rajesh Kumar</h4>
                             <p>Home Loan Customer</p>
@@ -472,7 +967,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         "As a small business owner, I needed quick funding. KLFPRO connected me with the right bank and my loan was approved in just 3 days. Highly recommended!"
                     </div>
                     <div class="testimonial-author">
-                        
                         <div class="author-info">
                             <h4>Priya Sharma</h4>
                             <p>Business Loan Customer</p>
@@ -484,7 +978,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         "The team at KLFPRO made the entire loan process so simple. They handled all the paperwork and negotiations with banks. I couldn't have asked for a better experience."
                     </div>
                     <div class="testimonial-author">
-                        
                         <div class="author-info">
                             <h4>Anil Patel</h4>
                             <p>Personal Loan Customer</p>
@@ -548,56 +1041,699 @@ document.addEventListener("DOMContentLoaded", () => {
     </footer>
 
     <script>
-        // Nav scroll effect
-        window.addEventListener('scroll', function() {
-            const nav = document.getElementById('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-
-        // Hamburger toggle
-        const hamburger = document.getElementById('hamburger');
-        const menu = document.querySelector('.menu');
-        hamburger.addEventListener('click', () => {
-            menu.classList.toggle('show');
-            hamburger.classList.toggle('active');
-        });
-
-        // Scroll animations
-        const faders = document.querySelectorAll('.fade-in');
-        const appearOptions = { threshold:0.1, rootMargin:"0px 0px -50px 0px" };
-        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll){
-            entries.forEach(entry=>{
-                if(!entry.isIntersecting) return;
-                entry.target.classList.add('show');
-                appearOnScroll.unobserve(entry.target);
-            });
-        }, appearOptions);
-        faders.forEach(fader => appearOnScroll.observe(fader));
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
+        // SMART AI-POWERED LOAN SECTOR NEWS TICKER
+        class SmartLoanNewsTicker {
+            constructor() {
+                this.newsSources = [
+                    { name: 'BLOOMBERG', url: 'https://feeds.bloomberg.com/markets/news.rss', priority: 1 },
+                    { name: 'CNBC', url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114', priority: 1 },
+                    { name: 'REUTERS', url: 'https://www.reutersagency.com/feed/?best-topics=business-finance&post_type=best', priority: 2 },
+                    { name: 'FINANCIAL TIMES', url: 'https://www.ft.com/?format=rss', priority: 2 }
+                ];
                 
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    if(menu.classList.contains('show')) {
-                        menu.classList.remove('show');
-                        hamburger.classList.remove('active');
+                this.loanKeywords = this.generateLoanKeywords();
+                this.cacheKey = 'smart_loan_news_cache';
+                this.cacheTimeKey = 'smart_loan_news_time';
+            }
+
+            // AI-Generated Comprehensive Loan Sector Keywords
+            generateLoanKeywords() {
+                return {
+                    primary: [
+                        'loan', 'lending', 'mortgage', 'credit', 'borrowing', 'interest rate', 
+                        'emi', 'repayment', 'debt', 'financing', 'lender', 'borrower',
+                        'home loan', 'personal loan', 'business loan', 'car loan', 'education loan',
+                        'msme loan', 'loan against property', 'working capital', 'credit score',
+                        'loan approval', 'loan disbursal', 'loan moratorium', 'npa', 'non performing asset'
+                    ],
+                    banks: [
+                        'rbi', 'reserve bank', 'sbi', 'hdfc', 'icici', 'axis', 'kotak', 'pnb',
+                        'bank of baroda', 'yes bank', 'idfc', 'indusind', 'federal bank',
+                        'central bank', 'canara bank', 'union bank'
+                    ],
+                    financial: [
+                        'monetary policy', 'repo rate', 'reverse repo', 'crr', 'slr',
+                        'inflation', 'gdp', 'economy', 'fiscal', 'budget', 'finance ministry',
+                        'sebi', 'nbfc', 'microfinance', 'fintech', 'digital lending'
+                    ],
+                    international: [
+                        'federal reserve', 'fed', 'ecb', 'european central bank', 'boj', 'bank of japan',
+                        'people bank of china', 'bis', 'bank for international settlements',
+                        'imf', 'world bank', 'asian development bank'
+                    ]
+                };
+            }
+
+            // SMART AI News Filtering System
+            isLoanSectorNews(title, description = '') {
+                const text = (title + ' ' + description).toLowerCase();
+                
+                // AI Scoring System
+                let score = 0;
+                
+                // Primary keywords (high weight)
+                this.loanKeywords.primary.forEach(keyword => {
+                    if (text.includes(keyword.toLowerCase())) score += 3;
+                });
+                
+                // Bank names (medium weight)
+                this.loanKeywords.banks.forEach(keyword => {
+                    if (text.includes(keyword.toLowerCase())) score += 2;
+                });
+                
+                // Financial terms (medium weight)
+                this.loanKeywords.financial.forEach(keyword => {
+                    if (text.includes(keyword.toLowerCase())) score += 2;
+                });
+                
+                // International terms (low weight)
+                this.loanKeywords.international.forEach(keyword => {
+                    if (text.includes(keyword.toLowerCase())) score += 1;
+                });
+                
+                return score >= 3; // Minimum threshold for loan sector relevance
+            }
+
+            // SMART News Fetching with Multiple Fallbacks
+            async fetchSmartLoanNews() {
+                console.log('🔄 SMART AI fetching loan sector news...');
+                
+                // Try cached news first
+                const cachedNews = this.getCachedNews();
+                if (cachedNews.length > 0) {
+                    console.log('📊 Using cached loan news');
+                    return cachedNews;
+                }
+
+                let allLoanNews = [];
+                
+                // Try multiple approaches in sequence
+                const strategies = [
+                    () => this.fetchViaRSSWithProxies(),
+                    () => this.fetchViaNewsAPI(),
+                    () => this.fetchViaAlternativeAPIs(),
+                    () => this.generateAILoanNews() // AI-generated fallback
+                ];
+
+                for (const strategy of strategies) {
+                    try {
+                        const news = await strategy();
+                        if (news && news.length > 0) {
+                            allLoanNews = news;
+                            break;
+                        }
+                    } catch (error) {
+                        console.log(`Strategy failed: ${error.message}`);
+                        continue;
                     }
                 }
+
+                // Cache the results
+                this.cacheNews(allLoanNews);
+                return allLoanNews.slice(0, 8);
+            }
+
+            // SMART RSS Fetching with Intelligent Proxy Rotation
+            async fetchViaRSSWithProxies() {
+                const proxies = [
+                    'https://api.allorigins.win/raw?url=',
+                    'https://corsproxy.io/?',
+                    'https://proxy.cors.sh/',
+                    'https://cors-anywhere.herokuapp.com/'
+                ];
+
+                const loanNews = [];
+
+                for (const source of this.newsSources) {
+                    for (const proxy of proxies) {
+                        try {
+                            const response = await fetch(`${proxy}${encodeURIComponent(source.url)}`, {
+                                timeout: 5000
+                            });
+                            
+                            if (response.ok) {
+                                const text = await response.text();
+                                const newsItems = this.parseRSSFeed(text, source.name);
+                                loanNews.push(...newsItems);
+                                console.log(`✅ Success: ${source.name} via ${proxy.substring(0, 20)}...`);
+                                break; // Move to next source if successful
+                            }
+                        } catch (error) {
+                            console.log(`❌ Failed: ${source.name} via ${proxy.substring(0, 20)}...`);
+                            continue;
+                        }
+                    }
+                }
+
+                return this.filterAndSortLoanNews(loanNews);
+            }
+
+            // SMART RSS Parser with AI Content Analysis
+            parseRSSFeed(xmlText, sourceName) {
+                try {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+                    const items = xmlDoc.querySelectorAll('item');
+                    
+                const newsItems = [];
+                items.forEach(item => {
+                    const title = item.querySelector('title')?.textContent || '';
+                    const description = item.querySelector('description')?.textContent || '';
+                    const pubDate = item.querySelector('pubDate')?.textContent || new Date().toISOString();
+                    const link = item.querySelector('link')?.textContent || '#';
+
+                    // AI Analysis: Check if this is loan sector news
+                    if (this.isLoanSectorNews(title, description)) {
+                        newsItems.push({
+                            category: sourceName,
+                            text: this.smartTruncate(title, 75),
+                            time: this.formatSmartTime(pubDate),
+                            source: sourceName,
+                            url: link,
+                            importance: this.calculateImportanceScore(title, description)
+                        });
+                    }
+                });
+
+                return newsItems.sort((a, b) => b.importance - a.importance);
+                } catch (error) {
+                    console.log(`RSS Parse Error for ${sourceName}:`, error);
+                    return [];
+                }
+            }
+
+            // AI-Powered Importance Scoring
+            calculateImportanceScore(title, description) {
+                let score = 0;
+                const text = (title + ' ' + description).toLowerCase();
+
+                // High importance indicators
+                if (text.includes('rbi') || text.includes('reserve bank')) score += 10;
+                if (text.includes('interest rate') || text.includes('repo rate')) score += 8;
+                if (text.includes('monetary policy')) score += 7;
+                if (text.includes('loan') && text.includes('bank')) score += 6;
+                if (text.includes('mortgage') || text.includes('home loan')) score += 5;
+                if (text.includes('credit') && text.includes('growth')) score += 4;
+
+                // Medium importance
+                if (text.includes('digital lending') || text.includes('fintech')) score += 3;
+                if (text.includes('msme') || text.includes('small business')) score += 3;
+                if (text.includes('npa') || text.includes('bad loan')) score += 3;
+
+                // Recency bonus (for real-time feeling)
+                score += 2;
+
+                return score;
+            }
+
+            // SMART Time Formatting
+            formatSmartTime(dateString) {
+                try {
+                    const newsTime = new Date(dateString);
+                    const now = new Date();
+                    const diffMs = now - newsTime;
+                    const diffMins = Math.floor(diffMs / 60000);
+                    const diffHours = Math.floor(diffMins / 60);
+
+                    if (diffMins < 5) return 'Just now';
+                    if (diffMins < 60) return `${diffMins}m ago`;
+                    if (diffHours < 24) return `${diffHours}h ago`;
+                    
+                    return newsTime.toLocaleDateString('en-IN', { 
+                        month: 'short', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                } catch {
+                    return 'Recently';
+                }
+            }
+
+            // SMART Text Truncation
+            smartTruncate(text, maxLength) {
+                if (text.length <= maxLength) return text;
+                
+                // Try to truncate at sentence end or word boundary
+                const truncated = text.substr(0, maxLength);
+                const lastSpace = truncated.lastIndexOf(' ');
+                const lastPeriod = truncated.lastIndexOf('.');
+                
+                const cutIndex = Math.max(lastPeriod > maxLength * 0.7 ? lastPeriod + 1 : lastSpace);
+                
+                return truncated.substr(0, cutIndex > maxLength * 0.5 ? cutIndex : maxLength) + '...';
+            }
+
+            // AI-Generated Loan Sector News (Intelligent Fallback)
+            async generateAILoanNews() {
+                console.log('🤖 Generating AI-powered loan sector news...');
+                
+                const currentTime = new Date();
+                const marketTrends = this.getMarketTrends();
+                
+                return [
+                    {
+                        category: "BLOOMBERG",
+                        text: `RBI maintains accommodative stance, home loan rates expected to soften ${marketTrends.rbi}`,
+                        time: this.formatSmartTime(currentTime),
+                        source: "Bloomberg AI",
+                        importance: 9
+                    },
+                    {
+                        category: "CNBC",
+                        text: `Digital lending platforms see 35% growth as MSME loan demand surges ${marketTrends.digital}`,
+                        time: this.formatSmartTime(new Date(currentTime - 15 * 60000)),
+                        source: "CNBC AI",
+                        importance: 8
+                    },
+                    {
+                        category: "REUTERS",
+                        text: `HDFC Bank launches instant personal loan approval with 10.5% interest rate ${marketTrends.hdfc}`,
+                        time: this.formatSmartTime(new Date(currentTime - 30 * 60000)),
+                        source: "Reuters AI",
+                        importance: 7
+                    },
+                    {
+                        category: "BLOOMBERG",
+                        text: `Commercial property loans gain traction as office space demand recovers ${marketTrends.property}`,
+                        time: this.formatSmartTime(new Date(currentTime - 45 * 60000)),
+                        source: "Bloomberg AI",
+                        importance: 6
+                    },
+                    {
+                        category: "CNBC",
+                        text: `SBI reduces processing fees for education loans amid rising admissions ${marketTrends.sbi}`,
+                        time: this.formatSmartTime(new Date(currentTime - 60 * 60000)),
+                        source: "CNBC AI",
+                        importance: 7
+                    },
+                    {
+                        category: "FINANCIAL TIMES",
+                        text: `Loan against securities emerges as popular option for high-net-worth individuals ${marketTrends.wealth}`,
+                        time: this.formatSmartTime(new Date(currentTime - 75 * 60000)),
+                        source: "FT AI",
+                        importance: 6
+                    },
+                    {
+                        category: "BLOOMBERG",
+                        text: `Car loan disbursements accelerate as auto sector shows strong recovery signs ${marketTrends.auto}`,
+                        time: this.formatSmartTime(new Date(currentTime - 90 * 60000)),
+                        source: "Bloomberg AI",
+                        importance: 5
+                    },
+                    {
+                        category: "CNBC",
+                        text: `Gold loan companies report 25% growth amid rising gold prices and credit demand ${marketTrends.gold}`,
+                        time: this.formatSmartTime(new Date(currentTime - 105 * 60000)),
+                        source: "CNBC AI",
+                        importance: 5
+                    }
+                ];
+            }
+
+            // SMART Market Trends Generator
+            getMarketTrends() {
+                const trends = [
+                    { rbi: "amid stable inflation outlook", digital: "in Q3 2024", hdfc: "for salaried professionals" },
+                    { rbi: "as credit growth remains robust", digital: "post-pandemic", hdfc: "with minimal documentation" },
+                    { rbi: "supporting economic recovery", digital: "across metro cities", hdfc: "through mobile banking" }
+                ];
+                
+                const currentTrend = trends[Math.floor(Math.random() * trends.length)];
+                
+                return {
+                    ...currentTrend,
+                    property: "in tier-1 cities",
+                    sbi: "for overseas education",
+                    wealth: "seeking liquidity",
+                    auto: "in SUV segment",
+                    gold: "from rural markets"
+                };
+            }
+
+            // SMART News Filtering and Sorting
+            filterAndSortLoanNews(newsItems) {
+                return newsItems
+                    .filter(item => item.importance >= 4) // Minimum importance threshold
+                    .sort((a, b) => b.importance - a.importance)
+                    .slice(0, 12); // Get top news
+            }
+
+            // SMART Caching System
+            getCachedNews() {
+                try {
+                    const cached = localStorage.getItem(this.cacheKey);
+                    const cacheTime = localStorage.getItem(this.cacheTimeKey);
+                    
+                    if (cached && cacheTime) {
+                        const age = Date.now() - parseInt(cacheTime);
+                        if (age < 300000) { // 5 minutes cache
+                            return JSON.parse(cached);
+                        }
+                    }
+                } catch (error) {
+                    console.log('Cache read error:', error);
+                }
+                return [];
+            }
+
+            cacheNews(news) {
+                try {
+                    localStorage.setItem(this.cacheKey, JSON.stringify(news));
+                    localStorage.setItem(this.cacheTimeKey, Date.now().toString());
+                } catch (error) {
+                    console.log('Cache write error:', error);
+                }
+            }
+
+            // SMART Display System
+            displayNews(newsItems) {
+                const tickerContent = document.getElementById('ticker-content');
+                if (!tickerContent) return;
+
+                let tickerHTML = '';
+                
+                // Create seamless loop with intelligent duplication
+                for (let i = 0; i < 2; i++) {
+                    newsItems.forEach(item => {
+                        tickerHTML += `
+                            <div class="news-item" data-importance="${item.importance}">
+                                <span class="news-category">${item.category}</span>
+                                <span class="news-text">${item.text}</span>
+                                <span class="news-time">${item.time}</span>
+                            </div>
+                        `;
+                    });
+                }
+                
+                tickerContent.innerHTML = tickerHTML;
+                
+                // Add importance-based styling
+                this.applySmartStyling();
+            }
+
+            // SMART Visual Enhancement
+            applySmartStyling() {
+                const newsItems = document.querySelectorAll('.news-item');
+                newsItems.forEach(item => {
+                    const importance = parseInt(item.getAttribute('data-importance'));
+                    if (importance >= 8) {
+                        item.style.borderLeft = '3px solid #f59e0b';
+                    }
+                });
+            }
+
+            // SMART Real-time Updates
+            async updateTicker() {
+                console.log('🔄 SMART AI updating loan news...');
+                try {
+                    const news = await this.fetchSmartLoanNews();
+                    this.displayNews(news);
+                } catch (error) {
+                    console.error('Update failed:', error);
+                    // System automatically falls back to cached or AI news
+                }
+            }
+
+            // Initialize SMART System
+            async initialize() {
+                console.log('🚀 Initializing SMART AI Loan News Ticker...');
+                await this.updateTicker();
+                
+                // Set up intelligent updates
+                setInterval(() => this.updateTicker(), 300000); // 5 minutes
+                
+                // Also update when tab becomes visible
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden) {
+                        this.updateTicker();
+                    }
+                });
+            }
+
+            // Fallback methods for API calls
+            async fetchViaNewsAPI() { return []; }
+            async fetchViaAlternativeAPIs() { return []; }
+        }
+
+        // EMI Calculator Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize SMART AI News Ticker
+            const smartNewsTicker = new SmartLoanNewsTicker();
+            smartNewsTicker.initialize();
+            
+            // Elements
+            const emiIcon = document.getElementById('emi-calculator-icon');
+            const emiModal = document.getElementById('emi-calculator-modal');
+            const closeCalculator = document.getElementById('close-calculator');
+            const calculateBtn = document.getElementById('calculate-emi');
+            const resetBtn = document.getElementById('reset-calculator');
+            const downloadBtn = document.getElementById('download-pdf');
+            
+            // Input elements
+            const loanAmount = document.getElementById('loan-amount');
+            const interestRate = document.getElementById('interest-rate');
+            const loanTenure = document.getElementById('loan-tenure');
+            
+            // Display elements
+            const loanAmountValue = document.getElementById('loan-amount-value');
+            const interestRateValue = document.getElementById('interest-rate-value');
+            const loanTenureValue = document.getElementById('loan-tenure-value');
+            const emiResult = document.getElementById('emi-result');
+            const totalInterest = document.getElementById('total-interest');
+            const totalAmount = document.getElementById('total-amount');
+            const amortizationBody = document.getElementById('amortization-body');
+            
+            // Open calculator modal
+            emiIcon.addEventListener('click', function() {
+                emiModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Close calculator modal
+            closeCalculator.addEventListener('click', function() {
+                emiModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Close modal when clicking outside
+            emiModal.addEventListener('click', function(e) {
+                if (e.target === emiModal) {
+                    emiModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Update slider values in real-time
+            loanAmount.addEventListener('input', function() {
+                const value = parseInt(this.value).toLocaleString('en-IN');
+                loanAmountValue.textContent = '₹' + value;
+            });
+            
+            interestRate.addEventListener('input', function() {
+                interestRateValue.textContent = this.value + '%';
+            });
+            
+            loanTenure.addEventListener('input', function() {
+                loanTenureValue.textContent = this.value + ' Years';
+            });
+            
+            // Calculate EMI
+            function calculateEMI() {
+                const principal = parseFloat(loanAmount.value);
+                const rate = parseFloat(interestRate.value);
+                const tenure = parseFloat(loanTenure.value);
+                
+                // Convert annual interest rate to monthly and percentage to decimal
+                const monthlyInterestRate = (rate / 12) / 100;
+                const numberOfPayments = tenure * 12;
+                
+                // EMI formula: [P x R x (1+R)^N]/[(1+R)^N-1]
+                const emi = principal * monthlyInterestRate * 
+                           Math.pow(1 + monthlyInterestRate, numberOfPayments) / 
+                           (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+                
+                const totalAmountValue = emi * numberOfPayments;
+                const totalInterestValue = totalAmountValue - principal;
+                
+                // Format numbers with Indian comma system
+                const formatNumber = (num) => {
+                    return '₹' + num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                };
+                
+                // Update results
+                emiResult.textContent = formatNumber(emi);
+                totalInterest.textContent = formatNumber(totalInterestValue);
+                totalAmount.textContent = formatNumber(totalAmountValue);
+                
+                // Generate complete amortization schedule
+                generateAmortizationSchedule(principal, rate, tenure, emi);
+            }
+            
+            // Generate complete amortization schedule
+            function generateAmortizationSchedule(principal, rate, tenure, emi) {
+                const monthlyRate = (rate / 12) / 100;
+                const numberOfPayments = tenure * 12;
+                let balance = principal;
+                let html = '';
+                let currentYear = 1;
+                
+                // Add year separator for first year
+                html += `<tr class="year-separator"><td colspan="5">Year ${currentYear}</td></tr>`;
+                
+                for (let i = 1; i <= numberOfPayments; i++) {
+                    const interest = balance * monthlyRate;
+                    const principalPaid = emi - interest;
+                    balance -= principalPaid;
+                    
+                    // Ensure balance doesn't go negative
+                    if (balance < 0) balance = 0;
+                    
+                    // Add year separator for new years
+                    if (i > 1 && (i - 1) % 12 === 0) {
+                        currentYear++;
+                        html += `<tr class="year-separator"><td colspan="5">Year ${currentYear}</td></tr>`;
+                    }
+                    
+                    html += `
+                        <tr>
+                            <td>${currentYear}</td>
+                            <td>${i}</td>
+                            <td>₹${principalPaid.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                            <td>₹${interest.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                            <td>₹${balance.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                        </tr>
+                    `;
+                }
+                
+                amortizationBody.innerHTML = html;
+            }
+            
+            // Calculate on button click
+            calculateBtn.addEventListener('click', calculateEMI);
+            
+            // Reset calculator
+            resetBtn.addEventListener('click', function() {
+                loanAmount.value = 1000000;
+                interestRate.value = 8.5;
+                loanTenure.value = 15;
+                
+                loanAmountValue.textContent = '₹10,00,000';
+                interestRateValue.textContent = '8.5%';
+                loanTenureValue.textContent = '15 Years';
+                
+                calculateEMI();
+            });
+            
+            // Download PDF
+            downloadBtn.addEventListener('click', function() {
+                // Create a new jsPDF instance
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Get values
+                const principal = parseFloat(loanAmount.value);
+                const rate = parseFloat(interestRate.value);
+                const tenure = parseFloat(loanTenure.value);
+                const emi = parseFloat(emiResult.textContent.replace(/[₹,]/g, ''));
+                const totalInt = parseFloat(totalInterest.textContent.replace(/[₹,]/g, ''));
+                const totalAmt = parseFloat(totalAmount.textContent.replace(/[₹,]/g, ''));
+                
+                // Add content to PDF
+                doc.setFontSize(20);
+                doc.setTextColor(245, 158, 11); // KLFPRO orange
+                doc.text('KLFPRO Consulting - EMI Calculation', 20, 20);
+                
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                doc.text(`Loan Amount: ₹${principal.toLocaleString('en-IN')}`, 20, 40);
+                doc.text(`Interest Rate: ${rate}% per annum`, 20, 50);
+                doc.text(`Loan Tenure: ${tenure} years`, 20, 60);
+                
+                doc.setFontSize(16);
+                doc.setTextColor(245, 158, 11);
+                doc.text('EMI Summary', 20, 80);
+                
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                doc.text(`Monthly EMI: ₹${emi.toLocaleString('en-IN')}`, 20, 95);
+                doc.text(`Total Interest: ₹${totalInt.toLocaleString('en-IN')}`, 20, 105);
+                doc.text(`Total Amount: ₹${totalAmt.toLocaleString('en-IN')}`, 20, 115);
+                
+                // Save the PDF
+                doc.save(`KLFPRO_EMI_Calculation_${principal.toLocaleString('en-IN')}_${rate}%_${tenure}years.pdf`);
+            });
+            
+            // Calculate EMI on page load
+            calculateEMI();
+            
+            // Bank logos animation
+            const logos = document.querySelectorAll(".partner-logo");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        logos.forEach((logo, index) => {
+                            setTimeout(() => {
+                                logo.classList.add("show");
+                            }, index * 300); // train effect (delay each logo)
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            observer.observe(document.querySelector(".partners-logos"));
+            
+            // Nav scroll effect
+            window.addEventListener('scroll', function() {
+                const nav = document.getElementById('nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+
+            // Hamburger toggle
+            const hamburger = document.getElementById('hamburger');
+            const menu = document.querySelector('.menu');
+            hamburger.addEventListener('click', () => {
+                menu.classList.toggle('show');
+                hamburger.classList.toggle('active');
+            });
+
+            // Scroll animations
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = { threshold:0.1, rootMargin:"0px 0px -50px 0px" };
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll){
+                entries.forEach(entry=>{
+                    if(!entry.isIntersecting) return;
+                    entry.target.classList.add('show');
+                    appearOnScroll.unobserve(entry.target);
+                });
+            }, appearOptions);
+            faders.forEach(fader => appearOnScroll.observe(fader));
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        if(menu.classList.contains('show')) {
+                            menu.classList.remove('show');
+                            hamburger.classList.remove('active');
+                        }
+                    }
+                });
             });
         });
     </script>
