@@ -139,6 +139,202 @@
             box-shadow: 0 6px 20px rgba(245,158,11,0.6);
         }
 
+        /* AI Assistant Icon */
+        .ai-assistant-icon {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f59e0b;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .ai-assistant-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+        }
+
+        /* AI Assistant Modal */
+        .ai-assistant-modal {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 500px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 2001;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .ai-assistant-header {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-assistant-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #fbbf24;
+        }
+
+        .close-ai-assistant {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-ai-assistant:hover {
+            color: #f59e0b;
+        }
+
+        .ai-assistant-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+
+        .ai-message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .ai-message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .ai-message.bot .message-bubble {
+            background: #fff;
+            border: 1px solid #eee;
+            border-bottom-left-radius: 4px;
+        }
+
+        .ai-message.user .message-bubble {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: #000;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .ai-message.bot .ai-avatar {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: #f59e0b;
+        }
+
+        .ai-message.user .ai-avatar {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: #000;
+            margin-right: 0;
+            margin-left: 10px;
+        }
+
+        .ai-assistant-footer {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            background: #fff;
+        }
+
+        .ai-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .ai-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .ai-input:focus {
+            border-color: #f59e0b;
+        }
+
+        .ai-send-btn {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: #000;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ai-send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .quick-questions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-question {
+            background: #f5f5f5;
+            border: 1px solid #eee;
+            border-radius: 15px;
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-question:hover {
+            background: #f0f0f0;
+            border-color: #f59e0b;
+        }
+
         /* Hamburger Menu */
         .hamburger { display:none; flex-direction: column; cursor:pointer; }
         .hamburger div { width:25px; height:3px; background:#000; margin:4px 0; transition: all 0.3s ease; }
@@ -565,6 +761,19 @@
                 height: 50px;
                 font-size: 1.2rem;
             }
+            .ai-assistant-icon {
+                bottom: 80px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            .ai-assistant-modal {
+                width: 90%;
+                height: 60%;
+                right: 5%;
+                bottom: 80px;
+            }
             .news-ticker-header {
                 position: relative;
                 width: 100%;
@@ -625,6 +834,45 @@
     <!-- Tiny EMI Calculator Icon -->
     <div class="emi-calculator-icon" id="emi-calculator-icon">
         <i class="fas fa-calculator"></i>
+    </div>
+
+    <!-- AI Assistant Icon -->
+    <div class="ai-assistant-icon" id="ai-assistant-icon">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <!-- AI Assistant Modal -->
+    <div class="ai-assistant-modal" id="ai-assistant-modal">
+        <div class="ai-assistant-header">
+            <h3>KLFPRO AI Assistant</h3>
+            <button class="close-ai-assistant" id="close-ai-assistant">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="ai-assistant-body" id="ai-assistant-body">
+            <div class="ai-message bot">
+                <div class="ai-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-bubble">
+                    Hello! I'm your KLFPRO AI Assistant. I can help you with loan information, EMI calculations, bank comparisons, and answer any questions about our services. How can I assist you today?
+                </div>
+            </div>
+        </div>
+        <div class="ai-assistant-footer">
+            <div class="quick-questions">
+                <div class="quick-question" data-question="What documents do I need for a home loan?">Home Loan Documents</div>
+                <div class="quick-question" data-question="Which bank has the lowest interest rate?">Lowest Interest Rates</div>
+                <div class="quick-question" data-question="How to improve my credit score?">Improve Credit Score</div>
+                <div class="quick-question" data-question="What is the EMI for 50 lakhs?">EMI for 50L</div>
+            </div>
+            <div class="ai-input-group">
+                <input type="text" class="ai-input" id="ai-input" placeholder="Ask me about loans...">
+                <button class="ai-send-btn" id="ai-send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- ================= HERO ================= -->
@@ -1570,11 +1818,70 @@
             }
         }
 
+        // AI Assistant Functionality
+        class AIAssistant {
+            constructor() {
+                this.responses = {
+                    "home loan documents": "For a home loan, you typically need: 1) Identity proof (Aadhaar, PAN, Passport), 2) Address proof, 3) Income proof (salary slips for salaried/ITR for self-employed), 4) Property documents, 5) Bank statements for last 6 months, and 6) Photographs.",
+                    "lowest interest rates": "Currently, SBI offers home loans starting at 8.4%, HDFC at 8.5%, and ICICI at 8.55% for salaried individuals. Rates vary based on credit score, loan amount, and tenure. I can help you compare options!",
+                    "improve credit score": "To improve your credit score: 1) Pay EMIs on time, 2) Keep credit utilization below 30%, 3) Maintain a healthy credit mix, 4) Avoid multiple loan inquiries, 5) Check your credit report regularly for errors.",
+                    "emi for 50 lakhs": "For a ₹50 lakh home loan at 8.5% for 20 years, your EMI would be approximately ₹43,391. Use our EMI calculator for precise calculations based on your specific requirements.",
+                    "loan against property": "Loan against property allows you to borrow against your residential or commercial property. You can get up to 60-70% of property value with interest rates between 9-12% and tenure up to 15 years.",
+                    "business loan eligibility": "Business loan eligibility depends on: 1) Business vintage (usually 3+ years), 2) Annual turnover, 3) Profitability, 4) Credit score (650+), 5) Existing liabilities, and 6) Business type.",
+                    "personal loan process": "Personal loan process: 1) Check eligibility, 2) Submit documents, 3) Get approval in 2-4 hours, 4) Sign agreement, 5) Receive funds in 24 hours. No collateral required!",
+                    "tax benefits": "Home loan tax benefits: 1) Section 24(b): ₹2 lakh deduction on interest paid, 2) Section 80C: ₹1.5 lakh deduction on principal repayment, 3) Additional ₹50,000 for first-time home buyers under Section 80EEA.",
+                    "balance transfer": "Home loan balance transfer can save you money if: 1) New bank offers lower interest rate, 2) Processing fees are reasonable, 3) No prepayment charges from current bank, 4) Remaining loan tenure is substantial."
+                };
+            }
+
+            getResponse(question) {
+                const lowerQuestion = question.toLowerCase();
+                
+                // Check for exact matches
+                for (const key in this.responses) {
+                    if (lowerQuestion.includes(key)) {
+                        return this.responses[key];
+                    }
+                }
+                
+                // Default response for unknown questions
+                return "I understand you're asking about " + question + ". For detailed information about loan products, eligibility, or documentation requirements, I recommend speaking with our loan specialists who can provide personalized assistance. Would you like me to connect you with an expert?";
+            }
+
+            addMessage(message, isUser = false) {
+                const body = document.getElementById('ai-assistant-body');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `ai-message ${isUser ? 'user' : 'bot'}`;
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'ai-avatar';
+                avatar.innerHTML = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+                
+                const bubble = document.createElement('div');
+                bubble.className = 'message-bubble';
+                bubble.textContent = message;
+                
+                if (isUser) {
+                    messageDiv.appendChild(bubble);
+                    messageDiv.appendChild(avatar);
+                } else {
+                    messageDiv.appendChild(avatar);
+                    messageDiv.appendChild(bubble);
+                }
+                
+                body.appendChild(messageDiv);
+                body.scrollTop = body.scrollHeight;
+            }
+        }
+
         // EMI Calculator Functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize SMART AI News Ticker
             const smartNewsTicker = new SmartLoanNewsTicker();
             smartNewsTicker.initialize();
+            
+            // Initialize AI Assistant
+            const aiAssistant = new AIAssistant();
             
             // Elements
             const emiIcon = document.getElementById('emi-calculator-icon');
@@ -1583,6 +1890,14 @@
             const calculateBtn = document.getElementById('calculate-emi');
             const resetBtn = document.getElementById('reset-calculator');
             const downloadBtn = document.getElementById('download-pdf');
+            
+            // AI Assistant Elements
+            const aiIcon = document.getElementById('ai-assistant-icon');
+            const aiModal = document.getElementById('ai-assistant-modal');
+            const closeAI = document.getElementById('close-ai-assistant');
+            const aiInput = document.getElementById('ai-input');
+            const aiSendBtn = document.getElementById('ai-send-btn');
+            const quickQuestions = document.querySelectorAll('.quick-question');
             
             // Input elements
             const loanAmount = document.getElementById('loan-amount');
@@ -1608,6 +1923,50 @@
             closeCalculator.addEventListener('click', function() {
                 emiModal.style.display = 'none';
                 document.body.style.overflow = 'auto';
+            });
+            
+            // Open AI Assistant modal
+            aiIcon.addEventListener('click', function() {
+                aiModal.style.display = 'flex';
+            });
+            
+            // Close AI Assistant modal
+            closeAI.addEventListener('click', function() {
+                aiModal.style.display = 'none';
+            });
+            
+            // Send message in AI Assistant
+            function sendAIMessage() {
+                const message = aiInput.value.trim();
+                if (message) {
+                    aiAssistant.addMessage(message, true);
+                    aiInput.value = '';
+                    
+                    // Simulate AI thinking
+                    setTimeout(() => {
+                        const response = aiAssistant.getResponse(message);
+                        aiAssistant.addMessage(response);
+                    }, 1000);
+                }
+            }
+            
+            // Send message on button click
+            aiSendBtn.addEventListener('click', sendAIMessage);
+            
+            // Send message on Enter key
+            aiInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendAIMessage();
+                }
+            });
+            
+            // Quick question buttons
+            quickQuestions.forEach(button => {
+                button.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    aiInput.value = question;
+                    sendAIMessage();
+                });
             });
             
             // Close modal when clicking outside
