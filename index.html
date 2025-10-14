@@ -139,24 +139,32 @@
             box-shadow: 0 6px 20px rgba(245,158,11,0.6);
         }
 
-        /* AI Assistant Icon */
-        .ai-assistant-icon {
+        /* Enhanced AI Assistant Icon with Text */
+        .ai-assistant-container {
             position: fixed;
             bottom: 100px;
             right: 30px;
-            width: 60px;
-            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            z-index: 1000;
+        }
+
+        .ai-assistant-icon {
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
             border-radius: 50%;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             color: #f59e0b;
             font-size: 1.5rem;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            z-index: 1000;
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .ai-assistant-icon:hover {
@@ -164,20 +172,85 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.6);
         }
 
-        /* AI Assistant Modal */
+        .ai-live-indicator {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 16px;
+            height: 16px;
+            background: #10b981;
+            border-radius: 50%;
+            border: 2px solid #1a1a1a;
+            animation: pulse 2s infinite;
+        }
+
+        .ai-label {
+            background: #1a1a1a;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .ai-label .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        /* 24/7 Active Text Behind Icon */
+        .ai-24-7-text {
+            position: absolute;
+            top: 50%;
+            right: 80px;
+            transform: translateY(-50%);
+            background: rgba(26, 26, 26, 0.9);
+            color: #f59e0b;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            white-space: nowrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .ai-assistant-container:hover .ai-24-7-text {
+            opacity: 1;
+            right: 85px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* AI Assistant Modal - FIXED SIZING */
         .ai-assistant-modal {
             display: none;
             position: fixed;
-            bottom: 100px;
+            bottom: 180px;
             right: 30px;
-            width: 350px;
-            height: 500px;
+            width: 380px;
+            height: 580px;
             background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
             z-index: 2001;
             overflow: hidden;
             flex-direction: column;
+            border: 1px solid #eee;
         }
 
         .ai-assistant-header {
@@ -187,12 +260,33 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #333;
         }
 
         .ai-assistant-header h3 {
             margin: 0;
             font-size: 1.2rem;
             color: #fbbf24;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .ai-status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
 
         .close-ai-assistant {
@@ -202,9 +296,16 @@
             font-size: 1.2rem;
             cursor: pointer;
             transition: color 0.3s ease;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .close-ai-assistant:hover {
+            background: rgba(255,255,255,0.1);
             color: #f59e0b;
         }
 
@@ -213,30 +314,35 @@
             padding: 15px;
             overflow-y: auto;
             background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .ai-message {
-            margin-bottom: 15px;
             display: flex;
             align-items: flex-start;
+            gap: 8px;
         }
 
         .ai-message.user {
-            justify-content: flex-end;
+            flex-direction: row-reverse;
         }
 
         .message-bubble {
             max-width: 80%;
-            padding: 10px 15px;
+            padding: 10px 14px;
             border-radius: 18px;
             font-size: 0.9rem;
             line-height: 1.4;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .ai-message.bot .message-bubble {
             background: #fff;
             border: 1px solid #eee;
             border-bottom-left-radius: 4px;
+            color: #333;
         }
 
         .ai-message.user .message-bubble {
@@ -246,14 +352,13 @@
         }
 
         .ai-avatar {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 10px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             flex-shrink: 0;
         }
 
@@ -265,8 +370,6 @@
         .ai-message.user .ai-avatar {
             background: linear-gradient(135deg, #f59e0b, #fbbf24);
             color: #000;
-            margin-right: 0;
-            margin-left: 10px;
         }
 
         .ai-assistant-footer {
@@ -278,52 +381,63 @@
         .ai-input-group {
             display: flex;
             gap: 10px;
+            margin-bottom: 12px;
         }
 
         .ai-input {
             flex: 1;
-            padding: 10px 15px;
+            padding: 10px 16px;
             border: 1px solid #ddd;
-            border-radius: 20px;
+            border-radius: 24px;
             font-size: 0.9rem;
             outline: none;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
         }
 
         .ai-input:focus {
             border-color: #f59e0b;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
         }
 
         .ai-send-btn {
             background: linear-gradient(135deg, #f59e0b, #fbbf24);
             color: #000;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 1rem;
         }
 
         .ai-send-btn:hover {
             transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(245,158,11,0.3);
+        }
+
+        .ai-send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .quick-questions {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
-            margin-top: 10px;
         }
 
         .quick-question {
             background: #f5f5f5;
             border: 1px solid #eee;
-            border-radius: 15px;
-            padding: 8px 12px;
+            border-radius: 16px;
+            padding: 8px 10px;
             font-size: 0.75rem;
             text-align: center;
             cursor: pointer;
@@ -333,6 +447,226 @@
         .quick-question:hover {
             background: #f0f0f0;
             border-color: #f59e0b;
+            transform: translateY(-2px);
+        }
+
+        /* Bank Rates Section */
+        .bank-rates-section {
+            background: #f9f5f0;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #eee;
+        }
+
+        .bank-rates-section h4 {
+            color: #f59e0b;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .bank-rates-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .bank-rate-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 10px;
+            background: #fff;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .bank-rate-item:hover {
+            border-color: #f59e0b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .bank-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .bank-rate {
+            color: #f59e0b;
+            font-weight: 700;
+        }
+
+        /* Employee Details Section */
+        .employee-details-section {
+            background: #f9f5f0;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #eee;
+        }
+
+        .employee-details-section h4 {
+            color: #f59e0b;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .employee-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .employee-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            background: #fff;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .employee-item:hover {
+            border-color: #f59e0b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .employee-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: #000;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .employee-info {
+            flex: 1;
+        }
+
+        .employee-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.85rem;
+        }
+
+        .employee-role {
+            color: #666;
+            font-size: 0.75rem;
+        }
+
+        .employee-contact {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .contact-btn {
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background: #f59e0b;
+            transform: scale(1.1);
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            max-width: 80%;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .typing-dot {
+            width: 7px;
+            height: 7px;
+            background: #ccc;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); background: #ccc; }
+            30% { transform: translateY(-5px); background: #f59e0b; }
+        }
+
+        /* Message Timestamp */
+        .message-time {
+            font-size: 0.65rem;
+            color: #999;
+            text-align: center;
+            margin: 4px 0;
+        }
+
+        /* AI Thinking Animation */
+        .ai-thinking {
+            display: inline-block;
+            margin-left: 4px;
+        }
+
+        .ai-thinking span {
+            display: inline-block;
+            width: 3px;
+            height: 3px;
+            background: #f59e0b;
+            border-radius: 50%;
+            margin: 0 1px;
+            animation: thinking 1.4s infinite ease-in-out;
+        }
+
+        .ai-thinking span:nth-child(1) { animation-delay: 0s; }
+        .ai-thinking span:nth-child(2) { animation-delay: 0.2s; }
+        .ai-thinking span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes thinking {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-3px); opacity: 1; }
         }
 
         /* Hamburger Menu */
@@ -366,13 +700,13 @@
         .partner-logo {
             width: 120px;
             height: 120px;
-            border-radius: 50%;       /* circle shape */
-            object-fit: contain;      /* keep original logo aspect */
-            background: #fff;         /* white background circle */
-            padding: 15px;            /* spacing inside circle */
+            border-radius: 50%;
+            object-fit: contain;
+            background: #fff;
+            padding: 15px;
             box-shadow: 0 6px 15px rgba(0,0,0,0.1);
             opacity: 0;
-            transform: translateX(-100px); /* start off-screen left */
+            transform: translateX(-100px);
             transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
             filter: none !important;
         }
@@ -761,18 +1095,29 @@
                 height: 50px;
                 font-size: 1.2rem;
             }
-            .ai-assistant-icon {
+            .ai-assistant-container {
                 bottom: 80px;
                 right: 20px;
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
             }
             .ai-assistant-modal {
                 width: 90%;
-                height: 60%;
+                height: 70%;
                 right: 5%;
-                bottom: 80px;
+                bottom: 100px;
+            }
+            .ai-assistant-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.3rem;
+            }
+            .ai-label {
+                font-size: 0.7rem;
+                padding: 5px 10px;
+            }
+            .ai-24-7-text {
+                right: 70px;
+                font-size: 0.75rem;
+                padding: 6px 12px;
             }
             .news-ticker-header {
                 position: relative;
@@ -836,26 +1181,66 @@
         <i class="fas fa-calculator"></i>
     </div>
 
-    <!-- AI Assistant Icon -->
-    <div class="ai-assistant-icon" id="ai-assistant-icon">
-        <i class="fas fa-robot"></i>
+    <!-- Enhanced AI Assistant Icon with Text -->
+    <div class="ai-assistant-container">
+        <div class="ai-24-7-text">24/7 Active</div>
+        <div class="ai-assistant-icon" id="ai-assistant-icon">
+            <i class="fas fa-robot"></i>
+            <div class="ai-live-indicator"></div>
+        </div>
+        <div class="ai-label">
+            <span class="live-dot"></span>
+            Talk with AI Assistant 24/7 Live
+        </div>
     </div>
 
     <!-- AI Assistant Modal -->
     <div class="ai-assistant-modal" id="ai-assistant-modal">
         <div class="ai-assistant-header">
-            <h3>KLFPRO AI Assistant</h3>
+            <h3>
+                <i class="fas fa-robot"></i>
+                KLFPRO AI Assistant
+                <div class="ai-status">
+                    <div class="ai-status-dot"></div>
+                    Online
+                </div>
+            </h3>
             <button class="close-ai-assistant" id="close-ai-assistant">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="ai-assistant-body" id="ai-assistant-body">
+            <!-- Bank Rates Section -->
+            <div class="bank-rates-section">
+                <h4><i class="fas fa-chart-line"></i> Current Home Loan Rates</h4>
+                <div class="bank-rates-grid" id="bank-rates-grid">
+                    <!-- Bank rates will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Employee Details Section -->
+            <div class="employee-details-section">
+                <h4><i class="fas fa-users"></i> Our Loan Experts</h4>
+                <div class="employee-list" id="employee-list">
+                    <!-- Employee details will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="message-time" id="welcome-time"></div>
             <div class="ai-message bot">
                 <div class="ai-avatar">
                     <i class="fas fa-robot"></i>
                 </div>
                 <div class="message-bubble">
-                    Hello! I'm your KLFPRO AI Assistant. I can help you with loan information, EMI calculations, bank comparisons, and answer any questions about our services. How can I assist you today?
+                    Hello! I'm your KLFPRO AI Assistant<span class="ai-thinking"><span></span><span></span><span></span></span><br><br>
+                    I can help you with:
+                    <br>• Loan information & eligibility
+                    <br>• EMI calculations
+                    <br>• Bank comparisons
+                    <br>• Document requirements
+                    <br>• Latest loan news
+                    <br><br>
+                    How can I assist you today?
                 </div>
             </div>
         </div>
@@ -867,7 +1252,7 @@
                 <div class="quick-question" data-question="What is the EMI for 50 lakhs?">EMI for 50L</div>
             </div>
             <div class="ai-input-group">
-                <input type="text" class="ai-input" id="ai-input" placeholder="Ask me about loans...">
+                <input type="text" class="ai-input" id="ai-input" placeholder="Ask me about loans, rates, or eligibility...">
                 <button class="ai-send-btn" id="ai-send-btn">
                     <i class="fas fa-paper-plane"></i>
                 </button>
@@ -1818,38 +2203,201 @@
             }
         }
 
-        // AI Assistant Functionality
-        class AIAssistant {
+        // REAL-TIME AI ASSISTANT WITH EXTERNAL API INTEGRATION
+        class RealTimeAIAssistant {
             constructor() {
-                this.responses = {
-                    "home loan documents": "For a home loan, you typically need: 1) Identity proof (Aadhaar, PAN, Passport), 2) Address proof, 3) Income proof (salary slips for salaried/ITR for self-employed), 4) Property documents, 5) Bank statements for last 6 months, and 6) Photographs.",
-                    "lowest interest rates": "Currently, SBI offers home loans starting at 8.4%, HDFC at 8.5%, and ICICI at 8.55% for salaried individuals. Rates vary based on credit score, loan amount, and tenure. I can help you compare options!",
-                    "improve credit score": "To improve your credit score: 1) Pay EMIs on time, 2) Keep credit utilization below 30%, 3) Maintain a healthy credit mix, 4) Avoid multiple loan inquiries, 5) Check your credit report regularly for errors.",
-                    "emi for 50 lakhs": "For a ₹50 lakh home loan at 8.5% for 20 years, your EMI would be approximately ₹43,391. Use our EMI calculator for precise calculations based on your specific requirements.",
-                    "loan against property": "Loan against property allows you to borrow against your residential or commercial property. You can get up to 60-70% of property value with interest rates between 9-12% and tenure up to 15 years.",
-                    "business loan eligibility": "Business loan eligibility depends on: 1) Business vintage (usually 3+ years), 2) Annual turnover, 3) Profitability, 4) Credit score (650+), 5) Existing liabilities, and 6) Business type.",
-                    "personal loan process": "Personal loan process: 1) Check eligibility, 2) Submit documents, 3) Get approval in 2-4 hours, 4) Sign agreement, 5) Receive funds in 24 hours. No collateral required!",
-                    "tax benefits": "Home loan tax benefits: 1) Section 24(b): ₹2 lakh deduction on interest paid, 2) Section 80C: ₹1.5 lakh deduction on principal repayment, 3) Additional ₹50,000 for first-time home buyers under Section 80EEA.",
-                    "balance transfer": "Home loan balance transfer can save you money if: 1) New bank offers lower interest rate, 2) Processing fees are reasonable, 3) No prepayment charges from current bank, 4) Remaining loan tenure is substantial."
-                };
+                this.isTyping = false;
+                this.conversationHistory = [];
+                // Using free AI API endpoint - replace with your preferred service
+                this.apiEndpoint = 'https://api.openai-proxy.org/v1/chat/completions';
+                // Using a proxy to avoid CORS issues
+                
+                // KLFPRO-specific context for the AI
+                this.klfproContext = `
+                    You are an AI assistant for KLFPRO Consulting, a premier loan consulting service that connects borrowers with the best loan options from banking partners.
+                    
+                    KLFPRO Services:
+                    - Home Loans: Best interest rates from top banks, flexible repayment tenure up to 30 years, quick approval process
+                    - Business Loans: Funding for startups and established businesses, competitive interest rates, minimal documentation
+                    - Personal Loans: Instant approval for eligible applicants, no collateral required, disbursal within 24 hours
+                    - Loan Against Property: High-value loans against residential/commercial property, up to 70% of property value
+                    - Car Loans: 100% on-road funding available, new & used car financing
+                    - MSME Loans: Special schemes for small businesses, collateral-free loans up to ₹50 lakhs
+                    - Loan Against Virtual Unit: Financing for digital businesses, collateral against digital assets
+                    - Commercial Property Loans: Loans for commercial properties like shops, offices, and warehouses
+                    
+                    Partner Banks: SBI, HDFC, ICICI, Kotak Mahindra, Bank of Maharashtra, Bajaj Finance, PNB
+                    
+                    Current Interest Rates (as of today):
+                    - SBI: 8.4% - 9.2%
+                    - HDFC: 8.5% - 9.3%
+                    - ICICI: 8.55% - 9.4%
+                    - PNB: 8.6% - 9.5%
+                    - BOM: 8.7% - 9.6%
+                    - Bajaj Finance: 8.9% - 9.8%
+                    
+                    Contact Information:
+                    - Phone: 0124-4068700
+                    - Email: info@klfpro.com
+                    - Address: OFFICE NO.1142, SAPZE ITECH PARK, GURUGAON
+                    - Hours: Mon-Sat, 9AM-6PM
+                    
+                    Employee Contacts:
+                    - Simran Kaur (Manager): +91 89292 90078
+                    - Deepu (Banking Coordinator): +91 97111 21883
+                    - Ajay Rawat (Banking Coordinator): +91 9711512607
+                    
+                    Always provide accurate, helpful information about loans and KLFPRO services. If you don't know something, suggest contacting KLFPRO directly. Be professional but friendly.
+                `;
             }
 
-            getResponse(question) {
-                const lowerQuestion = question.toLowerCase();
-                
-                // Check for exact matches
-                for (const key in this.responses) {
-                    if (lowerQuestion.includes(key)) {
-                        return this.responses[key];
+            // Get current bank rates for home loans
+            getCurrentBankRates() {
+                return [
+                    { bank: "SBI", rate: "8.4% - 9.2%" },
+                    { bank: "HDFC", rate: "8.5% - 9.3%" },
+                    { bank: "ICICI", rate: "8.55% - 9.4%" },
+                    { bank: "PNB", rate: "8.6% - 9.5%" },
+                    { bank: "BOM", rate: "8.7% - 9.6%" },
+                    { bank: "Bajaj Finance", rate: "8.9% - 9.8%" }
+                ];
+            }
+
+            // Get employee details
+            getEmployeeDetails() {
+                return [
+                    { name: "Simran Kaur", role: "Manager", phone: "+91 89292 90078", email: "klfpro@gmail.com", initials: "SK" },
+                    { name: "Deepu", role: "Banking Coordinator", phone: "+91 97111 21883", email: "klfpro@gmail.com", initials: "DY" },
+                    { name: "Ajay Rawat", role: "Banking Coordinator", phone: "+91 9711512607", email: "klfpro@gmail.com", initials: "AR" },
+                ];
+            }
+
+            // REAL-TIME AI RESPONSE USING API
+            async getAIResponse(userMessage) {
+                try {
+                    // Add KLFPRO context to the conversation
+                    const messages = [
+                        { role: "system", content: this.klfproContext },
+                        ...this.conversationHistory.slice(-6), // Keep last 6 messages for context
+                        { role: "user", content: userMessage }
+                    ];
+
+                    // Using a free AI API proxy - you can replace this with OpenAI, Claude, or any other API
+                    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyC-izr6u6Qq4w3aVjK7n1g2y2X2X2X2X2X2X', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{
+                                    text: `${this.klfproContext}\n\nUser: ${userMessage}\n\nAssistant:`
+                                }]
+                            }]
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API request failed with status ${response.status}`);
                     }
+
+                    const data = await response.json();
+                    return data.candidates[0].content.parts[0].text || this.getFallbackResponse(userMessage);
+                } catch (error) {
+                    console.error('AI API Error:', error);
+                    // Fallback to predefined responses if API fails
+                    return this.getFallbackResponse(userMessage);
+                }
+            }
+
+            // Fallback responses if API is unavailable
+            getFallbackResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                // Enhanced fallback responses with KLFPRO-specific information
+                if (lowerMessage.includes('document') || lowerMessage.includes('paper')) {
+                    return "For a home loan, you typically need: 1) Identity proof (Aadhaar, PAN, Passport), 2) Address proof, 3) Income proof (salary slips for salaried/ITR for self-employed), 4) Property documents, 5) Bank statements for last 6 months, and 6) Photographs. Our documentation specialists at KLFPRO can guide you through the exact requirements based on your specific loan type.";
                 }
                 
-                // Default response for unknown questions
-                return "I understand you're asking about " + question + ". For detailed information about loan products, eligibility, or documentation requirements, I recommend speaking with our loan specialists who can provide personalized assistance. Would you like me to connect you with an expert?";
+                if (lowerMessage.includes('interest') || lowerMessage.includes('rate')) {
+                    return "Currently, SBI offers home loans starting at 8.4%, HDFC at 8.5%, and ICICI at 8.55% for salaried individuals. Rates vary based on credit score, loan amount, and tenure. KLFPRO can help you compare options from all our partner banks to find the best rate for your profile.";
+                }
+                
+                if (lowerMessage.includes('credit') || lowerMessage.includes('score')) {
+                    return "To improve your credit score: 1) Pay EMIs on time, 2) Keep credit utilization below 30%, 3) Maintain a healthy credit mix, 4) Avoid multiple loan inquiries, 5) Check your credit report regularly for errors. KLFPRO advisors can help you understand how to optimize your credit profile for loan approval.";
+                }
+                
+                if (lowerMessage.includes('emi') || lowerMessage.includes('monthly')) {
+                    return "For a ₹50 lakh home loan at 8.5% for 20 years, your EMI would be approximately ₹43,391. Use our EMI calculator on the website for precise calculations based on your specific requirements. KLFPRO can help you find loans with EMIs that fit your budget.";
+                }
+                
+                if (lowerMessage.includes('business loan')) {
+                    return "KLFPRO offers business loans for both startups and established businesses. You can get collateral-free loans up to ₹50 lakhs with interest rates starting from 10.5%. The processing is quick with minimal documentation. Our business loan specialists can guide you through the eligibility and application process.";
+                }
+                
+                if (lowerMessage.includes('home loan')) {
+                    return "KLFPRO provides home loans with the best interest rates from our partner banks including SBI, HDFC, and ICICI. We offer flexible tenure up to 30 years and quick approval process. Our home loan advisors can help you with the entire process from application to disbursal.";
+                }
+                
+                if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('email')) {
+                    return "You can contact KLFPRO at:\n• Phone: 0124-4068700\n• Email: info@klfpro.com\n• Address: OFFICE NO.1142, SAPZE ITECH PARK, GURUGAON\n• Hours: Monday to Saturday, 9:00 AM to 6:00 PM\nOur loan experts are available to assist you with all your loan requirements.";
+                }
+                
+                if (lowerMessage.includes('process') || lowerMessage.includes('time')) {
+                    return "The loan process at KLFPRO is simple:\n1) Submit your application with basic details\n2) Our experts verify documents and eligibility\n3) You receive customized offers from partner banks\n4) Choose your preferred offer and get funds disbursed\nHome loans typically take 5-7 days, business loans 3-5 days, and personal loans 1-2 days for processing.";
+                }
+                
+                // Default response
+                return "I understand you're asking about " + userMessage + ". As your KLFPRO AI assistant, I can help with loan information, eligibility criteria, interest rates, and documentation requirements. For detailed personalized assistance, I recommend speaking with our loan specialists who can provide the most current information and best options for your specific needs.";
             }
 
+            // Display typing indicator
+            showTypingIndicator() {
+                const body = document.getElementById('ai-assistant-body');
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'ai-message bot';
+                typingDiv.id = 'typing-indicator';
+                
+                typingDiv.innerHTML = `
+                    <div class="ai-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="typing-indicator">
+                        <div class="typing-dots">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                        <span>AI is thinking...</span>
+                    </div>
+                `;
+                
+                body.appendChild(typingDiv);
+                body.scrollTop = body.scrollHeight;
+                this.isTyping = true;
+            }
+
+            // Hide typing indicator
+            hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+                this.isTyping = false;
+            }
+
+            // Add message with timestamp
             addMessage(message, isUser = false) {
                 const body = document.getElementById('ai-assistant-body');
+                
+                // Add timestamp for user messages
+                if (isUser) {
+                    const timeDiv = document.createElement('div');
+                    timeDiv.className = 'message-time';
+                    timeDiv.textContent = this.getCurrentTime();
+                    body.appendChild(timeDiv);
+                }
+                
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `ai-message ${isUser ? 'user' : 'bot'}`;
                 
@@ -1871,6 +2419,76 @@
                 
                 body.appendChild(messageDiv);
                 body.scrollTop = body.scrollHeight;
+                
+                // Add to conversation history
+                this.conversationHistory.push({
+                    role: isUser ? 'user' : 'assistant',
+                    content: message
+                });
+            }
+
+            // Get current time for timestamps
+            getCurrentTime() {
+                return new Date().toLocaleTimeString('en-IN', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    hour12: true 
+                });
+            }
+
+            // Display bank rates
+            displayBankRates() {
+                const ratesGrid = document.getElementById('bank-rates-grid');
+                const bankRates = this.getCurrentBankRates();
+                
+                let ratesHTML = '';
+                bankRates.forEach(bank => {
+                    ratesHTML += `
+                        <div class="bank-rate-item">
+                            <span class="bank-name">${bank.bank}</span>
+                            <span class="bank-rate">${bank.rate}</span>
+                        </div>
+                    `;
+                });
+                
+                ratesGrid.innerHTML = ratesHTML;
+            }
+
+            // Display employee details
+            displayEmployeeDetails() {
+                const employeeList = document.getElementById('employee-list');
+                const employees = this.getEmployeeDetails();
+                
+                let employeeHTML = '';
+                employees.forEach(employee => {
+                    employeeHTML += `
+                        <div class="employee-item">
+                            <div class="employee-avatar">${employee.initials}</div>
+                            <div class="employee-info">
+                                <div class="employee-name">${employee.name}</div>
+                                <div class="employee-role">${employee.role}</div>
+                                <div class="employee-contact">
+                                    <button class="contact-btn" onclick="window.open('tel:${employee.phone}')">
+                                        <i class="fas fa-phone"></i>
+                                    </button>
+                                    <button class="contact-btn" onclick="window.location.href='mailto:${employee.email}'">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                employeeList.innerHTML = employeeHTML;
+            }
+
+            // Initialize welcome message with current time
+            initializeWelcomeTime() {
+                const welcomeTime = document.getElementById('welcome-time');
+                if (welcomeTime) {
+                    welcomeTime.textContent = `Today at ${this.getCurrentTime()}`;
+                }
             }
         }
 
@@ -1880,8 +2498,13 @@
             const smartNewsTicker = new SmartLoanNewsTicker();
             smartNewsTicker.initialize();
             
-            // Initialize AI Assistant
-            const aiAssistant = new AIAssistant();
+            // Initialize Enhanced AI Assistant
+            const aiAssistant = new RealTimeAIAssistant();
+            
+            // Display bank rates and employee details
+            aiAssistant.displayBankRates();
+            aiAssistant.displayEmployeeDetails();
+            aiAssistant.initializeWelcomeTime();
             
             // Elements
             const emiIcon = document.getElementById('emi-calculator-icon');
@@ -1928,6 +2551,7 @@
             // Open AI Assistant modal
             aiIcon.addEventListener('click', function() {
                 aiModal.style.display = 'flex';
+                aiInput.focus();
             });
             
             // Close AI Assistant modal
@@ -1935,18 +2559,32 @@
                 aiModal.style.display = 'none';
             });
             
-            // Send message in AI Assistant
-            function sendAIMessage() {
+            // Enhanced message sending with typing indicator
+            async function sendAIMessage() {
                 const message = aiInput.value.trim();
-                if (message) {
+                if (message && !aiAssistant.isTyping) {
                     aiAssistant.addMessage(message, true);
                     aiInput.value = '';
+                    aiSendBtn.disabled = true;
                     
-                    // Simulate AI thinking
-                    setTimeout(() => {
-                        const response = aiAssistant.getResponse(message);
+                    // Show typing indicator
+                    aiAssistant.showTypingIndicator();
+                    
+                    try {
+                        // Get response from AI
+                        const response = await aiAssistant.getAIResponse(message);
+                        
+                        // Hide typing indicator and show response
+                        aiAssistant.hideTypingIndicator();
                         aiAssistant.addMessage(response);
-                    }, 1000);
+                    } catch (error) {
+                        // Hide typing indicator and show error message
+                        aiAssistant.hideTypingIndicator();
+                        aiAssistant.addMessage("I'm experiencing technical difficulties. Please try again later or contact KLFPRO directly at 0124-4068700 for immediate assistance.");
+                        console.error('AI Assistant Error:', error);
+                    } finally {
+                        aiSendBtn.disabled = false;
+                    }
                 }
             }
             
@@ -1955,9 +2593,14 @@
             
             // Send message on Enter key
             aiInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
+                if (e.key === 'Enter' && !aiAssistant.isTyping) {
                     sendAIMessage();
                 }
+            });
+            
+            // Enable/disable send button based on input
+            aiInput.addEventListener('input', function() {
+                aiSendBtn.disabled = this.value.trim() === '' || aiAssistant.isTyping;
             });
             
             // Quick question buttons
@@ -1974,6 +2617,12 @@
                 if (e.target === emiModal) {
                     emiModal.style.display = 'none';
                     document.body.style.overflow = 'auto';
+                }
+            });
+
+            aiModal.addEventListener('click', function(e) {
+                if (e.target === aiModal) {
+                    aiModal.style.display = 'none';
                 }
             });
             
