@@ -1310,6 +1310,10 @@
                 this.loanKeywords = this.generateIndianLoanKeywords();
                 this.cacheKey = 'smart_loan_news_cache';
                 this.cacheTimeKey = 'smart_loan_news_time';
+                this.backendCandidates = [
+                    '/api/news/stream',
+                    'http://localhost:8787/api/news/stream'
+                ];
             }
 
             // Focused Indian Loan Sector Keywords
@@ -1374,6 +1378,49 @@
                 score += 2;
                 
                 return score >= 8; // Higher threshold for relevance
+            }
+
+            // Try backend SSE first; fallback to client RSS
+            async initializeBackendStream() {
+                const tickerContent = document.getElementById('ticker-content');
+                if (!tickerContent) return false;
+
+                const tryConnect = (url) => new Promise((resolve) => {
+                    try {
+                        const es = new EventSource(url);
+                        let gotItems = false;
+                        es.addEventListener('items', (e) => {
+                            try {
+                                const data = JSON.parse(e.data || '{}');
+                                if (data.items && Array.isArray(data.items)) {
+                                    gotItems = true;
+                                    this.displayNews(data.items);
+                                }
+                            } catch {}
+                        });
+                        es.addEventListener('error', () => {
+                            es.close();
+                            resolve(false);
+                        });
+                        es.addEventListener('ready', () => {
+                            // connection OK
+                        });
+                        // If no items after a short while, still consider connected to allow push later
+                        setTimeout(() => resolve(true), 1200);
+                    } catch {
+                        resolve(false);
+                    }
+                });
+
+                for (const url of this.backendCandidates) {
+                    const ok = await tryConnect(url);
+                    if (ok) {
+                        console.log('✅ Connected to backend news stream:', url);
+                        return true;
+                    }
+                }
+                console.log('⚠️ Backend news stream unavailable, using client RSS fallback');
+                return false;
             }
 
             // Faster News Fetching with 1-minute intervals
@@ -1755,17 +1802,18 @@
             // Initialize SMART System with Faster Updates
             async initialize() {
                 console.log('🚀 Initializing SMART AI Indian Housing Loan News Ticker...');
-                await this.updateTicker();
-                
-                // Set up faster updates (1 minute intervals)
-                setInterval(() => this.updateTicker(), 60000);
-                
-                // Also update when tab becomes visible
-                document.addEventListener('visibilitychange', () => {
-                    if (!document.hidden) {
-                        this.updateTicker();
-                    }
-                });
+                const connected = await this.initializeBackendStream();
+                if (!connected) {
+                    await this.updateTicker();
+                    // Set up faster updates (1 minute intervals)
+                    setInterval(() => this.updateTicker(), 60000);
+                    // Also update when tab becomes visible
+                    document.addEventListener('visibilitychange', () => {
+                        if (!document.hidden) {
+                            this.updateTicker();
+                        }
+                    });
+                }
             }
 
             // SMART Time Formatting
@@ -1821,7 +1869,11 @@
         // AI Assistant Functionality
         class AIAssistant {
             constructor() {
-                this.responses = {
+                this.backendCandidates = [
+                    '/api/assistant/stream',
+                    'http://localhost:8787/api/assistant/stream'
+                ];
+                this.staticResponses = {
                     "home loan documents": "For a home loan, you typically need: 1) Identity proof (Aadhaar, PAN, Passport), 2) Address proof, 3) Income proof (salary slips for salaried/ITR for self-employed), 4) Property documents, 5) Bank statements for last 6 months, and 6) Photographs.",
                     "lowest interest rates": "Currently, SBI offers home loans starting at 8.4%, HDFC at 8.5%, and ICICI at 8.55% for salaried individuals. Rates vary based on credit score, loan amount, and tenure. I can help you compare options!",
                     "improve credit score": "To improve your credit score: 1) Pay EMIs on time, 2) Keep credit utilization below 30%, 3) Maintain a healthy credit mix, 4) Avoid multiple loan inquiries, 5) Check your credit report regularly for errors.",
@@ -1838,9 +1890,9 @@
                 const lowerQuestion = question.toLowerCase();
                 
                 // Check for exact matches
-                for (const key in this.responses) {
+                for (const key in this.staticResponses) {
                     if (lowerQuestion.includes(key)) {
-                        return this.responses[key];
+                        return this.staticResponses[key];
                     }
                 }
                 
@@ -1871,6 +1923,48 @@
                 
                 body.appendChild(messageDiv);
                 body.scrollTop = body.scrollHeight;
+            }
+
+            // Stream answer from backend via SSE; fallback to static
+            async streamAnswer(question) {
+                // Try GET SSE first
+                for (const base of this.backendCandidates) {
+                    try {
+                        const url = base.includes('?') ? `${base}&question=${encodeURIComponent(question)}` : `${base}?question=${encodeURIComponent(question)}`;
+                        const es = new EventSource(url);
+                        return await new Promise((resolve) => {
+                            es.addEventListener('content', (e) => {
+                                try {
+                                    const data = JSON.parse(e.data || '{}');
+                                    if (data.text) {
+                                        this.addMessage(data.text, false);
+                                    }
+                                } catch {}
+                            });
+                            es.addEventListener('done', () => { es.close(); resolve(true); });
+                            es.addEventListener('error', () => { es.close(); resolve(false); });
+                        });
+                    } catch {}
+                }
+
+                // Fallback to POST (non-SSE)
+                for (const base of this.backendCandidates) {
+                    try {
+                        const postUrl = base.replace('/stream', '');
+                        const resp = await fetch(postUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question }) });
+                        if (resp.ok) {
+                            const data = await resp.json();
+                            if (data && data.summary) {
+                                this.addMessage(data.summary, false);
+                                return true;
+                            }
+                        }
+                    } catch {}
+                }
+
+                // Final fallback: static response
+                this.addMessage(this.getResponse(question), false);
+                return false;
             }
         }
 
@@ -1936,17 +2030,15 @@
             });
             
             // Send message in AI Assistant
-            function sendAIMessage() {
+            async function sendAIMessage() {
                 const message = aiInput.value.trim();
                 if (message) {
                     aiAssistant.addMessage(message, true);
                     aiInput.value = '';
-                    
-                    // Simulate AI thinking
-                    setTimeout(() => {
-                        const response = aiAssistant.getResponse(message);
-                        aiAssistant.addMessage(response);
-                    }, 1000);
+                    const ok = await aiAssistant.streamAnswer(message);
+                    if (!ok) {
+                        // already added fallback inside streamAnswer
+                    }
                 }
             }
             
