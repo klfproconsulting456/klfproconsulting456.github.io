@@ -105,6 +105,23 @@
     .google-form-section h3 { color: #f59e0b; margin-bottom: 15px; }
     .google-form-section p { margin-bottom: 20px; color: #666; }
 
+    /* Reference Number Display */
+    .reference-display { 
+        background: #fff8f0; 
+        border: 2px solid #f59e0b; 
+        border-radius: 8px; 
+        padding: 15px; 
+        margin: 20px 0; 
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+    .reference-number {
+        color: #f59e0b;
+        font-size: 1.4rem;
+        font-weight: 800;
+    }
+
     /* Form Navigation */
     .form-navigation { display: flex; justify-content: space-between; margin-top: 30px; }
     .btn { background: linear-gradient(135deg, #f59e0b, #fbbf24); color: #000; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
@@ -337,14 +354,30 @@
       <div class="form-step" id="step3">
         <h2 style="text-align: left; margin-bottom: 25px;">Document Upload</h2>
         
+        <!-- Reference Number Display -->
+        <div class="reference-display" id="referenceDisplay" style="display: none;">
+          <p>Your Application Reference Number:</p>
+          <div class="reference-number" id="previewReferenceNumber"></div>
+          <p style="font-size: 0.9rem; margin-top: 10px; color: #666;">
+            <strong>Important:</strong> Please mention this reference number when uploading documents
+          </p>
+        </div>
+
         <!-- Google Form Section -->
         <div class="google-form-section">
           <h3>Upload Your Documents</h3>
           <p>Please use our secure Google Form to upload your documents. This ensures your sensitive information is handled safely.</p>
-          <button class="btn" onclick="openGoogleForm()" style="padding: 12px 30px;">
-            <i class="fab fa-google"></i> Upload Documents via Google Form
-          </button>
-          <p style="margin-top: 15px; font-size: 0.9rem; color: #999;">After uploading your documents, please return to this page and click "Next" to continue.</p>
+          
+          <div style="margin: 20px 0;">
+            <button class="btn" onclick="openGoogleForm()" style="padding: 12px 30px;">
+              <i class="fab fa-google"></i> Upload Documents via Google Form
+            </button>
+          </div>
+          
+          <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">
+            <strong>Important:</strong> When uploading documents, please mention your reference number: 
+            <span id="referenceNumberPlaceholder" style="font-weight: bold; color: #f59e0b;"></span>
+          </p>
         </div>
         
         <!-- Document Requirements -->
@@ -413,10 +446,20 @@
         <div class="email-notification-info">
           <h4><i class="fas fa-envelope"></i> Email Notification Sent</h4>
           <p>We've sent the application details to our team at <strong>klfproconsulting@gmail.com</strong></p>
-          <p><strong>Application Reference:</strong> <span id="referenceNumber"></span></p>
+          <p><strong>Application Reference:</strong> <span id="finalReferenceNumber" class="reference-number"></span></p>
+          
+          <div style="background: #fff; padding: 15px; border-radius: 8px; margin: 15px 0;">
+            <h5 style="color: #f59e0b; margin-bottom: 10px;">📎 Document Upload Instructions:</h5>
+            <p><strong>Reference Number:</strong> <span id="documentReferenceNumber" class="reference-number"></span></p>
+            <p>Please upload your documents using the Google Form link below and mention your reference number.</p>
+            <button class="btn" onclick="openGoogleForm()" style="margin: 10px 0;">
+              <i class="fab fa-google"></i> Upload Documents Now
+            </button>
+          </div>
+          
           <p><strong>What happens next:</strong></p>
           <ul>
-            <li>Our team will review your application</li>
+            <li>Our team will review your application and documents</li>
             <li>We'll match you with the best banking partners</li>
             <li>You'll receive a call within 24 hours</li>
             <li>We'll guide you through the next steps</li>
@@ -476,6 +519,9 @@
     (function() {
         emailjs.init("tne_rYpwLjZ6VnudT"); // Your Public Key
     })();
+
+    // Store application reference globally
+    let applicationReference = '';
 
     // Nav scroll effect
     window.addEventListener('scroll', function() {
@@ -546,9 +592,18 @@
       }
     }
 
-    // Open Google Form in a new tab
+    // Open Google Form in a new tab with reference number
     function openGoogleForm() {
-      window.open('https://forms.gle/rnA4AUfy86x7nfRb7', '_blank');
+      const ref = applicationReference || document.getElementById('referenceNumberPlaceholder').textContent;
+      const googleFormURL = 'https://forms.gle/rnA4AUfy86x7nfRb7';
+      window.open(googleFormURL, '_blank');
+      
+      // Show notification about reference number
+      if (ref) {
+        setTimeout(() => {
+          alert(`Please mention your reference number when uploading documents:\n\n${ref}`);
+        }, 1000);
+      }
     }
 
     // Get loan type label
@@ -686,6 +741,11 @@
         // Update document sections when moving to step 3
         if (step === 2) {
           toggleDocumentSections();
+          // Generate and show reference number in step 3
+          applicationReference = generateReferenceNumber();
+          document.getElementById('referenceDisplay').style.display = 'block';
+          document.getElementById('previewReferenceNumber').textContent = applicationReference;
+          document.getElementById('referenceNumberPlaceholder').textContent = applicationReference;
         }
         
         // Update review section on step 4
@@ -748,7 +808,8 @@
         <p><strong>Employment Type:</strong> ${formData.employmentType === 'salaried' ? 'Salaried' : 'Self-Employed'}</p>
         <p><strong>Loan Amount:</strong> ${formatCurrency(parseInt(formData.amount))}</p>
         <p><strong>Purpose:</strong> ${formData.purpose || 'Not specified'}</p>
-        <p><strong>Documents:</strong> To be uploaded via Google Form</p>
+        <p><strong>Reference Number:</strong> ${applicationReference}</p>
+        <p><strong>Documents:</strong> To be uploaded via Google Form (Reference: ${applicationReference})</p>
       `;
     }
 
@@ -777,7 +838,9 @@
           timeZone: 'Asia/Kolkata',
           dateStyle: 'full',
           timeStyle: 'medium'
-        })
+        }),
+        document_upload_link: 'https://forms.gle/rnA4AUfy86x7nfRb7',
+        special_note: `DOCUMENTS PENDING: Applicant needs to upload documents via Google Form using Reference Number: ${formData.reference}`
       };
 
       try {
@@ -818,7 +881,7 @@
           purpose: document.getElementById('purpose').value,
           amount: document.getElementById('loanAmountSlider').value,
           timestamp: new Date().toISOString(),
-          reference: generateReferenceNumber()
+          reference: applicationReference
         };
         
         // Send email notification
@@ -828,9 +891,18 @@
           // Show success message with reference number
           document.getElementById('step4').style.display = 'none';
           document.getElementById('successMessage').style.display = 'block';
-          document.getElementById('referenceNumber').textContent = formData.reference;
+          document.getElementById('finalReferenceNumber').textContent = formData.reference;
+          document.getElementById('documentReferenceNumber').textContent = formData.reference;
           
           console.log('Application submitted successfully:', formData);
+          
+          // Store application data in localStorage for tracking
+          localStorage.setItem(`klfpro_application_${formData.reference}`, JSON.stringify({
+            ...formData,
+            status: 'submitted',
+            submittedAt: new Date().toISOString(),
+            documentsUploaded: false
+          }));
         } else {
           throw new Error('Failed to send email notification');
         }
