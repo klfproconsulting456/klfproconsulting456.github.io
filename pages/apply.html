@@ -123,6 +123,39 @@
     .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: #000; animation: spin 1s ease-in-out infinite; margin-right: 10px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* Email Notification Info */
+    .email-notification-info {
+        background: #f0f9ff;
+        border-left: 4px solid #f59e0b;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+        text-align: left;
+    }
+    .email-notification-info h4 {
+        color: #f59e0b;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .email-notification-info ul {
+        list-style: none;
+        margin: 15px 0;
+    }
+    .email-notification-info li {
+        margin-bottom: 8px;
+        padding-left: 25px;
+        position: relative;
+    }
+    .email-notification-info li:before {
+        content: '✓';
+        color: #f59e0b;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+    }
+
     /* ================= FOOTER ================= */
     footer { background:#1a1a1a; color:#fff; padding:60px 0 30px; margin-top: 60px; }
     .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px; }
@@ -375,8 +408,21 @@
       <div class="success-message" id="successMessage">
         <i class="fas fa-check-circle"></i>
         <h3>Application Submitted Successfully!</h3>
-        <p>Thank you for applying with KLFPRO. Our loan specialist will contact you within 24 hours to discuss the best options available for you.</p>
-        <p><strong>Application Reference:</strong> <span id="referenceNumber"></span></p>
+        <p>Thank you for applying with KLFPRO. Our loan specialist will contact you within 24 hours.</p>
+        
+        <div class="email-notification-info">
+          <h4><i class="fas fa-envelope"></i> Email Notification Sent</h4>
+          <p>We've sent the application details to our team at <strong>klfproconsulting@gmail.com</strong></p>
+          <p><strong>Application Reference:</strong> <span id="referenceNumber"></span></p>
+          <p><strong>What happens next:</strong></p>
+          <ul>
+            <li>Our team will review your application</li>
+            <li>We'll match you with the best banking partners</li>
+            <li>You'll receive a call within 24 hours</li>
+            <li>We'll guide you through the next steps</li>
+          </ul>
+        </div>
+        
         <button class="btn" onclick="window.location.href='../index.html'"><i class="fas fa-home"></i> Back to Home</button>
       </div>
     </div>
@@ -411,7 +457,7 @@
           <ul>
             <li><i class="fas fa-map-marker-alt"></i> OFFICE NO.1142, SAPZE ITECH PARK, GURUGAON</li>
             <li><i class="fas fa-phone"></i> +91 9711000680</li>
-            <li><i class="fas fa-envelope"></i> info@klfpro.com</li>
+            <li><i class="fas fa-envelope"></i> klfproconsulting@gmail.com</li>
             <li><i class="fas fa-clock"></i> Mon-Sat: 9AM - 6PM</li>
           </ul>
         </div>
@@ -422,7 +468,15 @@
     </div>
   </footer>
 
+  <!-- EmailJS Library -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  
   <script>
+    // Initialize EmailJS with your actual credentials
+    (function() {
+        emailjs.init("tne_rYpwLjZ6VnudT"); // Your Public Key
+    })();
+
     // Nav scroll effect
     window.addEventListener('scroll', function() {
       const nav = document.getElementById('nav');
@@ -452,29 +506,6 @@
       });
     }, appearOptions);
     faders.forEach(fader => appearOnScroll.observe(fader));
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        if(targetId === '#') return;
-        
-        const targetElement = document.querySelector(targetId);
-        if(targetElement) {
-          window.scrollTo({
-            top: targetElement.offsetTop - 80,
-            behavior: 'smooth'
-          });
-          
-          // Close mobile menu if open
-          if(menu.classList.contains('show')) {
-            menu.classList.remove('show');
-            hamburger.classList.remove('active');
-          }
-        }
-      });
-    });
 
     // Multi-step form functionality
     let currentStep = 1;
@@ -518,6 +549,21 @@
     // Open Google Form in a new tab
     function openGoogleForm() {
       window.open('https://forms.gle/rnA4AUfy86x7nfRb7', '_blank');
+    }
+
+    // Get loan type label
+    function getLoanTypeLabel(loanType) {
+      const loanTypeLabels = {
+        'home': 'Home Loan',
+        'business': 'Business Loan',
+        'personal': 'Personal Loan',
+        'education': 'Education Loan',
+        'vehicle': 'Vehicle Loan',
+        'property': 'Loan Against Property',
+        'msme': 'MSME Loan',
+        'virtual': 'Loan Against Virtual Unit'
+      };
+      return loanTypeLabels[loanType] || loanType;
     }
 
     // Clear error states
@@ -609,7 +655,6 @@
 
     // Validate Step 3: Documents
     function validateStep3() {
-      // We don't validate document uploads since they're done via Google Form
       nextStep(3);
     }
 
@@ -654,7 +699,7 @@
     function prevStep(step) {
       if (step > 1) {
         document.getElementById(`step${step}`).classList.remove('active');
-        document.getElementById(`step${step - 1}`).classles.add('active');
+        document.getElementById(`step${step - 1}`).classList.add('active');
         currentStep = step - 1;
         updateProgressBar();
       }
@@ -693,23 +738,13 @@
         amount: document.getElementById('loanAmountSlider').value
       };
       
-      const loanTypeLabels = {
-        'home': 'Home Loan',
-        'business': 'Business Loan',
-        'personal': 'Personal Loan',
-        'vehicle': 'Vehicle Loan',
-        'property': 'Loan Against Property',
-        'msme': 'MSME Loan',
-        'virtual': 'Loan Against Virtual Unit'
-      };
-      
       reviewContent.innerHTML = `
         <p><strong>Name:</strong> ${formData.name}</p>
         <p><strong>Email:</strong> ${formData.email}</p>
         <p><strong>Phone:</strong> ${formData.phone}</p>
         <p><strong>Date of Birth:</strong> ${formData.dob}</p>
         <p><strong>Address:</strong> ${formData.address}</p>
-        <p><strong>Loan Type:</strong> ${loanTypeLabels[formData.loanType] || formData.loanType}</p>
+        <p><strong>Loan Type:</strong> ${getLoanTypeLabel(formData.loanType)}</p>
         <p><strong>Employment Type:</strong> ${formData.employmentType === 'salaried' ? 'Salaried' : 'Self-Employed'}</p>
         <p><strong>Loan Amount:</strong> ${formatCurrency(parseInt(formData.amount))}</p>
         <p><strong>Purpose:</strong> ${formData.purpose || 'Not specified'}</p>
@@ -724,7 +759,44 @@
       return `KLF${timestamp}${random}`;
     }
 
-    // Submit application to Google Form
+    // Send email notification using EmailJS
+    async function sendEmailNotification(formData) {
+      const templateParams = {
+        to_email: 'klfproconsulting@gmail.com',
+        from_name: 'KLFPRO Loan Application System',
+        subject: `New Loan Application - ${formData.reference}`,
+        applicant_name: formData.name,
+        applicant_email: formData.email,
+        applicant_phone: formData.phone,
+        loan_type: getLoanTypeLabel(formData.loanType),
+        loan_amount: formatCurrency(parseInt(formData.amount)),
+        employment_type: formData.employmentType === 'salaried' ? 'Salaried' : 'Self-Employed',
+        purpose: formData.purpose || 'Not specified',
+        reference_number: formData.reference,
+        submission_date: new Date().toLocaleString('en-IN', { 
+          timeZone: 'Asia/Kolkata',
+          dateStyle: 'full',
+          timeStyle: 'medium'
+        })
+      };
+
+      try {
+        // Using EmailJS service with your actual credentials
+        const response = await emailjs.send(
+          'service_b9rfcqq',    // Your Service ID
+          'template_zbk0doc',   // Your Template ID
+          templateParams
+        );
+        
+        console.log('Email sent successfully:', response);
+        return true;
+      } catch (error) {
+        console.error('Failed to send email:', error);
+        return false;
+      }
+    }
+
+    // Submit application
     async function submitApplication() {
       const submitBtn = document.getElementById('step4Submit');
       const originalText = submitBtn.innerHTML;
@@ -749,55 +821,28 @@
           reference: generateReferenceNumber()
         };
         
-        // Prepare data for Google Form submission
-        const loanTypeLabels = {
-          'home': 'Home Loan',
-          'business': 'Business Loan',
-          'personal': 'Personal Loan',
-          'vehicle': 'Vehicle Loan',
-          'property': 'Loan Against Property',
-          'msme': 'MSME Loan',
-          'virtual': 'Loan Against Virtual Unit'
-        };
+        // Send email notification
+        const emailSent = await sendEmailNotification(formData);
         
-        // This would be the actual submission to Google Forms
-        // For demonstration, we'll simulate a successful submission
-        await simulateGoogleFormSubmission(formData);
-        
-        // Show success message with reference number
-        document.getElementById('step4').style.display = 'none';
-        document.getElementById('successMessage').style.display = 'block';
-        document.getElementById('referenceNumber').textContent = formData.reference;
-        
-        console.log('Application submitted successfully:', formData);
-        
-        // In a real implementation, you would send this data to your server
-        // or directly to Google Forms using their API
+        if (emailSent) {
+          // Show success message with reference number
+          document.getElementById('step4').style.display = 'none';
+          document.getElementById('successMessage').style.display = 'block';
+          document.getElementById('referenceNumber').textContent = formData.reference;
+          
+          console.log('Application submitted successfully:', formData);
+        } else {
+          throw new Error('Failed to send email notification');
+        }
         
       } catch (error) {
         console.error('Error submitting application:', error);
-        alert('There was an error submitting your application. Please try again.');
+        alert('There was an error submitting your application. Please try again or contact us directly.');
         
         // Reset button state
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
       }
-    }
-
-    // Simulate Google Form submission (replace with actual implementation)
-    function simulateGoogleFormSubmission(formData) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // In a real implementation, you would:
-          // 1. Use Google Forms API to submit the data
-          // 2. Or send the data to your own server which then forwards to Google Forms
-          // 3. Or use a service like Formspree or FormSubmit
-          
-          // For now, we'll just log the data and resolve
-          console.log('Data to be sent to Google Forms:', formData);
-          resolve();
-        }, 1500);
-      });
     }
 
     // Initialize
