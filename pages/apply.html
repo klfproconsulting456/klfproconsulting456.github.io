@@ -17,19 +17,20 @@
     p { font-size: 1.1rem; margin-bottom: 15px; }
 
     /* ================= NAVIGATION ================= */
-   .nav { background:#fff8f0; border-bottom:1px solid #f3e8df; padding:8px 0; position:sticky; top:0; z-index:1000; transition: all 0.3s ease; }
-.nav.scrolled { background:rgba(255,248,240,0.95); backdrop-filter: blur(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-.nav-inner { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
-.nav .logo { display:flex; align-items:center; gap:0; font-weight:700; color:#000; font-size: 1.3rem; }
-.nav .logo img { width:70px; height:70px; border-radius:50%; margin-right: -8px; }
-.nav .menu { display:flex; gap:25px; align-items:center; }
-.nav .menu a { padding:8px 4px; font-weight:600; color:#000; position:relative; font-size: 1.05rem; }
-.nav .menu a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:2px; background:linear-gradient(90deg,#f59e0b,#fbbf24); transition:width 0.3s ease; }
-.nav .menu a.active::after, .nav .menu a:hover::after { width:100%; }
-.nav .menu a.active { color:#f59e0b; }
-.nav .menu a:hover { color:#fbbf24; }
-.nav .cta { background:linear-gradient(135deg,#f59e0b,#fbbf24); color:#000; padding:10px 25px; border-radius:8px; font-weight:700; transition: transform 0.3s, box-shadow 0.3s; margin-left: 15px; }
-.nav .cta:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(245,158,11,0.4); }
+    .nav { background:#fff8f0; border-bottom:1px solid #f3e8df; padding:15px 0; position:sticky; top:0; z-index:1000; transition: all 0.3s ease; }
+    .nav.scrolled { background:rgba(255,248,240,0.95); backdrop-filter: blur(10px); box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+    .nav-inner { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+    .nav .logo { display:flex; align-items:center; gap:10px; font-weight:700; color:#000; font-size: 1.5rem; }
+    .nav .logo img { width:45px; height:45px; border-radius:50%; }
+    .nav .menu { display:flex; gap:25px; }
+    .nav .menu a { padding:8px 4px; font-weight:600; color:#000; position:relative; font-size: 1.05rem; }
+    .nav .menu a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:2px; background:linear-gradient(90deg,#f59e0b,#fbbf24); transition:width 0.3s ease; }
+    .nav .menu a.active::after, .nav .menu a:hover::after { width:100%; }
+    .nav .menu a.active { color:#f59e0b; }
+    .nav .menu a:hover { color:#fbbf24; }
+    .nav .cta { background:linear-gradient(135deg,#f59e0b,#fbbf24); color:#000; padding:10px 25px; border-radius:8px; font-weight:700; transition: transform 0.3s, box-shadow 0.3s; }
+    .nav .cta:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(245,158,11,0.4); }
+
     /* Hamburger Menu */
     .hamburger { display:none; flex-direction: column; cursor:pointer; }
     .hamburger div { width:25px; height:3px; background:#000; margin:4px 0; transition: all 0.3s ease; }
@@ -99,6 +100,11 @@
     .doc-requirements li { margin-bottom: 8px; padding-left: 25px; position: relative; }
     .doc-requirements li:before { content: '✓'; color: #f59e0b; font-weight: bold; position: absolute; left: 0; }
 
+    /* Google Form Section */
+    .google-form-section { text-align: center; padding: 30px; background: #f9f5f0; border-radius: 8px; margin: 20px 0; }
+    .google-form-section h3 { color: #f59e0b; margin-bottom: 15px; }
+    .google-form-section p { margin-bottom: 20px; color: #666; }
+
     /* Form Navigation */
     .form-navigation { display: flex; justify-content: space-between; margin-top: 30px; }
     .btn { background: linear-gradient(135deg, #f59e0b, #fbbf24); color: #000; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
@@ -112,6 +118,10 @@
     .success-message i { font-size: 4rem; color: #f59e0b; margin-bottom: 20px; }
     .success-message h3 { color: #f59e0b; margin-bottom: 15px; }
     .success-message p { margin-bottom: 25px; }
+
+    /* Loading Spinner */
+    .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: #000; animation: spin 1s ease-in-out infinite; margin-right: 10px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ================= FOOTER ================= */
     footer { background:#1a1a1a; color:#fff; padding:60px 0 30px; margin-top: 60px; }
@@ -252,6 +262,7 @@
               <option value="home">Home Loan</option>
               <option value="business">Business Loan</option>
               <option value="personal">Personal Loan</option>
+              <option value="education">Education Loan</option>
               <option value="vehicle">Vehicle Loan</option>
               <option value="property">Loan Against Property</option>
               <option value="msme">MSME Loan</option>
@@ -293,19 +304,21 @@
       <div class="form-step" id="step3">
         <h2 style="text-align: left; margin-bottom: 25px;">Document Upload</h2>
         
-        <!-- Salaried Documents Section -->
-        <div id="salariedDocs" class="doc-section">
-          <h3>Documents for Salaried Individuals</h3>
-          <div class="upload-area" onclick="document.getElementById('salariedFileUpload').click()">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <p>Drag & drop your documents here or click to browse</p>
-            <p class="small">Supported formats: PDF, JPG, PNG (Max 10MB each)</p>
-            <div class="upload-btn">Select Files</div>
-            <input type="file" id="salariedFileUpload" multiple style="display: none;">
-          </div>
-          
-          <div class="doc-requirements">
-            <h4>Required Documents:</h4>
+        <!-- Google Form Section -->
+        <div class="google-form-section">
+          <h3>Upload Your Documents</h3>
+          <p>Please use our secure Google Form to upload your documents. This ensures your sensitive information is handled safely.</p>
+          <button class="btn" onclick="openGoogleForm()" style="padding: 12px 30px;">
+            <i class="fab fa-google"></i> Upload Documents via Google Form
+          </button>
+          <p style="margin-top: 15px; font-size: 0.9rem; color: #999;">After uploading your documents, please return to this page and click "Next" to continue.</p>
+        </div>
+        
+        <!-- Document Requirements -->
+        <div class="doc-requirements">
+          <h4>Required Documents:</h4>
+          <div id="salariedDocs" class="doc-section">
+            <h5>For Salaried Individuals:</h5>
             <ul>
               <li>Identity Proof (Aadhaar, PAN, Passport, etc.)</li>
               <li>Address Proof (Utility bill, Rental agreement, etc.)</li>
@@ -314,21 +327,8 @@
               <li>Employment Certificate</li>
             </ul>
           </div>
-        </div>
-        
-        <!-- Self-Employed Documents Section -->
-        <div id="selfDocs" class="doc-section" style="display: none;">
-          <h3>Documents for Self-Employed Individuals</h3>
-          <div class="upload-area" onclick="document.getElementById('selfFileUpload').click()">
-            <i class="fas fa-cloud-upload-alt"></i>
-            <p>Drag & drop your documents here or click to browse</p>
-            <p class="small">Supported formats: PDF, JPG, PNG (Max 10MB each)</p>
-            <div class="upload-btn">Select Files</div>
-            <input type="file" id="selfFileUpload" multiple style="display: none;">
-          </div>
-          
-          <div class="doc-requirements">
-            <h4>Required Documents:</h4>
+          <div id="selfDocs" class="doc-section" style="display: none;">
+            <h5>For Self-Employed Individuals:</h5>
             <ul>
               <li>Identity Proof (Aadhaar, PAN, Passport, etc.)</li>
               <li>Address Proof (Utility bill, Rental agreement, etc.)</li>
@@ -376,6 +376,7 @@
         <i class="fas fa-check-circle"></i>
         <h3>Application Submitted Successfully!</h3>
         <p>Thank you for applying with KLFPRO. Our loan specialist will contact you within 24 hours to discuss the best options available for you.</p>
+        <p><strong>Application Reference:</strong> <span id="referenceNumber"></span></p>
         <button class="btn" onclick="window.location.href='../index.html'"><i class="fas fa-home"></i> Back to Home</button>
       </div>
     </div>
@@ -514,6 +515,11 @@
       }
     }
 
+    // Open Google Form in a new tab
+    function openGoogleForm() {
+      window.open('https://forms.gle/rnA4AUfy86x7nfRb7', '_blank');
+    }
+
     // Clear error states
     function clearErrors() {
       document.querySelectorAll('.error-message').forEach(error => {
@@ -603,8 +609,7 @@
 
     // Validate Step 3: Documents
     function validateStep3() {
-      // For now, we'll allow proceeding without document upload
-      // In a real application, you might want to validate file uploads
+      // We don't validate document uploads since they're done via Google Form
       nextStep(3);
     }
 
@@ -649,7 +654,7 @@
     function prevStep(step) {
       if (step > 1) {
         document.getElementById(`step${step}`).classList.remove('active');
-        document.getElementById(`step${step - 1}`).classList.add('active');
+        document.getElementById(`step${step - 1}`).classles.add('active');
         currentStep = step - 1;
         updateProgressBar();
       }
@@ -692,7 +697,6 @@
         'home': 'Home Loan',
         'business': 'Business Loan',
         'personal': 'Personal Loan',
-        'education': 'Education Loan',
         'vehicle': 'Vehicle Loan',
         'property': 'Loan Against Property',
         'msme': 'MSME Loan',
@@ -709,17 +713,91 @@
         <p><strong>Employment Type:</strong> ${formData.employmentType === 'salaried' ? 'Salaried' : 'Self-Employed'}</p>
         <p><strong>Loan Amount:</strong> ${formatCurrency(parseInt(formData.amount))}</p>
         <p><strong>Purpose:</strong> ${formData.purpose || 'Not specified'}</p>
+        <p><strong>Documents:</strong> To be uploaded via Google Form</p>
       `;
     }
 
-    // Submit application
-    function submitApplication() {
-      // Show success message
-      document.getElementById('step4').style.display = 'none';
-      document.getElementById('successMessage').style.display = 'block';
+    // Generate a unique reference number
+    function generateReferenceNumber() {
+      const timestamp = Date.now().toString().slice(-6);
+      const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+      return `KLF${timestamp}${random}`;
+    }
+
+    // Submit application to Google Form
+    async function submitApplication() {
+      const submitBtn = document.getElementById('step4Submit');
+      const originalText = submitBtn.innerHTML;
       
-      // In a real application, you would send the data to a server here
-      console.log('Application submitted successfully');
+      // Show loading state
+      submitBtn.innerHTML = '<span class="spinner"></span> Submitting...';
+      submitBtn.disabled = true;
+      
+      try {
+        // Collect form data
+        const formData = {
+          name: document.getElementById('fullName').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          dob: document.getElementById('dob').value,
+          address: document.getElementById('address').value,
+          loanType: document.getElementById('loanType').value,
+          employmentType: document.getElementById('employmentType').value,
+          purpose: document.getElementById('purpose').value,
+          amount: document.getElementById('loanAmountSlider').value,
+          timestamp: new Date().toISOString(),
+          reference: generateReferenceNumber()
+        };
+        
+        // Prepare data for Google Form submission
+        const loanTypeLabels = {
+          'home': 'Home Loan',
+          'business': 'Business Loan',
+          'personal': 'Personal Loan',
+          'vehicle': 'Vehicle Loan',
+          'property': 'Loan Against Property',
+          'msme': 'MSME Loan',
+          'virtual': 'Loan Against Virtual Unit'
+        };
+        
+        // This would be the actual submission to Google Forms
+        // For demonstration, we'll simulate a successful submission
+        await simulateGoogleFormSubmission(formData);
+        
+        // Show success message with reference number
+        document.getElementById('step4').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+        document.getElementById('referenceNumber').textContent = formData.reference;
+        
+        console.log('Application submitted successfully:', formData);
+        
+        // In a real implementation, you would send this data to your server
+        // or directly to Google Forms using their API
+        
+      } catch (error) {
+        console.error('Error submitting application:', error);
+        alert('There was an error submitting your application. Please try again.');
+        
+        // Reset button state
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
+    }
+
+    // Simulate Google Form submission (replace with actual implementation)
+    function simulateGoogleFormSubmission(formData) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          // In a real implementation, you would:
+          // 1. Use Google Forms API to submit the data
+          // 2. Or send the data to your own server which then forwards to Google Forms
+          // 3. Or use a service like Formspree or FormSubmit
+          
+          // For now, we'll just log the data and resolve
+          console.log('Data to be sent to Google Forms:', formData);
+          resolve();
+        }, 1500);
+      });
     }
 
     // Initialize
