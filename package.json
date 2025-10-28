@@ -1,0 +1,33 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "Generated: 2025-08-14 04:29 IST",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node server/index.js",
+    "start": "NODE_ENV=production node server/index.js",
+    "lint": "echo 'No linter configured'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klfproconsulting456/klfproconsulting456.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/klfproconsulting456/klfproconsulting456.github.io/issues"
+  },
+  "homepage": "https://github.com/klfproconsulting456/klfproconsulting456.github.io#readme",
+  "dependencies": {
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "node-fetch": "^2.7.0",
+    "openai": "^6.3.0",
+    "pino": "^10.0.0",
+    "pino-pretty": "^13.1.2",
+    "rss-parser": "^3.13.0"
+  }
+}
