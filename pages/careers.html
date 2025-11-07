@@ -96,6 +96,41 @@
         .cta-buttons { flex-direction: column; align-items: center; }
         .cta-button { width: 100%; max-width: 300px; text-align: center; }
         .job-meta { flex-direction: column; gap: 10px !important; }
+        
+        /* Improved mobile styles for footer contact details */
+        .footer-column ul li { 
+            display: flex; 
+            align-items: flex-start; 
+            margin-bottom: 15px; 
+            line-height: 1.5; 
+        }
+        .footer-column ul li i { 
+            margin-right: 10px; 
+            margin-top: 3px; 
+            min-width: 16px; 
+        }
+        .footer-content { 
+            gap: 30px; 
+        }
+        .footer-column { 
+            padding: 0 10px; 
+        }
+    }
+    
+    /* Additional mobile-specific improvements */
+    @media(max-width:480px) {
+        .container { padding: 0 15px; }
+        section { padding: 40px 0; }
+        h2 { font-size: 2rem; }
+        .careers-hero { padding: 100px 15px 60px; margin: 10px 0; }
+        .careers-hero h1 { font-size: 2rem; }
+        .careers-hero p { font-size: 1rem; }
+        .benefit-card, .job-card { padding: 20px 15px; }
+        .jobs-grid { grid-template-columns: 1fr; }
+        .cta-section { padding: 50px 15px; }
+        footer { padding: 40px 0 20px; }
+        .footer-content { gap: 25px; }
+        .footer-column h3 { font-size: 1.2rem; }
     }
 
     /* Animation Classes */
@@ -250,8 +285,8 @@
         <p>Identify and source candidates with experience in banking operations, NBFC coordination, or fintech disbursement processes.</p>
         <a href="https://forms.gle/hKXArA3JG6vbRUbZ9" target="_blank" class="btn">Apply Now <i class="fas fa-arrow-right"></i></a>
       </div>
-      
-    
+    </div>
+  </section>
 
   <!-- ================= CTA SECTION ================= -->
   <section class="cta-section fade-in">
