@@ -521,12 +521,13 @@
   </footer>
 
   <!-- EmailJS Library -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
   
   <script>
     // Initialize EmailJS with your actual credentials
     (function() {
-        emailjs.init("tne_rYpwLjZ6VnudT"); // Your Public Key
+        emailjs.init("8E0ArlrALQMTMRgXH"); // Your Public Key
     })();
 
     // Store application reference globally
@@ -855,7 +856,7 @@
       try {
         // Using EmailJS service with your actual credentials
         const response = await emailjs.send(
-          'service_b9rfcqq',    // Your Service ID
+          'service_lyj8m16',    // Your Service ID
           'template_zbk0doc',   // Your Template ID
           templateParams
         );
